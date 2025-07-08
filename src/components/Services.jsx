@@ -1,7 +1,14 @@
 'use client'
 
 import ServiceCard from './ServiceCard'
-import { FaCode, FaPaintBrush, FaMobileAlt, FaChartLine, FaStore, FaRocket } from 'react-icons/fa'
+import {
+  FaCode,
+  FaPaintBrush,
+  FaMobileAlt,
+  FaChartLine,
+  FaStore,
+  FaRocket,
+} from 'react-icons/fa'
 
 const services = [
   {
@@ -44,8 +51,15 @@ const services = [
 
 const Services = () => {
   return (
-    <section className="w-full bg-[#F9F6FF] py-20 px-4 sm:px-10" id="services">
-      <div className="max-w-7xl mx-auto text-center mb-12">
+    <section
+      className="relative w-full bg-[#F9F6FF] py-20 px-4 sm:px-10 overflow-hidden"
+      id="services"
+    >
+      {/* Mirrored Background Blobs */}
+      <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#B877F7] opacity-20 rounded-full blur-3xl animate-blob animation-delay-2000 z-0"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#B877F7] opacity-10 rounded-full blur-3xl animate-blob animation-delay-4000 z-0"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1F102E]">
           Our <span className="text-[#B877F7]">Services</span>
         </h2>
@@ -54,13 +68,13 @@ const Services = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {services.map((service, index) => (
           <ServiceCard key={service.id} service={service} index={index} />
         ))}
       </div>
 
-      <div className="text-center mt-12">
+      <div className="relative z-10 text-center mt-12">
         <a
           href="/services"
           className="inline-block bg-[#B877F7] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#A062D5] transition-all duration-300"
