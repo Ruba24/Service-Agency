@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 const stats = [
   { id: 1, label: 'Clients', end: 320 },
@@ -10,27 +11,44 @@ const stats = [
 
 const Achievements = () => {
   const [counts, setCounts] = useState(stats.map(() => 0))
+  const [hasAnimated, setHasAnimated] = useState(false)
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true,
+  })
 
   useEffect(() => {
-    const intervals = stats.map((stat, index) => {
-      return setInterval(() => {
-        setCounts((prev) => {
-          const updated = [...prev]
-          if (updated[index] < stat.end) {
-            updated[index] += Math.ceil(stat.end / 100)
-          } else {
-            updated[index] = stat.end
+    if (inView && !hasAnimated) {
+      const interval = setInterval(() => {
+        setCounts((prevCounts) => {
+          const updated = prevCounts.map((count, index) => {
+            const target = stats[index].end
+            if (count < target) {
+              const increment = Math.ceil(target / 100)
+              return Math.min(count + increment, target)
+            }
+            return count
+          })
+
+          // Stop if all numbers reached
+          const allDone = updated.every((val, i) => val === stats[i].end)
+          if (allDone) {
+            clearInterval(interval)
           }
+
           return updated
         })
       }, 30)
-    })
 
-    return () => intervals.forEach(clearInterval)
-  }, [])
+      setHasAnimated(true)
+    }
+  }, [inView, hasAnimated])
 
   return (
-    <section className="w-full bg-[#1F102E] text-white py-20 px-4 sm:px-10">
+    <section
+      ref={ref}
+      className="w-full bg-[#1F102E] text-white py-20 px-4 sm:px-10"
+    >
       <div className="max-w-7xl mx-auto text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
           Our <span className="text-[#B877F7]">Achievements</span>
