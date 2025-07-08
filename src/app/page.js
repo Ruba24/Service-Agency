@@ -1,6 +1,8 @@
+import Achievements from '@/components/Achievements'
 import Courses from '@/components/Course'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
+import WhyChooseUs from '@/components/WhyChooseUs'
 
 export default function Home() {
   return (
@@ -8,6 +10,8 @@ export default function Home() {
       <Hero />
       <Services />
       <Courses />
+      <Achievements />
+      <WhyChooseUs />
     </main>
   )
 }
