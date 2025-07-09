@@ -1,15 +1,35 @@
-// ✅ Hero.jsx — updated with deep purple background and ZELLVERSE branding
 'use client'
 import Link from 'next/link'
+import FloatingIcons from './FloatingIcons'
 
 const Hero = () => {
   return (
     <section className="relative bg-[#1F102E] text-white overflow-hidden py-28">
-      {/* Animated Blobs */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#B877F7] opacity-30 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-      <div className="absolute top-20 right-0 w-72 h-72 bg-[#B877F7] opacity-20 rounded-full blur-2xl animate-blob animation-delay-4000"></div>
+      <FloatingIcons />
+      {/* 🎯 Animated Ecommerce Background Icons */}
+{/* Ecommerce Floating Icons */}
+         {/* Floating Ecommerce Icons */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+              {[
+                '🛒', '📦', '💳', '🏷️', '🧾', '🚀', '🛍️', '📈', '🧠', '🧑‍💻', '💡', '📲'
+              ].map((icon, index) => (
+                <div
+                  key={index}
+                  className={`floating-icon icon-${index + 1}`}
+                  style={{
+                    top: `${Math.random() * 90}%`,
+                    left: `${Math.random() * 90}%`
+                  }}
+                >
+                  {icon}
+                </div>
+              ))}
+            </div>
 
-      {/* Main Content */}
+
+
+
+      {/* 🌟 Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-12">
         <div className="flex-1 text-center lg:text-left">
           <h1 className="text-5xl font-extrabold leading-tight text-white">
@@ -36,13 +56,13 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="flex-1 flex justify-center">
+        {/* <div className="flex-1 flex justify-center">
           <img
             src="/images/hero-agency.jpg"
             alt="Zelverse Hero"
             className="w-full max-w-md rounded-xl shadow-2xl"
           />
-        </div>
+        </div> */}
       </div>
     </section>
   )

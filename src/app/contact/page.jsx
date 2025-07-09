@@ -1,0 +1,205 @@
+'use client'
+
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+
+const Consultation = () => {
+  const [activeTab, setActiveTab] = useState('services')
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    selectedOption: '',
+    business: '',
+    website: '',
+    budget: '',
+    details: '',
+    mode: '',
+    experience: '',
+    goals: '',
+  })
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleWhatsApp = () => {
+    const message = `Hello, I'm interested in ${
+      activeTab === 'services' ? 'a service' : 'a course'
+    }.
+
+Name: ${formData.firstName} ${formData.lastName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+${
+      activeTab === 'services'
+        ? `Service: ${formData.selectedOption}
+Business: ${formData.business}
+Website: ${formData.website}
+Budget: ${formData.budget}
+Details: ${formData.details}`
+        : `Course: ${formData.selectedOption}
+Mode: ${formData.mode}
+Experience: ${formData.experience}
+Goals: ${formData.goals}`
+    }`
+
+    window.open(`https://wa.me/923XXXXXXXXXX?text=${encodeURIComponent(message)}`, '_blank')
+  }
+
+  const handleEmail = () => {
+    const subject = `Consultation Request: ${activeTab === 'services' ? 'Service' : 'Course'}`
+    const body =
+      `Name: ${formData.firstName} ${formData.lastName}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n` +
+      (activeTab === 'services'
+        ? `Service: ${formData.selectedOption}\nBusiness: ${formData.business}\nWebsite: ${formData.website}\nBudget: ${formData.budget}\nDetails: ${formData.details}`
+        : `Course: ${formData.selectedOption}\nMode: ${formData.mode}\nExperience: ${formData.experience}\nGoals: ${formData.goals}`)
+
+    window.location.href = `mailto:your@email.com?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`
+  }
+
+  const serviceOptions = ['Web Development', 'UI/UX Design', 'Mobile App Development', 'Digital Marketing', 'Ecommerce Setup', 'Brand Strategy']
+  const courseOptions = ['Shopify Mastery', 'Facebook Ads Bootcamp', 'UI/UX Fundamentals', 'SEO for Beginners']
+
+  const renderForm = () => (
+    <motion.div
+      key={activeTab}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="grid gap-5"
+    >
+      <div className="grid sm:grid-cols-2 gap-5">
+        <Input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
+        <Input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Second Name" />
+        <Input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" />
+        <Input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" />
+        <Select
+          name="selectedOption"
+          value={formData.selectedOption}
+          onChange={handleChange}
+          options={activeTab === 'services' ? serviceOptions : courseOptions}
+          placeholder={activeTab === 'services' ? 'Select a Service' : 'Select a Course'}
+        />
+        <Input name="business" value={formData.business} onChange={handleChange} placeholder="Business Name" />
+        <Input name="website" value={formData.website} onChange={handleChange} placeholder="Website (If any)" />
+        <Select
+          name="budget"
+          value={formData.budget}
+          onChange={handleChange}
+          options={['< $500', '$500 - $1000', '$1000 - $3000', '$3000+']}
+          placeholder="Project Budget"
+        />
+      </div>
+
+      {/* Full width textarea */}
+      <Textarea
+        name="details"
+        value={formData.details}
+        onChange={handleChange}
+        placeholder={
+          activeTab === 'services'
+            ? 'Tell us about your project'
+            : 'What are your goals with this course?'
+        }
+      />
+    </motion.div>
+  )
+
+  return (
+    <section className="relative w-full bg-[#F9F6FF] py-20 px-4 sm:px-10 min-h-screen">
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#B877F7] opacity-20 rounded-full blur-3xl z-0" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#B877F7] opacity-10 rounded-full blur-3xl z-0" />
+
+      <div className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 items-center">
+        <div className="flex-1 text-center lg:text-left">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1F102E] leading-tight">
+            Book a <span className="text-[#B877F7]">Free Consultation</span>
+          </h2>
+          <p className="text-[#6B7280] mt-4 max-w-lg text-lg">
+            Connect with our experts to elevate your brand with design, tech, and strategy.
+          </p>
+          <div className="mt-6 flex justify-center lg:justify-start gap-0 border border-[#B877F7] rounded-full overflow-hidden w-fit">
+            <button
+              onClick={() => setActiveTab('services')}
+              className={`px-6 py-2 text-sm font-medium transition-all ${
+                activeTab === 'services' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+              }`}
+            >
+              Services
+            </button>
+            <button
+              onClick={() => setActiveTab('courses')}
+              className={`px-6 py-2 text-sm font-medium transition-all ${
+                activeTab === 'courses' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+              }`}
+            >
+              Courses
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-1 bg-white rounded-3xl shadow-xl border border-gray-100 p-8 w-full max-w-xl">
+          {renderForm()}
+          <div className="flex justify-center sm:justify-start gap-4 mt-8">
+            <button
+              onClick={handleEmail}
+              className="bg-[#B877F7] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#A062D5] transition"
+            >
+              Send Email
+            </button>
+            <button
+              onClick={handleWhatsApp}
+              className="border border-[#B877F7] text-[#B877F7] px-6 py-3 rounded-full font-semibold hover:bg-white transition"
+            >
+              Chat on WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default Consultation
+
+const Input = ({ name, value, onChange, placeholder }) => (
+  <input
+    name={name}
+    value={value}
+    onChange={onChange}
+    placeholder={placeholder}
+    className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition"
+  />
+)
+
+const Select = ({ name, value, onChange, options, placeholder }) => (
+  <select
+    name={name}
+    value={value}
+    onChange={onChange}
+    className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition"
+  >
+    <option value="">{placeholder}</option>
+    {options.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+)
+
+const Textarea = ({ name, value, onChange, placeholder }) => (
+  <textarea
+    name={name}
+    value={value}
+    onChange={onChange}
+    placeholder={placeholder}
+    rows={4}
+    className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition resize-none"
+  />
+)

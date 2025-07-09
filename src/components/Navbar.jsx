@@ -1,53 +1,76 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
+import { FiMenu, FiX } from 'react-icons/fi'
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleMenu = () => setIsOpen(!isOpen)
+  const closeMenu = () => setIsOpen(false)
+
   return (
-    <header className="w-full bg-white shadow-sm fixed top-0 z-50">
+    <nav className="w-full fixed top-0 z-50 bg-[#F9F6FF] backdrop-blur-md shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-10 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold whitespace-nowrap">
+        <Link href="/" onClick={closeMenu} className="text-2xl font-bold whitespace-nowrap">
           <span className="text-black">ZELL</span>
           <span className="text-[#B877F7]">VERSE</span>
         </Link>
 
-        {/* Nav links */}
-        <nav className="hidden md:flex flex-1 justify-center gap-8 text-sm font-medium text-[#1F102E]">
-          <Link href="#faq" className="hover:text-[#B877F7] transition-colors duration-300">
-            Home
-          </Link>
-          <Link href="#faq" className="hover:text-[#B877F7] transition-colors duration-300">
-            About
-          </Link>
-          <Link href="#services" className="hover:text-[#B877F7] transition-colors duration-300">
-            Services
-          </Link>
-          <Link href="#courses" className="hover:text-[#B877F7] transition-colors duration-300">
-            Courses
-          </Link>
-          <Link href="#testimonials" className="hover:text-[#B877F7] transition-colors duration-300">
-            Blogs
-          </Link>
-          <Link href="#faq" className="hover:text-[#B877F7] transition-colors duration-300">
-            Case Studies
-          </Link>
-          <Link href="#faq" className="hover:text-[#B877F7] transition-colors duration-300">
-            Contact
-          </Link>
-        </nav>
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center space-x-6 font-medium text-[#1F102E]">
+          <Link href="/" className="hover:text-[#B877F7] transition">Home</Link>
+          <Link href="/about" className="hover:text-[#B877F7] transition">About</Link>
+          <Link href="/services" className="hover:text-[#B877F7] transition">Services</Link>
+          <Link href="/courses" className="hover:text-[#B877F7] transition">Courses</Link>
+          <Link href="/blogs" className="hover:text-[#B877F7] transition">Blog</Link>
+          <Link href="/case-studies" className="hover:text-[#B877F7] transition">Case Studies</Link>
+          <Link href="/contact" className="hover:text-[#B877F7] transition">Contact</Link>
 
-        {/* Book a Consultation Button */}
-        <div className="hidden md:block ml-4">
           <Link
-            href="/booking"
-            className="bg-[#B877F7] text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-[#A062D5] transition-all duration-300"
+            href="/contact"
+            className="ml-4 bg-[#B877F7] text-white px-4 py-2 rounded-full hover:bg-[#A062D5] transition whitespace-nowrap"
           >
             Book a Consultation
           </Link>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden text-[#B877F7] text-2xl focus:outline-none"
+          aria-label="Toggle Menu"
+        >
+          {isOpen ? <FiX /> : <FiMenu />}
+        </button>
       </div>
-    </header>
+
+      {/* Mobile Dropdown */}
+      {isOpen && (
+        <div className="md:hidden bg-white w-full shadow-md px-6 pb-6 pt-4 text-[#1F102E] font-medium">
+          <ul className="space-y-4">
+            <li><Link href="/courses" onClick={closeMenu}>Home</Link></li>
+            <li><Link href="/courses" onClick={closeMenu}>About</Link></li>
+            <li><Link href="/services" onClick={closeMenu}>Services</Link></li>
+            <li><Link href="/courses" onClick={closeMenu}>Courses</Link></li>
+            <li><Link href="/blogs" onClick={closeMenu}>Blog</Link></li>
+            <li><Link href="/case-studies" onClick={closeMenu}>Case Studies</Link></li>
+            <li><Link href="/contact" onClick={closeMenu}>Contact</Link></li>
+            <li>
+              <Link
+                href="/booking"
+                onClick={closeMenu}
+                className="inline-block bg-[#B877F7] text-white px-4 py-2 rounded-full hover:bg-[#A062D5] transition"
+              >
+                Book a Consultation
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
+    </nav>
   )
 }
 

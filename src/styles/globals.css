@@ -1,40 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@keyframes blob {
-  0%, 100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -20px) scale(1.05);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.95);
-  }
+/* globals.css */
+html,
+body {
+  overflow-x: hidden;
+}
+.input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition;
 }
 
-.animate-blob {
-  animation: blob 8s infinite;
+.floating-icon {
+  position: absolute;
+  font-size: 2.5rem; /* 🔼 Increased from 1.75rem */
+  opacity: 0.2;
+  animation: floatRandom 10s linear infinite; /* 🔼 Faster (was 18s) */
+  pointer-events: none;
 }
 
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
+/* Keep random delays to stagger them */
+.icon-2 { animation-delay: 2s; }
+.icon-3 { animation-delay: 4s; }
+.icon-4 { animation-delay: 6s; }
+.icon-5 { animation-delay: 8s; }
+.icon-6 { animation-delay: 10s; }
+.icon-7 { animation-delay: 12s; }
+.icon-8 { animation-delay: 14s; }
+.icon-9 { animation-delay: 16s; }
+.icon-10 { animation-delay: 18s; }
+.icon-11 { animation-delay: 20s; }
+.icon-12 { animation-delay: 22s; }
 
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-@keyframes pulse-slow {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.1;
-  }
-  50% {
-    transform: scale(1.2);
+@keyframes floatRandom {
+  0% {
+    transform: translate(0, 0) scale(1);
     opacity: 0.2;
   }
+  25% {
+    transform: translate(40px, -30px) scale(1.1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(-50px, 50px) scale(1.05);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translate(60px, 70px) scale(1.1);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translate(-70px, -60px) scale(1.2);
+    opacity: 0;
+  }
 }
+
+
 
 .animate-pulse-slow {
   animation: pulse-slow 6s infinite ease-in-out;
