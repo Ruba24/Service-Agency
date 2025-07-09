@@ -60,7 +60,7 @@ const Navbar = () => {
             <li><Link href="/contact" onClick={closeMenu}>Contact</Link></li>
             <li>
               <Link
-                href="/booking"
+                href="/contact"
                 onClick={closeMenu}
                 className="inline-block bg-[#B877F7] text-white px-4 py-2 rounded-full hover:bg-[#A062D5] transition"
               >
