@@ -51,8 +51,8 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white w-full shadow-md px-6 pb-6 pt-4 text-[#1F102E] font-medium">
           <ul className="space-y-4">
-            <li><Link href="/courses" onClick={closeMenu}>Home</Link></li>
-            <li><Link href="/courses" onClick={closeMenu}>About</Link></li>
+            <li><Link href="/" onClick={closeMenu}>Home</Link></li>
+            <li><Link href="/about" onClick={closeMenu}>About</Link></li>
             <li><Link href="/services" onClick={closeMenu}>Services</Link></li>
             <li><Link href="/courses" onClick={closeMenu}>Courses</Link></li>
             <li><Link href="/blogs" onClick={closeMenu}>Blog</Link></li>
