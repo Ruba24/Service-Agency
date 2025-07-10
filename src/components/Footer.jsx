@@ -53,7 +53,7 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="mt-12 border-t border-[#3A2F50] pt-6 text-center text-sm text-[#9CA3AF]">
-        &copy; {new Date().getFullYear()} ZELLVERSE. All rights reserved.
+        &copy; {new Date().getFullYear()} ZELLVERSE. All rights reserved. <br /> Powered by <strong>ELVOGA LLC</strong>
       </div>
     </footer>
   )
