@@ -108,3 +108,7 @@ body {
 .animate-award-marquee {
   animation: award-marquee 30s linear infinite;
 }
+/* Smooth hover */
+.hover\:shadow-glow:hover {
+  box-shadow: 0 0 15px #B877F7;
+}
