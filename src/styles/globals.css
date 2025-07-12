@@ -1,98 +1,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* globals.css */
+
+/* Global Reset */
 html,
 body {
   overflow-x: hidden;
 }
+
+/* Input Field Styling */
 .input {
   @apply w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition;
 }
 
+/* Floating Icons Animation */
 .floating-icon {
   position: absolute;
-  font-size: 2.5rem; /* 🔼 Increased from 1.75rem */
+  font-size: 2.5rem;
   opacity: 0.2;
-  animation: floatRandom 10s linear infinite; /* 🔼 Faster (was 18s) */
+  animation: floatRandom 10s linear infinite;
   pointer-events: none;
 }
 
-/* Keep random delays to stagger them */
-.icon-2 { animation-delay: 2s; }
-.icon-3 { animation-delay: 4s; }
-.icon-4 { animation-delay: 6s; }
-.icon-5 { animation-delay: 8s; }
-.icon-6 { animation-delay: 10s; }
-.icon-7 { animation-delay: 12s; }
-.icon-8 { animation-delay: 14s; }
-.icon-9 { animation-delay: 16s; }
+/* Delayed float icons */
+.icon-2  { animation-delay: 2s; }
+.icon-3  { animation-delay: 4s; }
+.icon-4  { animation-delay: 6s; }
+.icon-5  { animation-delay: 8s; }
+.icon-6  { animation-delay: 10s; }
+.icon-7  { animation-delay: 12s; }
+.icon-8  { animation-delay: 14s; }
+.icon-9  { animation-delay: 16s; }
 .icon-10 { animation-delay: 18s; }
 .icon-11 { animation-delay: 20s; }
 .icon-12 { animation-delay: 22s; }
 
 @keyframes floatRandom {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.2;
-  }
-  25% {
-    transform: translate(40px, -30px) scale(1.1);
-    opacity: 0.25;
-  }
-  50% {
-    transform: translate(-50px, 50px) scale(1.05);
-    opacity: 0.3;
-  }
-  75% {
-    transform: translate(60px, 70px) scale(1.1);
-    opacity: 0.25;
-  }
-  100% {
-    transform: translate(-70px, -60px) scale(1.2);
-    opacity: 0;
-  }
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.2; }
+  25%  { transform: translate(40px, -30px) scale(1.1); opacity: 0.25; }
+  50%  { transform: translate(-50px, 50px) scale(1.05); opacity: 0.3; }
+  75%  { transform: translate(60px, 70px) scale(1.1); opacity: 0.25; }
+  100% { transform: translate(-70px, -60px) scale(1.2); opacity: 0; }
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #B877F7;
+  border-radius: 9999px;
+  border: 2px solid #f4f4f4;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9e5de0;
+}
 
-
+/* Custom Animations */
 .animate-pulse-slow {
   animation: pulse-slow 6s infinite ease-in-out;
 }
-@keyframes slide {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
+@keyframes slide {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 .animate-slide {
   animation: slide 20s linear infinite;
 }
-
-/* ⏸️ Pause on hover */
 .group:hover .animate-slide {
   animation-play-state: paused;
 }
-@keyframes slide-tools {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
+@keyframes slide-tools {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 .animate-slide-tools {
   animation: slide-tools 40s linear infinite;
 }
-
 .group:hover .animate-slide-tools {
   animation-play-state: paused;
 }
+
 @keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.group:hover .animate-marquee {
+  animation-play-state: paused;
+}
+@keyframes award-marquee {
   0% {
     transform: translateX(0%);
   }
@@ -101,40 +105,6 @@ body {
   }
 }
 
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-.group:hover .animate-marquee {
-  animation-play-state: paused;
-}
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f4f4f4; /* Light background (you can use white or dark) */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #B877F7; /* ZELLVERSE purple */
-  border-radius: 9999px;
-  border: 2px solid #f4f4f4; /* Matches track for soft border */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #9e5de0; /* Slightly darker on hover */
+.animate-award-marquee {
+  animation: award-marquee 30s linear infinite;
 }
