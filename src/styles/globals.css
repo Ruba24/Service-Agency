@@ -59,3 +59,20 @@ body {
 .animate-pulse-slow {
   animation: pulse-slow 6s infinite ease-in-out;
 }
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide {
+  animation: slide 20s linear infinite;
+}
+
+/* ⏸️ Pause on hover */
+.group:hover .animate-slide {
+  animation-play-state: paused;
+}

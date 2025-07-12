@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 
-const Consultation = () => {
+export default function ContactPage() {
   const [activeTab, setActiveTab] = useState('services')
 
   const [formData, setFormData] = useState({
@@ -68,9 +70,9 @@ Goals: ${formData.goals}`
   const renderForm = () => (
     <motion.div
       key={activeTab}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 2 }}
+      transition={{ duration: 0.5 }}
       className="grid gap-5"
     >
       <div className="grid sm:grid-cols-2 gap-5">
@@ -96,7 +98,6 @@ Goals: ${formData.goals}`
         />
       </div>
 
-      {/* Full width textarea */}
       <Textarea
         name="details"
         value={formData.details}
@@ -107,65 +108,73 @@ Goals: ${formData.goals}`
             : 'What are your goals with this course?'
         }
       />
+
+      <div className="flex justify-center sm:justify-start gap-4 mt-2">
+        <button
+          onClick={handleEmail}
+          className="bg-[#B877F7] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#A062D5] transition"
+        >
+          Send Email
+        </button>
+        <button
+          onClick={handleWhatsApp}
+          className="border border-[#B877F7] text-[#1F102E] px-6 py-3 rounded-full font-semibold hover:bg-[#B877F7]/10 transition"
+        >
+          Chat on <span className="text-[#25D366] font-bold">WhatsApp</span>
+        </button>
+      </div>
     </motion.div>
   )
 
   return (
-    <section className="relative w-full bg-[#F9F6FF] py-20 px-4 sm:px-10 min-h-screen">
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#B877F7] opacity-20 rounded-full blur-3xl z-0" />
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#B877F7] opacity-10 rounded-full blur-3xl z-0" />
+    <div className="bg-[#F9F6FF] min-h-screen w-full flex flex-col justify-between">
+      <Navbar />
 
-      <div className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 items-center">
-        <div className="flex-1 text-center lg:text-left">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1F102E] leading-tight">
-            Book a <span className="text-[#B877F7]">Free Consultation</span>
-          </h2>
-          <p className="text-[#6B7280] mt-4 max-w-lg text-lg">
-            Connect with our experts to elevate your brand with design, tech, and strategy.
-          </p>
-          <div className="mt-6 flex justify-center lg:justify-start gap-0 border border-[#B877F7] rounded-full overflow-hidden w-fit">
-            <button
-              onClick={() => setActiveTab('services')}
-              className={`px-6 py-2 text-sm font-medium transition-all ${
-                activeTab === 'services' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
-              }`}
-            >
-              Services
-            </button>
-            <button
-              onClick={() => setActiveTab('courses')}
-              className={`px-6 py-2 text-sm font-medium transition-all ${
-                activeTab === 'courses' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
-              }`}
-            >
-              Courses
-            </button>
+      <section className="relative w-full px-4 sm:px-10 py-20 flex-grow">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#B877F7] opacity-20 rounded-full blur-3xl z-0" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#B877F7] opacity-10 rounded-full blur-3xl z-0" />
+
+        <div className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 items-center justify-between">
+          <div className="flex-1 text-center lg:text-left flex flex-col justify-center">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1F102E] leading-tight">
+              Book a <span className="text-[#B877F7]">Free Consultation</span>
+            </h2>
+            <p className="text-[#6B7280] mt-4 text-lg">
+              Connect with our experts to elevate your brand with design, tech, and strategy.
+            </p>
+          </div>
+
+          <div className="flex-1 bg-white rounded-3xl shadow-xl border border-gray-100 p-8 w-full max-w-xl">
+            <div className="flex justify-center sm:justify-start gap-0 border border-[#B877F7] rounded-full overflow-hidden w-fit mb-4">
+              <button
+                onClick={() => setActiveTab('services')}
+                className={`px-6 py-2 text-sm font-medium transition-all ${
+                  activeTab === 'services' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                }`}
+              >
+                Services
+              </button>
+              <button
+                onClick={() => setActiveTab('courses')}
+                className={`px-6 py-2 text-sm font-medium transition-all ${
+                  activeTab === 'courses' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                }`}
+              >
+                Courses
+              </button>
+            </div>
+
+            <div className="min-h-[540px]">{renderForm()}</div>
           </div>
         </div>
+      </section>
 
-        <div className="flex-1 bg-white rounded-3xl shadow-xl border border-gray-100 p-8 w-full max-w-xl">
-          {renderForm()}
-          <div className="flex justify-center sm:justify-start gap-4 mt-8">
-            <button
-              onClick={handleEmail}
-              className="bg-[#B877F7] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#A062D5] transition"
-            >
-              Send Email
-            </button>
-            <button
-              onClick={handleWhatsApp}
-              className="border border-[#B877F7] text-[#B877F7] px-6 py-3 rounded-full font-semibold hover:bg-white transition"
-            >
-              Chat on WhatsApp
-            </button>
-          </div>
-        </div>
+      <div className="mt-10 w-full">
+        <Footer />
       </div>
-    </section>
+    </div>
   )
 }
-
-export default Consultation
 
 const Input = ({ name, value, onChange, placeholder }) => (
   <input

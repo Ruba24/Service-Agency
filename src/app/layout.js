@@ -2,6 +2,7 @@ import '@/styles/globals.css'
 import Navbar from '@/components/Navbar'
 import CustomCursor from '@/components/CustomerCursor'
 import WhatsappButton from '@/components/WhatsApp'
+import Footer from '@/components/Footer'
 
 export const metadata = {
   title: 'Zelverse Agency',
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <CustomCursor />
         <WhatsappButton />
+        {/* <Footer /> */}
         {children}
       </body>
     </html>
