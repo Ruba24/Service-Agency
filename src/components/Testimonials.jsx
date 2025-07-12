@@ -65,7 +65,10 @@ const TestimonialsSection = () => {
           }}
           loop={true}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
+          pagination={{
+            clickable: true,
+            el: '.custom-pagination',
+          }}
         >
           {testimonials.map((t, idx) => (
             <SwiperSlide key={idx}>
@@ -85,6 +88,9 @@ const TestimonialsSection = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* Custom pagination dots below the cards */}
+        <div className="custom-pagination mt-8 flex justify-center space-x-2" />
       </div>
     </section>
   )

@@ -6,7 +6,6 @@ import { FiMenu, FiX } from 'react-icons/fi'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-
   const toggleMenu = () => setIsOpen(!isOpen)
   const closeMenu = () => setIsOpen(false)
 
@@ -29,25 +28,30 @@ const Navbar = () => {
           <Link href="/case-studies" className="hover:text-[#B877F7] transition">Case Studies</Link>
           <Link href="/contact" className="hover:text-[#B877F7] transition">Contact</Link>
 
-          <Link
-            href="/contact"
-            className="ml-4 bg-[#B877F7] text-white px-4 py-2 rounded-full hover:bg-[#A062D5] transition whitespace-nowrap"
-          >
-            Book a Consultation
-          </Link>
+          {/* Animated Button */}
+          <div className="relative group">
+            <Link
+              href="/contact"
+              className="relative z-10 px-5 py-2 rounded-full font-semibold text-white bg-gradient-to-r from-[#B877F7] via-[#A062D5] to-[#B877F7] bg-[length:200%_200%] animate-shimmer transition-all duration-500 ease-in-out shadow-lg hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7]"
+            >
+              Book a Consultation
+            </Link>
+
+            {/* Glowing border effect */}
+            <span className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-[#B877F7] via-[#D6A4F7] to-[#B877F7] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse-slow"></span>
+          </div>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Toggle */}
         <button
           onClick={toggleMenu}
           className="md:hidden text-[#B877F7] text-2xl focus:outline-none"
-          aria-label="Toggle Menu"
         >
           {isOpen ? <FiX /> : <FiMenu />}
         </button>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-white w-full shadow-md px-6 pb-6 pt-4 text-[#1F102E] font-medium">
           <ul className="space-y-4">
@@ -62,7 +66,7 @@ const Navbar = () => {
               <Link
                 href="/contact"
                 onClick={closeMenu}
-                className="inline-block bg-[#B877F7] text-white px-4 py-2 rounded-full hover:bg-[#A062D5] transition"
+                className="block text-center font-semibold text-white px-5 py-2 rounded-full bg-gradient-to-r from-[#B877F7] via-[#A062D5] to-[#B877F7] animate-shimmer"
               >
                 Book a Consultation
               </Link>

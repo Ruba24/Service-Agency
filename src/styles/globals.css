@@ -22,7 +22,6 @@ body {
   pointer-events: none;
 }
 
-/* Delayed float icons */
 .icon-2  { animation-delay: 2s; }
 .icon-3  { animation-delay: 4s; }
 .icon-4  { animation-delay: 6s; }
@@ -59,11 +58,31 @@ body {
   background-color: #9e5de0;
 }
 
-/* Custom Animations */
-.animate-pulse-slow {
-  animation: pulse-slow 6s infinite ease-in-out;
+/* Award Marquee Animation */
+@keyframes award-marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-33.333%); }
 }
 
+.animate-award-marquee {
+  animation: award-marquee 12s linear infinite;
+}
+.group:hover .animate-award-marquee {
+  animation-play-state: paused;
+}
+
+/* Gradient Animation */
+@keyframes gradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  animation: gradient 6s ease infinite;
+}
+
+/* Slide / Marquee Utility */
 @keyframes slide {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -86,33 +105,86 @@ body {
   animation-play-state: paused;
 }
 
-@keyframes marquee {
-  0%   { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+/* Ping (Glowing Ring) */
+@keyframes ping-slow {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50%      { transform: scale(1.1); opacity: 0.6; }
 }
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-.group:hover .animate-marquee {
-  animation-play-state: paused;
-}
-@keyframes award-marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
+.group-hover\:animate-ping-slow:hover {
+  animation: ping-slow 2.5s ease-in-out infinite;
 }
 
-.animate-award-marquee {
-  animation: award-marquee 30s linear infinite;
+/* Glow */
+@keyframes glow {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50%      { transform: scale(1.1); opacity: 0.6; }
 }
-/* Smooth hover */
+.group-hover\:animate-glow:hover {
+  animation: glow 1.8s ease-in-out infinite;
+}
+
+/* Flare Animation */
+@keyframes flare {
+  0%   { left: -100%; opacity: 0; }
+  50%  { left: 50%; opacity: 0.7; }
+  100% { left: 125%; opacity: 0; }
+}
+.group-hover\:animate-flare:hover {
+  animation: flare 1.2s ease-in-out forwards;
+}
+
+/* Spark Animations */
+@keyframes spark1 {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50%      { transform: translateY(-8px) scale(1.2); opacity: 0.4; }
+}
+@keyframes spark2 {
+  0%, 100% { transform: translateX(0) scale(1); opacity: 0.5; }
+  50%      { transform: translateX(-6px) scale(1.3); opacity: 0.2; }
+}
+@keyframes spark3 {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50%      { transform: translateY(6px) scale(1.4); opacity: 0.3; }
+}
+@keyframes spark4 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-4px, 4px) scale(1.1); opacity: 0.3; }
+}
+
+.spark {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+  pointer-events: none;
+}
+
+.animate-spark1 { animation: spark1 2s infinite ease-in-out; }
+.animate-spark2 { animation: spark2 3s infinite ease-in-out; }
+.animate-spark3 { animation: spark3 2.5s infinite ease-in-out; }
+.animate-spark4 { animation: spark4 2.7s infinite ease-in-out; }
+
+/* Smooth hover utility */
 .hover\:shadow-glow:hover {
   box-shadow: 0 0 15px #B877F7;
 }
-@keyframes award-marquee {
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+@keyframes marquee {
   0% {
     transform: translateX(0%);
   }
@@ -121,9 +193,72 @@ body {
   }
 }
 
-.animate-award-marquee {
-  animation: award-marquee 12s linear infinite; /* Faster speed */
+.animate-marquee {
+  animation: marquee 20s linear infinite;
 }
-.group:hover .animate-award-marquee {
+
+.group:hover .animate-marquee {
   animation-play-state: paused;
 }
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.group:hover .animate-marquee {
+  animation-play-state: paused;
+}
+.custom-pagination .swiper-pagination-bullet {
+  background-color: #B877F7;
+  opacity: 0.5;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  background-color: #B877F7;
+  opacity: 1;
+  transform: scale(1.2);
+}
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 4s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
