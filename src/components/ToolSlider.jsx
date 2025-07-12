@@ -1,0 +1,63 @@
+'use client'
+
+import {
+  FaShopify,
+  FaGoogle,
+  FaFacebook,
+  FaTrello,
+  FaAmazon,
+} from 'react-icons/fa'
+import {
+  SiHelium,
+  SiCanva,
+  SiNotion,
+  SiWalmart,
+  SiZoom,
+} from 'react-icons/si'
+import { MdOutlineGavel } from 'react-icons/md' // for legal/tax
+import { RiAccountPinCircleLine } from 'react-icons/ri' // for reinstatement
+
+const tools = [
+  { icon: <FaAmazon size={32} />, name: 'Amazon Seller' },
+  { icon: <SiHelium size={32} />, name: 'Helium 10' },
+  { icon: <FaShopify size={32} />, name: 'Shopify' },
+  { icon: <SiWalmart size={32} />, name: 'Walmart Seller' },
+  { icon: <FaFacebook size={32} />, name: 'Meta Ads' },
+  { icon: <FaGoogle size={32} />, name: 'Google Ads' },
+  { icon: <SiCanva size={32} />, name: 'Canva' },
+  { icon: <MdOutlineGavel size={32} />, name: 'LegalZoom' },
+  { icon: <RiAccountPinCircleLine size={32} />, name: 'Reinstatement Tool' },
+  { icon: <SiZoom size={32} />, name: 'Zoom' },
+  { icon: <FaTrello size={32} />, name: 'Trello' },
+  { icon: <SiNotion size={32} />, name: 'Notion' },
+]
+
+const ToolSlider = () => {
+  const repeated = [...tools, ...tools, ...tools]
+
+  return (
+    <section className="bg-white py-10 overflow-hidden">
+      <h2 className="text-3xl font-bold text-center text-[#1F102E] mb-8">
+        Ecommerce Tools We Use
+      </h2>
+
+      <div className="overflow-hidden w-screen relative left-[50%] right-[50%] -mx-[50vw] group">
+        <div className="animate-marquee whitespace-nowrap flex">
+          {repeated.map((tool, index) => (
+            <div
+              key={index}
+              className="inline-flex flex-col items-center text-[#1F102E] w-[200px] px-4"
+            >
+              <div className="bg-gray-100 p-4 rounded-full shadow">{tool.icon}</div>
+              <p className="text-sm font-medium mt-2 text-center leading-tight">
+                {tool.name}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default ToolSlider
