@@ -1,7 +1,6 @@
 'use client'
 
-import { FaStar } from 'react-icons/fa'
-import { useState } from 'react'
+import { FaStar, FaUserCircle } from 'react-icons/fa'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
@@ -15,7 +14,6 @@ const testimonials = [
     quote:
       'ZELLVERSE helped scale our eCommerce sales 3x in 2 months! The team is amazing and very professional.',
     rating: 5,
-    image: '/images/testimonials/ayesha.jpg',
   },
   {
     name: 'Talha Khan',
@@ -23,7 +21,6 @@ const testimonials = [
     quote:
       'Their design & development team transformed our digital presence. Highly recommended!',
     rating: 4,
-    image: '/images/testimonials/talha.jpg',
   },
   {
     name: 'Mariam Qureshi',
@@ -31,13 +28,22 @@ const testimonials = [
     quote:
       'From branding to marketing, they took care of everything and delivered fantastic results.',
     rating: 5,
-    image: '/images/testimonials/mariam.jpg',
+  },
+  {
+    name: 'Ahmed Iqbal',
+    role: 'Founder, AI Hub',
+    quote:
+      'Incredible results in such a short time. Zellverse team delivers what they promise!',
+    rating: 5,
   },
 ]
 
 const TestimonialsSection = () => {
   return (
-    <section className="w-full bg-[#1F102E] py-20 px-4 sm:px-10 text-white" id="testimonials">
+    <section
+      className="w-full bg-[#1F102E] py-20 px-4 sm:px-10 text-white z-10 relative"
+      id="testimonials"
+    >
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-extrabold">
           What Our <span className="text-[#B877F7]">Clients Say</span>
@@ -47,32 +53,34 @@ const TestimonialsSection = () => {
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
           slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
           loop={true}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
-          className="pb-10"
         >
           {testimonials.map((t, idx) => (
             <SwiperSlide key={idx}>
-              <div className="bg-[#2A1D3E] rounded-3xl shadow-md border border-[#B877F7] p-8 flex flex-col items-center text-center">
-                <img
-                  src={t.image}
-                  alt={t.name}
-                  className="w-16 h-16 rounded-full object-cover mb-4 border-2 border-[#B877F7]"
-                />
-                <p className="text-white font-medium mb-4">“{t.quote}”</p>
+              <div className="group relative z-10 bg-[#2B1A40] rounded-xl border border-[#B877F7]/30 shadow-md p-8 transition-all duration-300 hover:ring-1 hover:ring-[#B877F7]/50">
+                <div className="flex justify-center mb-4 text-[#B877F7]">
+                  <FaUserCircle size={48} />
+                </div>
+                <p className="text-white font-medium mb-4 text-center">“{t.quote}”</p>
                 <div className="flex items-center justify-center mb-2">
                   {[...Array(t.rating)].map((_, i) => (
-                    <FaStar key={i} className="text-[#B877F7]" />
+                    <FaStar key={i} className="text-yellow-400" />
                   ))}
                 </div>
-                <h4 className="font-bold text-white">{t.name}</h4>
-                <span className="text-sm text-[#D1D5DB]">{t.role}</span>
+                <h4 className="font-bold text-center">{t.name}</h4>
+                <span className="text-sm text-[#D1D5DB] block text-center">{t.role}</span>
               </div>
             </SwiperSlide>
           ))}

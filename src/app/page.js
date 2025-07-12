@@ -1,4 +1,5 @@
 import Achievements from '@/components/Achievements'
+import AwardsSlider from '@/components/AwardsSlider'
 import Courses from '@/components/Course'
 import FaqsSection from '@/components/FAQ'
 import Footer from '@/components/Footer'
@@ -14,8 +15,9 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <ServiceLogoSlider />
+      <AwardsSlider />
       <Services />
+      <ServiceLogoSlider />
       {/* <Tools /> */}
       <Courses />
       <ToolSlider />
