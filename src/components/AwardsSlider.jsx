@@ -11,7 +11,6 @@ const awards = [
 ]
 
 const AwardsSlider = () => {
-  // Repeat awards 3 times for seamless infinite scroll
   const repeatedAwards = [...awards, ...awards, ...awards]
 
   return (
@@ -27,7 +26,7 @@ const AwardsSlider = () => {
               key={index}
               className="inline-flex flex-col items-center text-[#1F102E] w-[180px] px-4"
             >
-              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#B877F7] shadow-md">
+              <div className="w-24 h-24 rounded-full overflow-hidden shadow-md">
                 <img
                   src={award.image}
                   alt={award.name}

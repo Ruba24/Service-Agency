@@ -112,3 +112,18 @@ body {
 .hover\:shadow-glow:hover {
   box-shadow: 0 0 15px #B877F7;
 }
+@keyframes award-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-award-marquee {
+  animation: award-marquee 12s linear infinite; /* Faster speed */
+}
+.group:hover .animate-award-marquee {
+  animation-play-state: paused;
+}
