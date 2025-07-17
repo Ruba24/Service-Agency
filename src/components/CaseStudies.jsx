@@ -1,20 +1,73 @@
-'use client'
+import Image from 'next/image'
+import Link from 'next/link'
 
-const CaseStudies = ({ serviceSlug }) => {
+const caseStudies = [
+  {
+    id: 1,
+    title: 'Fashion Brand Growth Strategy',
+    slug: 'fashion-brand-growth',
+    excerpt: 'How we helped a clothing brand 3x its revenue through full-funnel marketing.',
+    image: '/images/casestudies/1.jpg',
+  },
+  {
+    id: 2,
+    title: 'Shopify Store Conversion Boost',
+    slug: 'shopify-conversion-boost',
+    excerpt: 'Improved UX and CRO strategies that raised conversion rates by 47%.',
+    image: '/images/casestudies/2.jpg',
+  },
+  {
+    id: 3,
+    title: 'Amazon Sales Acceleration',
+    slug: 'amazon-sales-growth',
+    excerpt: 'Optimized listings and PPC strategy leading to 85% sales lift in 3 months.',
+    image: '/images/casestudies/3.jpg',
+  },
+  {
+    id: 4,
+    title: 'Local Business Digital Launch',
+    slug: 'local-business-digital-launch',
+    excerpt: 'Complete digital transformation of a service-based startup.',
+    image: '/images/casestudies/4.jpg',
+  },
+  {
+    id: 5,
+    title: 'Luxury Brand Identity Overhaul',
+    slug: 'luxury-brand-rebrand',
+    excerpt: 'Redesigned brand identity for a premium leather goods company.',
+    image: '/images/casestudies/5.jpg',
+  },
+]
+
+const CaseStudyCards = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[1, 2, 3].map((item) => (
-        <div key={item} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-          <h3 className="font-bold text-[#1F102E] text-lg mb-2">
-            Case Study #{item}
-          </h3>
-          <p className="text-gray-600 text-sm">
-            Success story about a brand using our {serviceSlug.replace(/-/g, ' ')} services to scale.
-          </p>
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {caseStudies.map((item) => (
+        <div
+          key={item.id}
+          className="bg-white rounded-3xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.05)] hover:shadow-[0_0_25px_rgba(184,119,247,0.3)] transition-all duration-300"
+        >
+          <Image
+            src={item.image}
+            alt={item.title}
+            width={600}
+            height={300}
+            className="w-full h-56 object-cover"
+          />
+          <div className="p-5">
+            <h3 className="text-xl font-bold text-[#1F102E] mb-2">{item.title}</h3>
+            <p className="text-gray-600 mb-4">{item.excerpt}</p>
+            <Link
+              href={`/case-studies/${item.slug}`}
+              className="text-[#B877F7] font-medium hover:underline"
+            >
+              View Case Study →
+            </Link>
+          </div>
         </div>
       ))}
     </div>
   )
 }
 
-export default CaseStudies
+export default CaseStudyCards
