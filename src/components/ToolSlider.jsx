@@ -18,19 +18,20 @@ import { MdOutlineGavel } from 'react-icons/md' // for legal/tax
 import { RiAccountPinCircleLine } from 'react-icons/ri' // for reinstatement
 
 const tools = [
-  { icon: <FaAmazon size={32} />, name: 'Amazon Seller' },
-  { icon: <SiHelium size={32} />, name: 'Helium 10' },
-  { icon: <FaShopify size={32} />, name: 'Shopify' },
-  { icon: <SiWalmart size={32} />, name: 'Walmart Seller' },
-  { icon: <FaFacebook size={32} />, name: 'Meta Ads' },
-  { icon: <FaGoogle size={32} />, name: 'Google Ads' },
-  { icon: <SiCanva size={32} />, name: 'Canva' },
-  { icon: <MdOutlineGavel size={32} />, name: 'LegalZoom' },
-  { icon: <RiAccountPinCircleLine size={32} />, name: 'Reinstatement Tool' },
-  { icon: <SiZoom size={32} />, name: 'Zoom' },
-  { icon: <FaTrello size={32} />, name: 'Trello' },
-  { icon: <SiNotion size={32} />, name: 'Notion' },
+  { icon: <FaAmazon size={32} color="#FF9900" />, name: 'Amazon Seller' },
+  { icon: <SiHelium size={32} color="#0F75BC" />, name: 'Helium 10' },
+  { icon: <FaShopify size={32} color="#95BF47" />, name: 'Shopify' },
+  { icon: <SiWalmart size={32} color="#0071CE" />, name: 'Walmart Seller' },
+  { icon: <FaFacebook size={32} color="#1877F2" />, name: 'Meta Ads' },
+  { icon: <FaGoogle size={32} color="#4285F4" />, name: 'Google Ads' },
+  { icon: <SiCanva size={32} color="#00C4CC" />, name: 'Canva' },
+  { icon: <MdOutlineGavel size={32} color="#7D3C98" />, name: 'LegalZoom' },
+  { icon: <RiAccountPinCircleLine size={32} color="#5D6D7E" />, name: 'Reinstatement Tool' },
+  { icon: <SiZoom size={32} color="#2D8CFF" />, name: 'Zoom' },
+  { icon: <FaTrello size={32} color="#0079BF" />, name: 'Trello' },
+  { icon: <SiNotion size={32} color="#000000" />, name: 'Notion' },
 ]
+
 
 const ToolSlider = () => {
   const repeated = [...tools, ...tools, ...tools]
