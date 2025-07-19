@@ -2,39 +2,45 @@
 
 import Image from 'next/image'
 import Footer from '@/components/Footer'
-
-const teamMembers = [
-  {
-    name: 'Bilal Shahab',
-    role: 'Founder & CEO',
-    image: '/images/team_members/member1.png',
-    description:
-      'Visionary leader driving strategy, growth, and innovation. He has led ZELLVERSE to become a top-tier ecommerce agency by fostering innovation, client-centric approaches, and long-term digital growth partnerships.',
-  },
-  {
-    name: 'Ali Raza',
-    role: 'Lead Developer',
-    image: '/images/team_members/member2.jpg',
-    description:
-      'Architect behind our scalable and modern web systems. He ensures seamless user experiences, robust backend solutions, and ongoing platform evolution with cutting-edge technologies.',
-  },
-  {
-    name: 'Zoya Khan',
-    role: 'UI/UX Designer',
-    image: '/images/team/zoya.jpg',
-    description:
-      'Design expert focused on creating beautiful, user-centered interfaces. Her designs drive engagement, reduce friction, and maximize conversion rates for eCommerce clients.',
-  },
-  {
-    name: 'Ahmed Iqbal',
-    role: 'Marketing Head',
-    image: '/images/team/ahmed.jpg',
-    description:
-      'Crafts data-driven strategies that fuel brand growth and ROI. Specialized in paid media, sales funnels, and omni-channel content strategies tailored for eCommerce scale.',
-  },
-]
+import { useEffect, useState } from 'react'
+import { client } from '@/lib/sanity'
 
 const About = () => {
+  const [teamMembers, setTeamMembers] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const data = await client.fetch(`*[_type == "teamMember"] | order(_createdAt asc){
+          name,
+          role,
+          description,
+          "image": image.asset->url
+        }`)
+
+        const ceoAndCoFounder = data.filter(
+          (member) =>
+            member.role.toLowerCase().includes('ceo') ||
+            member.role.toLowerCase().includes('co-founder')
+        )
+        const others = data.filter(
+          (member) =>
+            !member.role.toLowerCase().includes('ceo') &&
+            !member.role.toLowerCase().includes('co-founder')
+        )
+
+        setTeamMembers([...ceoAndCoFounder, ...others])
+      } catch (error) {
+        console.error('Error fetching team:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTeam()
+  }, [])
+
   const cardHeight = 400
   const cardOverlap = 64
   const verticalGap = cardHeight - cardOverlap
@@ -116,29 +122,35 @@ const About = () => {
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10 flex flex-col gap-0">
-          {teamMembers.map((member, index) => (
-            <div
-              key={index}
-              className={`w-full flex ${
-                index % 2 === 0 ? 'justify-start' : 'justify-end'
-              } ${index !== 0 ? 'mt-6 lg:-mt-16' : 'mt-0'}`}
-            >
-              <div className="w-full max-w-[400px] bg-white border border-gray-200 rounded-3xl shadow-lg p-6 text-center transition-all duration-300 hover:ring-2 hover:ring-[#B877F7] hover:shadow-[0_0_25px_2px_rgba(184,119,247,0.3)] mx-auto lg:mx-0">
-                <div className="w-32 h-32 rounded-full overflow-hidden mb-5 mx-auto border-2 border-[#B877F7]">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    width={128}
-                    height={128}
-                    className="object-cover w-full h-full"
-                  />
+          {loading ? (
+            <p className="text-center text-gray-400">Loading team...</p>
+          ) : teamMembers.length === 0 ? (
+            <p className="text-center text-red-500">No team members found.</p>
+          ) : (
+            teamMembers.map((member, index) => (
+              <div
+                key={index}
+                className={`w-full flex ${
+                  index % 2 === 0 ? 'justify-start' : 'justify-end'
+                } ${index !== 0 ? 'mt-6 lg:-mt-16' : 'mt-0'}`}
+              >
+                <div className="w-full max-w-[400px] bg-white border border-gray-200 rounded-3xl shadow-lg p-6 text-center transition-all duration-300 hover:ring-2 hover:ring-[#B877F7] hover:shadow-[0_0_25px_2px_rgba(184,119,247,0.3)] mx-auto lg:mx-0">
+                  <div className="w-32 h-32 rounded-full overflow-hidden mb-5 mx-auto border-2 border-[#B877F7]">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      width={128}
+                      height={128}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <h4 className="text-2xl font-semibold text-[#1F102E]">{member.name}</h4>
+                  <p className="text-base text-[#B877F7] mt-1">{member.role}</p>
+                  <p className="text-sm text-[#4B5563] mt-4 leading-relaxed">{member.description}</p>
                 </div>
-                <h4 className="text-2xl font-semibold text-[#1F102E]">{member.name}</h4>
-                <p className="text-base text-[#B877F7] mt-1">{member.role}</p>
-                <p className="text-sm text-[#4B5563] mt-4 leading-relaxed">{member.description}</p>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
 
