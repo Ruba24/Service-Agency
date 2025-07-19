@@ -137,12 +137,13 @@ const About = () => {
                 <div className="w-full max-w-[400px] bg-white border border-gray-200 rounded-3xl shadow-lg p-6 text-center transition-all duration-300 hover:ring-2 hover:ring-[#B877F7] hover:shadow-[0_0_25px_2px_rgba(184,119,247,0.3)] mx-auto lg:mx-0">
                   <div className="w-32 h-32 rounded-full overflow-hidden mb-5 mx-auto border-2 border-[#B877F7]">
                     <Image
-                      src={member.image}
+                      src={member.image || '/images/team_members/member2.jpg'}
                       alt={member.name}
                       width={128}
                       height={128}
                       className="object-cover w-full h-full"
                     />
+
                   </div>
                   <h4 className="text-2xl font-semibold text-[#1F102E]">{member.name}</h4>
                   <p className="text-base text-[#B877F7] mt-1">{member.role}</p>
