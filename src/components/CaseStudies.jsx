@@ -1,5 +1,15 @@
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { client, urlFor } from '@/lib/sanity'
+
+const query = `*[_type == "caseStudy"] | order(_createdAt desc) {
+  _id,
+  title,
+  slug,
+  excerpt,
+  mainImage
+}`
 
 const caseStudies = [
   {
@@ -40,6 +50,12 @@ const caseStudies = [
 ]
 
 const CaseStudyCards = () => {
+  const [caseStudies, setCaseStudies] = useState([])
+
+  useEffect(() => {
+    client.fetch(query).then((data) => setCaseStudies(data))
+  }, [])
+
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {caseStudies.map((item) => (

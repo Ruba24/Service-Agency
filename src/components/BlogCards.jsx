@@ -1,5 +1,15 @@
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { client, urlFor } from '@/lib/sanity'
+
+const query = `*[_type == "blog"] | order(_createdAt desc) {
+  _id,
+  title,
+  slug,
+  excerpt,
+  mainImage
+}`
 
 const blogs = [
   {
@@ -47,6 +57,12 @@ const blogs = [
 ]
 
 const BlogCards = () => {
+  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    client.fetch(query).then((data) => setBlogs(data))
+  }, [])
+  
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {blogs.map((blog) => (
