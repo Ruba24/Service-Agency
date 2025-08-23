@@ -56,7 +56,7 @@ const ServiceDetailPage = () => {
           </div>
           <div className="w-full lg:w-1/2">
             <Image
-              src={service.imageUrl}
+              src={service.imageUrl ? service.imageUrl : '/placeholder.jpg'}
               alt={service.title}
               width={600}
               height={400}

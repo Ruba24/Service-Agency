@@ -1,44 +1,30 @@
 'use client'
 
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
 import { FaStar, FaUserCircle } from 'react-icons/fa'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { client, urlFor } from '@/lib/sanity'
 
-const testimonials = [
-  {
-    name: 'Ayesha Rehman',
-    role: 'Founder, BeautyBay',
-    quote:
-      'ZELLVERSE helped scale our eCommerce sales 3x in 2 months! The team is amazing and very professional.',
-    rating: 5,
-  },
-  {
-    name: 'Talha Khan',
-    role: 'CEO, UrbanCrafts',
-    quote:
-      'Their design & development team transformed our digital presence. Highly recommended!',
-    rating: 4,
-  },
-  {
-    name: 'Mariam Qureshi',
-    role: 'Owner, Mariam Apparel',
-    quote:
-      'From branding to marketing, they took care of everything and delivered fantastic results.',
-    rating: 5,
-  },
-  {
-    name: 'Ahmed Iqbal',
-    role: 'Founder, AI Hub',
-    quote:
-      'Incredible results in such a short time. Zellverse team delivers what they promise!',
-    rating: 5,
-  },
-]
+const Testimonials = () => {
+  const [testimonials, setTestimonials] = useState([])
 
-const TestimonialsSection = () => {
+  const query = `*[_type == "testimonial"]{
+  name,
+  role,
+  quote,
+  rating,
+  photo
+}`
+
+  useEffect(() => {
+    client.fetch(query).then((data) => setTestimonials(data))
+  }, [])
+
   return (
     <section
       className="w-full bg-[#1F102E] py-20 px-4 sm:px-10 text-white z-10 relative"
@@ -69,12 +55,23 @@ const TestimonialsSection = () => {
             clickable: true,
             el: '.custom-pagination',
           }}
+          centerInsufficientSlides={true}
         >
           {testimonials.map((t, idx) => (
             <SwiperSlide key={idx}>
               <div className="group relative z-10 bg-[#2B1A40] rounded-xl border border-[#B877F7]/30 shadow-md p-8 transition-all duration-300 hover:ring-1 hover:ring-[#B877F7]/50">
                 <div className="flex justify-center mb-4 text-[#B877F7]">
-                  <FaUserCircle size={48} />
+                  {t.photo ? (
+                    <Image
+                      src={urlFor(t.photo).url()}
+                      alt={t.name}
+                      width={64}
+                      height={64}
+                      className="rounded-full object-cover border-2 border-[#B877F7] w-16 h-16"
+                    />
+                  ) : (
+                    <FaUserCircle size={64} />
+                  )}
                 </div>
                 <p className="text-white font-medium mb-4 text-center">“{t.quote}”</p>
                 <div className="flex items-center justify-center mb-2">
@@ -96,4 +93,4 @@ const TestimonialsSection = () => {
   )
 }
 
-export default TestimonialsSection
+export default Testimonials

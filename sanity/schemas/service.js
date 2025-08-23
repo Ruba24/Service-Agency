@@ -22,6 +22,7 @@ export default {
       name: 'icon',
       title: 'Icon (Emoji)',
       type: 'string',
+      description: 'Enter the icon name like FaCode, FaPaintBrush, FaMobileAlt etc.',
     },
     {
       name: 'desc',

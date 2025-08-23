@@ -3,6 +3,31 @@
 import ServiceCard from '@/components/ServiceCard'
 import { sanityClient } from '../../../sanity/lib/client'
 import { useState, useEffect } from 'react'
+import {
+  FaCode,
+  FaPaintBrush,
+  FaMobileAlt,
+  FaChartLine,
+  FaStore,
+  FaRocket,
+  FaCogs,
+  FaCloud,
+  FaTools,
+  FaPenFancy
+} from 'react-icons/fa'
+
+const iconMap = {
+  FaCode: <FaCode />,
+  FaPaintBrush: <FaPaintBrush />,
+  FaMobileAlt: <FaMobileAlt />,
+  FaChartLine: <FaChartLine />,
+  FaStore: <FaStore />,
+  FaRocket: <FaRocket />,
+  FaCogs: <FaCogs />,         // 🔧 Custom Software Development
+  FaCloud: <FaCloud />,       // ☁️ Cloud & DevOps
+  FaTools: <FaTools />,       // 🛠 Maintenance & Support
+  FaPenFancy: <FaPenFancy />  // ✍️ Content & Copywriting
+}
 
 export default function ServicesPage() {
   const [services, setServices] = useState([])
@@ -32,7 +57,7 @@ export default function ServicesPage() {
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
         {services.map((service, index) => (
           <a key={service.slug.current} href={`/services/${service.slug.current}`}>
-            <ServiceCard service={service} index={index} />
+            <ServiceCard service={{ ...service, icon: iconMap[service.icon] || <FaCode /> }} index={index} />
           </a>
         ))}
       </div>

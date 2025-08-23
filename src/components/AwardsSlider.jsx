@@ -1,6 +1,9 @@
 'use client'
 
 import React from 'react'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { client, urlFor } from '@/lib/sanity'
 
 const awards = [
   { image: '/images/awards/award1.png', name: 'Top Amazon Partner' },
@@ -11,6 +14,21 @@ const awards = [
 ]
 
 const AwardsSlider = () => {
+  const [awards, setAwards] = useState([])
+
+  useEffect(() => {
+    const fetchAwards = async () => {
+      const query = `*[_type == "award"]{
+        name,
+        image
+      }`
+      const data = await client.fetch(query)
+      setAwards(data)
+    }
+
+    fetchAwards()
+  }, [])
+
   const repeatedAwards = [...awards, ...awards, ...awards]
 
   return (
@@ -28,7 +46,7 @@ const AwardsSlider = () => {
             >
               <div className="w-24 h-24 rounded-full overflow-hidden shadow-md">
                 <img
-                  src={award.image}
+                   src={urlFor(award.image).url()}
                   alt={award.name}
                   className="w-full h-full object-cover"
                 />

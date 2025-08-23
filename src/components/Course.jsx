@@ -1,26 +1,19 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { client } from '@/lib/sanity'
 import CourseCard from './CourseCard'
 
-const courses = [
-  {
-    id: 1,
-    title: 'Full Stack Web Development',
-    desc: 'Master front-end & back-end technologies with hands-on projects.',
-  },
-  {
-    id: 2,
-    title: 'UI/UX Design Bootcamp',
-    desc: 'Design intuitive and beautiful interfaces using Figma & prototyping tools.',
-  },
-  {
-    id: 3,
-    title: 'Digital Marketing Mastery',
-    desc: 'Learn SEO, social media, and paid ads strategies to grow online.',
-  },
-]
-
 const Courses = () => {
+   const [courses, setCourses] = useState([])
+
+  useEffect(() => {
+    client.fetch(
+      `*[_type == "course" && isFeatured == true][0...3]{
+        _id, title, description}`
+    ).then(setCourses)
+  }, [])
+
   return (
     <section
       className="relative w-full bg-[#F9F6FF] py-20 px-4 sm:px-10 overflow-hidden"
@@ -42,7 +35,7 @@ const Courses = () => {
 
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {courses.map((course, index) => (
-          <CourseCard key={course.id} course={course} index={index} />
+          <CourseCard key={index} course={course} index={index} />
         ))}
       </div>
 
