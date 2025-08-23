@@ -15,6 +15,12 @@ export default {
       type: 'text',
     },
     {
+      name: "tools",
+      title: "Tools",
+      type: "array",
+      of: [{ type: "string" }],
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
