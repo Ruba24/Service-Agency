@@ -40,54 +40,62 @@ const Testimonials = () => {
       </div>
 
       <div className="max-w-6xl mx-auto">
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={30}
-          slidesPerView={1}
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          loop={true}
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
-          pagination={{
-            clickable: true,
-            el: '.custom-pagination',
-          }}
-          centerInsufficientSlides={true}
-        >
-          {testimonials.map((t, idx) => (
-            <SwiperSlide key={idx}>
-              <div className="group relative z-10 bg-[#2B1A40] rounded-xl border border-[#B877F7]/30 shadow-md p-8 transition-all duration-300 hover:ring-1 hover:ring-[#B877F7]/50">
-                <div className="flex justify-center mb-4 text-[#B877F7]">
-                  {t.photo ? (
-                    <Image
-                      src={urlFor(t.photo).url()}
-                      alt={t.name}
-                      width={64}
-                      height={64}
-                      className="rounded-full object-cover border-2 border-[#B877F7] w-16 h-16"
-                    />
-                  ) : (
-                    <FaUserCircle size={64} />
-                  )}
-                </div>
-                <p className="text-white font-medium mb-4 text-center">“{t.quote}”</p>
-                <div className="flex items-center justify-center mb-2">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <FaStar key={i} className="text-yellow-400" />
-                  ))}
-                </div>
-                <h4 className="font-bold text-center">{t.name}</h4>
-                <span className="text-sm text-[#D1D5DB] block text-center">{t.role}</span>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {testimonials.length === 0 ? (
+          <p className="text-center text-[#E2E8F0] text-lg mt-10">
+            No testimonials yet. Please check back soon.
+          </p>
+        ) : (
+          <>
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              spaceBetween={30}
+              slidesPerView={1}
+              breakpoints={{
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
+              loop={testimonials.length > 1}
+              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              pagination={{
+                clickable: true,
+                el: '.custom-pagination',
+              }}
+            >
+              {testimonials.map((t, idx) => (
+                <SwiperSlide
+                  key={idx}
+                  className={testimonials.length === 1 ? 'flex justify-center' : ''}
+                >
+                  <div className="group relative z-10 bg-[#2B1A40] rounded-xl border border-[#B877F7]/30 shadow-md p-8 transition-all duration-300 hover:ring-1 hover:ring-[#B877F7]/50 max-w-sm mx-auto">
+                    <div className="flex justify-center mb-4 text-[#B877F7]">
+                      {t.photo ? (
+                        <img
+                          src={t.photo}
+                          alt={t.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                      ) : (
+                        <FaUserCircle size={48} />
+                      )}
+                    </div>
+                    <p className="text-white font-medium mb-4 text-center">“{t.quote}”</p>
+                    <div className="flex items-center justify-center mb-2">
+                      {[...Array(t.rating)].map((_, i) => (
+                        <FaStar key={i} className="text-yellow-400" />
+                      ))}
+                    </div>
+                    <h4 className="font-bold text-center">{t.name}</h4>
+                    <span className="text-sm text-[#D1D5DB] block text-center">{t.role}</span>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
 
-        {/* Custom pagination dots below the cards */}
-        <div className="custom-pagination mt-8 flex justify-center space-x-2" />
+            {/* Custom pagination dots below the cards */}
+            <div className="custom-pagination mt-8 flex justify-center space-x-2" />
+          </>
+        )}
       </div>
     </section>
   )
