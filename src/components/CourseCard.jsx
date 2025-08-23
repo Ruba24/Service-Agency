@@ -1,8 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 
-const CourseCard = ({ course, index }) => {
+export default function CourseCard({ course, index, onView }) {
   return (
     <motion.div
       className="relative group bg-white rounded-3xl p-6 overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:border-[#B877F7]"
@@ -14,10 +15,20 @@ const CourseCard = ({ course, index }) => {
 
       {/* Content */}
       <div className="relative z-10">
-        <h3 className="text-xl font-bold text-[#1F102E] mb-2 group-hover:text-[#B877F7] transition-colors duration-300">
+        <h3 className="text-md font-bold text-[#1F102E] mb-2 group-hover:text-[#B877F7] transition-colors duration-300">
           {course.title}
         </h3>
-        <p className="text-[#6B7280] text-sm leading-relaxed">{course.desc}</p>
+        <p className="text-[#6B7280] text-sm leading-relaxed">{course.description?.length > 90 ? course.description.trim().slice(0, 88) + '...' : course.description}</p>
+      </div>
+
+      <div className="relative z-10 mt-4">
+        <button
+          // onClick={() => onEnroll(course)}
+           onClick={() => onView(course)}
+          className="px-5 py-2 bg-[#B877F7] text-white rounded-full font-medium hover:bg-[#A062D5] transition-colors"
+        >
+          View
+        </button>
       </div>
 
       {/* Bottom Accent Line */}
@@ -25,5 +36,3 @@ const CourseCard = ({ course, index }) => {
     </motion.div>
   )
 }
-
-export default CourseCard

@@ -1,6 +1,8 @@
 'use client'
 
 import ServiceCard from './ServiceCard'
+import { useState, useEffect } from 'react'
+import { sanityClient } from '../../sanity/lib/client'
 import {
   FaCode,
   FaPaintBrush,
@@ -8,48 +10,83 @@ import {
   FaChartLine,
   FaStore,
   FaRocket,
+  FaCogs,
+  FaCloud,
+  FaTools,
+  FaPenFancy
 } from 'react-icons/fa'
 
-const services = [
-  {
-    id: 1,
-    title: 'Web Development',
-    desc: 'Crafting responsive, fast and modern websites for your brand.',
-    icon: <FaCode />,
-  },
-  {
-    id: 2,
-    title: 'UI/UX Design',
-    desc: 'Stunning, user-centered designs that enhance digital experiences.',
-    icon: <FaPaintBrush />,
-  },
-  {
-    id: 3,
-    title: 'Mobile App Development',
-    desc: 'iOS and Android apps with smooth performance and great UX.',
-    icon: <FaMobileAlt />,
-  },
-  {
-    id: 4,
-    title: 'Digital Marketing',
-    desc: 'Boost your online presence through SEO, PPC & social campaigns.',
-    icon: <FaChartLine />,
-  },
-  {
-    id: 5,
-    title: 'Ecommerce Solutions',
-    desc: 'Complete eCommerce setup with Shopify, WooCommerce or custom.',
-    icon: <FaStore />,
-  },
-  {
-    id: 6,
-    title: 'Brand Launch & Strategy',
-    desc: 'Positioning your brand with clarity, voice and creative impact.',
-    icon: <FaRocket />,
-  },
-]
+const iconMap = {
+  FaCode: <FaCode />,
+  FaPaintBrush: <FaPaintBrush />,
+  FaMobileAlt: <FaMobileAlt />,
+  FaChartLine: <FaChartLine />,
+  FaStore: <FaStore />,
+  FaRocket: <FaRocket />,
+  FaCogs: <FaCogs />,         // 🔧 Custom Software Development
+  FaCloud: <FaCloud />,       // ☁️ Cloud & DevOps
+  FaTools: <FaTools />,       // 🛠 Maintenance & Support
+  FaPenFancy: <FaPenFancy />  // ✍️ Content & Copywriting
+}
+
+// const services = [
+//   {
+//     id: 1,
+//     title: 'Web Development',
+//     desc: 'Crafting responsive, fast and modern websites for your brand.',
+//     icon: <FaCode />,
+//   },
+//   {
+//     id: 2,
+//     title: 'UI/UX Design',
+//     desc: 'Stunning, user-centered designs that enhance digital experiences.',
+//     icon: <FaPaintBrush />,
+//   },
+//   {
+//     id: 3,
+//     title: 'Mobile App Development',
+//     desc: 'iOS and Android apps with smooth performance and great UX.',
+//     icon: <FaMobileAlt />,
+//   },
+//   {
+//     id: 4,
+//     title: 'Digital Marketing',
+//     desc: 'Boost your online presence through SEO, PPC & social campaigns.',
+//     icon: <FaChartLine />,
+//   },
+//   {
+//     id: 5,
+//     title: 'Ecommerce Solutions',
+//     desc: 'Complete eCommerce setup with Shopify, WooCommerce or custom.',
+//     icon: <FaStore />,
+//   },
+//   {
+//     id: 6,
+//     title: 'Brand Launch & Strategy',
+//     desc: 'Positioning your brand with clarity, voice and creative impact.',
+//     icon: <FaRocket />,
+//   },
+// ]
 
 const Services = () => {
+  const [services, setServices] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await sanityClient.fetch(`
+          *[_type == "service"]{
+            title,
+            slug,
+            icon,
+            desc
+          }
+        `)
+      setServices(data)
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <section
       className="relative w-full bg-[#F9F6FF] py-20 px-4 sm:px-10 overflow-hidden"
@@ -69,8 +106,8 @@ const Services = () => {
       </div>
 
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {services.map((service, index) => (
-          <ServiceCard key={service.id} service={service} index={index} />
+        {services.slice(0, 9).map((service, index) => (
+          <ServiceCard key={index} service={{ ...service, icon: iconMap[service.icon] || <FaCode /> }} index={index} />
         ))}
       </div>
 

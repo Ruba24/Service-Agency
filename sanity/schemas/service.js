@@ -1,3 +1,4 @@
+// ./schemas/service.js
 export default {
   name: 'service',
   title: 'Service',
@@ -7,7 +8,6 @@ export default {
       name: 'title',
       title: 'Service Title',
       type: 'string',
-      validation: Rule => Rule.required(),
     },
     {
       name: 'slug',
@@ -17,19 +17,25 @@ export default {
         source: 'title',
         maxLength: 96,
       },
-      validation: Rule => Rule.required(),
-    },
-    {
-      name: 'description',
-      title: 'Service Description',
-      type: 'text',
-      rows: 4,
     },
     {
       name: 'icon',
-      title: 'Service Icon',
+      title: 'Icon (Emoji)',
+      type: 'string',
+      description: 'Enter the icon name like FaCode, FaPaintBrush, FaMobileAlt etc.',
+    },
+    {
+      name: 'desc',
+      title: 'Short Description',
+      type: 'text',
+    },
+    {
+      name: 'image',
+      title: 'Hero Image',
       type: 'image',
-      options: { hotspot: true },
+      options: {
+        hotspot: true,
+      },
     },
   ],
 }

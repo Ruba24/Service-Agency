@@ -8,16 +8,17 @@ import ServiceLogoSlider from '@/components/ServiceLogoSlider'
 import Services from '@/components/Services'
 import TestimonialsSection from '@/components/Testimonials'
 import ToolSlider from '@/components/ToolSlider'
-// import Tools from '@/components/ToolSlider'
 import WhyChooseUs from '@/components/WhyChooseUs'
 
 export default function Home() {
+  const amount = 49.99;
   return (
     <main>
       <Hero />
       <AwardsSlider />
       <Services />
       <ServiceLogoSlider />
+      {/* <Stripe/> */}
       {/* <Tools /> */}
       <Courses />
       <ToolSlider />

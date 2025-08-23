@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import Navbar from '@/components/Navbar'
-import CustomCursor from '@/components/CustomerCursor'
+import CustomCursor from '@/components/CustomerCursor.jsx'
 import WhatsappButton from '@/components/WhatsApp'
 import Footer from '@/components/Footer'
 

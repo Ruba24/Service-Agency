@@ -1,15 +1,15 @@
 'use client'
 import { useEffect, useRef } from 'react'
 
-const icons = ['🛒', '📦', '💳', '🏷️', '🧾', '🏬', '📈', '🚀', '📲', '🛍️', '💡', '🧠']
-
-const FloatingIcons = () => {
+const FloatingCourseIcons = ({ icons }) => {
   const containerRef = useRef(null)
   const iconRefs = useRef([])
 
   useEffect(() => {
+    if (!icons) return
+
     const speeds = icons.map(() => ({
-      x: (Math.random() - 0.5) * 0.7, // Speed between -0.35 to 0.35
+      x: (Math.random() - 0.5) * 0.7,
       y: (Math.random() - 0.5) * 0.7,
     }))
 
@@ -35,7 +35,6 @@ const FloatingIcons = () => {
         positions[i].x += speeds[i].x * 2
         positions[i].y += speeds[i].y * 2
 
-        // Reset if out of bounds
         if (positions[i].x < -50 || positions[i].x > rect.width + 50) {
           positions[i].x = Math.random() * rect.width
           positions[i].y = Math.random() * rect.height
@@ -59,7 +58,7 @@ const FloatingIcons = () => {
 
     window.addEventListener('resize', setInitialPositions)
     return () => window.removeEventListener('resize', setInitialPositions)
-  }, [])
+  }, [icons])
 
   return (
     <div
@@ -70,7 +69,7 @@ const FloatingIcons = () => {
         <div
           key={i}
           ref={(el) => (iconRefs.current[i] = el)}
-          className="absolute text-[24px] opacity-20"
+          className="absolute text-[28px] opacity-20"
         >
           {icon}
         </div>
@@ -79,4 +78,4 @@ const FloatingIcons = () => {
   )
 }
 
-export default FloatingIcons
+export default FloatingCourseIcons

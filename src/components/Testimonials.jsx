@@ -1,41 +1,29 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
 import { FaStar, FaUserCircle } from 'react-icons/fa'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { client } from '@/lib/sanity'
+import { client, urlFor } from '@/lib/sanity'
 
-const TestimonialsSection = ({ relatedTo = null }) => {
+const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([])
 
+  const query = `*[_type == "testimonial"]{
+  name,
+  role,
+  quote,
+  rating,
+  photo
+}`
+
   useEffect(() => {
-    const query = relatedTo
-      ? `*[_type == "testimonial" && relatedTo == $relatedTo]{
-          name,
-          role,
-          quote,
-          rating,
-          "photo": photo.asset->url
-        }`
-      : `*[_type == "testimonial"] | order(_createdAt desc){
-          name,
-          role,
-          quote,
-          rating,
-          "photo": photo.asset->url
-        }`
-
-    const params = relatedTo ? { relatedTo } : {}
-
-    client
-      .fetch(query, params)
-      .then(setTestimonials)
-      .catch(console.error)
-  }, [relatedTo])
+    client.fetch(query).then((data) => setTestimonials(data))
+  }, [])
 
   return (
     <section
@@ -112,4 +100,5 @@ const TestimonialsSection = ({ relatedTo = null }) => {
     </section>
   )
 }
-export default TestimonialsSection
+
+export default Testimonials
