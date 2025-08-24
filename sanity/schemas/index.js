@@ -8,5 +8,6 @@ import testimonial from './testimonial'
 import award from './award'
 import tool from './tool'
 import course from './course'
+import freeCourse from './freeCourses'
 
-export const schemaTypes = [teamMember, service, caseStudy, blog, testimonial, award, tool, course]
+export const schemaTypes = [teamMember, service, caseStudy, blog, testimonial, award, tool, course, freeCourse]
