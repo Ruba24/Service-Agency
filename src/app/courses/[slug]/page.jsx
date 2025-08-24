@@ -6,8 +6,7 @@ import { useEffect, useState } from 'react'
 import { client } from '../../../../sanity/lib/client'
 import Footer from '@/components/Footer'
 import ServiceSlider from '@/components/ServiceLogoSlider'
-import Testimonials from '@/components/Testimonials'
-import FAQ from '@/components/FAQ'
+import { PortableText } from '@portabletext/react'
 import { loadStripe } from '@stripe/stripe-js'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -19,11 +18,13 @@ const CourseDetailPage = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       const query = `
-        *[_type == "course" && slug.current == $slug][0]{
+        *[_type=="course" && slug.current==$slug][0]{
+          _id,
           title,
           description,
           price,
           experience,
+          duration,
           "imageUrl": image.asset->url,
           tools[]->{
             title,
@@ -33,11 +34,11 @@ const CourseDetailPage = () => {
             question,
             answer
           },
-          "testimonials": testimonials[]->{
+          "testimonials": *[_type=="testimonial" && references(^._id)]{
             name,
             rating,
             comment,
-            avatar
+            "avatar": avatar.asset->url
           }
         }
       `
@@ -63,39 +64,42 @@ const CourseDetailPage = () => {
     await stripe.redirectToCheckout({ sessionId: session.id })
   }
 
-  if (!course) {
-    return <p className="text-center py-20">Loading...</p>
-  }
+  if (!course) return <p className="text-center py-20">Loading...</p>
 
   return (
     <>
       {/* Hero Section */}
       <section className="w-full bg-gray-50 py-20">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center px-6">
+          {/* Description */}
           <div className="order-2 md:order-1">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">{course.title}</h1>
-            <p className="text-lg text-gray-600 mb-6">{course.description}</p>
+
+            <div className="text-lg text-gray-600 mb-6">
+              <PortableText value={course.description} />
+            </div>
 
             {course.experience && (
-              <p className="text-gray-700 font-semibold mb-6">{course.experience}</p>
+              <p className="text-gray-700 font-semibold mb-2">{course.experience}</p>
+            )}
+
+            {course.duration && (
+              <p className="text-gray-700 font-semibold mb-2">Duration: {course.duration}</p>
             )}
 
             {course.price && (
-              <p className="text-2xl font-bold text-purple-600 mb-6">
-                Price: {course.price}
-              </p>
+              <p className="text-2xl font-bold text-purple-600 mb-6">Price: {course.price}</p>
             )}
 
-            <div>
-              <button
-                onClick={handleEnroll}
-                className="px-6 py-3 bg-[#B877F7] text-white rounded-xl shadow hover:bg-purple-600 transition"
-              >
-                Enroll Now
-              </button>
-            </div>
+            <button
+              onClick={handleEnroll}
+              className="px-6 py-3 bg-[#B877F7] text-white rounded-xl shadow hover:bg-purple-600 transition"
+            >
+              Enroll Now
+            </button>
           </div>
 
+          {/* Image */}
           {course.imageUrl && (
             <div className="relative w-full h-80 order-1 md:order-2">
               <Image
@@ -124,9 +128,7 @@ const CourseDetailPage = () => {
       {/* Testimonials - Purple Card */}
       {course.testimonials && course.testimonials.length > 0 && (
         <section className="py-16 bg-[#B877F7] text-white">
-          <h2 className="text-center text-2xl font-bold mb-8">
-            What Our Students Say
-          </h2>
+          <h2 className="text-center text-2xl font-bold mb-8">What Our Students Say</h2>
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8">
             {course.testimonials.map((t, idx) => (
               <div key={idx} className="bg-white text-gray-900 rounded-xl p-6 shadow">
@@ -153,7 +155,19 @@ const CourseDetailPage = () => {
       {/* FAQs */}
       {course.faqs && course.faqs.length > 0 && (
         <section className="py-16 bg-white">
-          <FAQ faqs={course.faqs} />
+          <div className="max-w-6xl mx-auto px-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+              Frequently Asked Questions
+            </h2>
+            {course.faqs.map((faq, idx) => (
+              <details key={idx} className="border rounded-lg p-4 mb-4">
+                <summary className="font-semibold cursor-pointer">{faq.question}</summary>
+                <div className="mt-2 text-gray-700">
+                  <PortableText value={faq.answer} />
+                </div>
+              </details>
+            ))}
+          </div>
         </section>
       )}
 
