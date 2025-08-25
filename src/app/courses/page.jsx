@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { client } from '../../../sanity/lib/client'
+import { client } from "../../../sanity/lib/client";
 import CourseCard from '@/components/CourseCard'
 import CourseDetailsModal from '@/components/CourseDetailsModal'
 import EnrollModal from '@/components/EnrollModal'

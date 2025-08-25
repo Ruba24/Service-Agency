@@ -11,6 +11,18 @@ import { loadStripe } from '@stripe/stripe-js'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
+// Optional: custom styling for PortableText
+const portableTextComponents = {
+  block: {
+    normal: ({ children }) => <p className="mb-3 text-gray-700">{children}</p>,
+    h2: ({ children }) => <h2 className="text-xl font-bold mt-4 mb-2">{children}</h2>,
+  },
+  list: {
+    bullet: ({ children }) => <ul className="list-disc ml-6">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal ml-6">{children}</ol>,
+  },
+}
+
 const CourseDetailPage = () => {
   const { slug } = useParams()
   const [course, setCourse] = useState(null)
@@ -21,7 +33,7 @@ const CourseDetailPage = () => {
         *[_type=="course" && slug.current==$slug][0]{
           _id,
           title,
-          description,
+          description[],
           price,
           experience,
           duration,
@@ -32,7 +44,7 @@ const CourseDetailPage = () => {
           },
           faqs[] {
             question,
-            answer
+            answer[]   // ✅ make sure answers come back as Portable Text
           },
           "testimonials": *[_type=="testimonial" && references(^._id)]{
             name,
@@ -76,7 +88,7 @@ const CourseDetailPage = () => {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">{course.title}</h1>
 
             <div className="text-lg text-gray-600 mb-6">
-              <PortableText value={course.description} />
+              <PortableText value={course.description} components={portableTextComponents} />
             </div>
 
             {course.experience && (
@@ -163,7 +175,7 @@ const CourseDetailPage = () => {
               <details key={idx} className="border rounded-lg p-4 mb-4">
                 <summary className="font-semibold cursor-pointer">{faq.question}</summary>
                 <div className="mt-2 text-gray-700">
-                  <PortableText value={faq.answer} />
+                  <PortableText value={faq.answer} components={portableTextComponents} />
                 </div>
               </details>
             ))}
