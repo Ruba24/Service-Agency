@@ -1,29 +1,39 @@
-// app/courses/[slug]/page.jsx
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { client } from '@/lib/sanity'
 import FloatingIcons from '@/components/FloatingIcons'
 import { courseData } from '@/data/courseIcons'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 import CourseTestimonials from '@/components/CourseTestimonials'
 import EnrollModal from '@/components/EnrollModal'
 import ToolSlider from '@/components/ToolSlider'
 import FaqsSection from '@/components/FAQ'
+import Image from 'next/image'
 
-export default function CourseDetailsPage() {
+const CourseDetailPage = () => {
   const { slug } = useParams()
-  const router = useRouter()
   const [course, setCourse] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [selectedCourse, setSelectedCourse] = useState(null)
+  const [testimonials, setTestimonials] = useState([])
+  const [faqs, setFaqs] = useState([])
+  const [showFullDesc, setShowFullDesc] = useState(false)
 
   useEffect(() => {
     if (!slug) return
 
-    const query = `*[_type == "course" && slug.current == $slug][0]{
+    const fetchCourseData = async () => {
+      // Fetch course with references to tools, faqs, and testimonials
+      const query = `
+  *[_type == "course" && slug.current == $slug][0]{
+    title,
+    description,
+    "slug": slug.current,
+    "imageUrl": image.asset->url,
+    tools[]->{
       title,
-      "description": pt::text(description),
+      description,
       price,
       isFeatured,
       "slug": slug.current,
@@ -51,25 +61,47 @@ export default function CourseDetailsPage() {
     })
   }, [slug])
 
-  if (loading) return <p className="text-center mt-20">Loading...</p>
-  if (!course) return <p className="text-center mt-20">Course not found</p>
-
-  // ✅ Find matching icons from courseData
-  const courseIcons = courseData.find(c => c.id === course.slug)?.icons || ['📘', '📖']
+  if (!course) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Loading course details...</p>
+      </div>
+    )
+  }
 
   return (
-    <main className="relative min-h-screen bg-white mb-20">
-      {/* Floating Icons Section */}
-      <div className="relative h-[300px] flex items-center justify-center bg-gradient-to-r from-purple-100 to-indigo-100">
-        <FloatingIcons icons={courseIcons} />
-        <h1 className="relative z-10 text-4xl font-bold text-center text-[#1F102E]">
-          {course.title}
-        </h1>
-      </div>
-
+    <>
+      <Navbar />
+      <section className="pt-32 px-6 md:px-12 lg:px-24">
+        {/* Title */}
+        <h1 className="text-4xl font-bold text-gray-900 mb-6">{course.title}</h1>
       {/* Content Section */}
       <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
-        <p className="text-lg text-gray-700">Details: {course.description}</p>
+         {/* Image */}
+        {course.imageUrl && (
+          <div className="relative w-full h-[400px] mb-8 rounded-2xl overflow-hidden shadow-lg">
+            <Image
+              src={course.imageUrl}
+              alt={course.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
+        <p className="text-lg text-gray-700 mb-4">{course.description.length > 300 ? (
+            <p>
+              {showFullDesc ? course.description : `${course.description.substring(0, 300)}...`}
+              <span
+                className="text-purple-600 text-sm cursor-pointer ml-2 font-medium hover:underline"
+                onClick={() => setShowFullDesc(!showFullDesc)}
+              >
+                {showFullDesc ? ' Show Less' : ' Read More'}
+              </span>
+            </p>
+          ) : (
+            course.description
+          )}
+        </p>
         <p className="text-lg text-gray-700">Duration: {course.duration}</p>
         <p className="text-lg text-gray-700">Level: {course.level}</p>
         <div className="flex items-center justify-between mb-8">
@@ -111,6 +143,10 @@ export default function CourseDetailsPage() {
           onClose={() => setSelectedCourse(null)}
         />
       )}
-    </main>
+      </section>
+      <Footer />
+    </>
   )
 }
+
+export default CourseDetailPage

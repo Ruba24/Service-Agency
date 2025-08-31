@@ -262,3 +262,20 @@ body {
   animation: pulse-slow 3s ease-in-out infinite;
 }
 
+@keyframes award-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-award-marquee {
+  display: flex;
+  animation: award-marquee 25s linear infinite;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}

@@ -2,7 +2,9 @@
 
 import ServiceCard from './ServiceCard'
 import { useState, useEffect } from 'react'
-import { sanityClient } from '../../sanity/lib/client'
+// import { sanityClient } from '../../sanity/lib/client'
+import { client } from '../../sanity/lib/client'
+
 import {
   FaCode,
   FaPaintBrush,

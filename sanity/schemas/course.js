@@ -1,42 +1,72 @@
+// schemas/course.js
 export default {
   name: 'course',
-  title: 'Course',
+  title: 'Paid Course',
   type: 'document',
   fields: [
     {
       name: 'title',
       title: 'Course Title',
       type: 'string',
-      validation: Rule => Rule.required(),
-    },
-    {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
       options: { source: 'title', maxLength: 96 },
+      validation: (Rule) => Rule.required(),
     },
-    // {
-    //   name: 'image',
-    //   title: 'Course Image',
-    //   type: 'image',
-    //   options: { hotspot: true },
-    // },
     {
-      name: 'isFeatured',
-      title: 'Featured Course',
-      type: 'boolean',
-      description: 'Show in top 3 on homepage',
+      name: 'image',
+      title: 'Course Image',
+      type: 'image',
+      options: { hotspot: true },
     },
     {
       name: 'price',
-      title: 'Price (USD)',
+      title: 'Price',
       type: 'number',
-      description: 'Price in USD (e.g. 49.99)'
-    }
+      validation: (Rule) => Rule.required().positive(),
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'array',
+      of: [{ type: 'block' }],
+    },
+    {
+      name: 'duration',
+      title: 'Duration',
+      type: 'string',
+    },
+    {
+      name: 'level',
+      title: 'Level',
+      type: 'string',
+      options: {
+        list: ['Beginner', 'Intermediate', 'Advanced'],
+      },
+    },
+    {
+      name: 'tools',
+      title: 'Tools Covered',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'tool' }] }],
+    },
+    {
+      name: 'faqs',
+      title: 'FAQs',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'question', title: 'Question', type: 'string' },
+            { name: 'answer', title: 'Answer', type: 'text' },
+          ],
+        },
+      ],
+    },
   ],
-};
+}

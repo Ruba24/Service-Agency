@@ -1,8 +1,8 @@
-import { createClient } from '@sanity/client'
+import { createClient } from "next-sanity";
 
-export const sanityClient = createClient({
-  projectId: '3x76vcl9', 
-  dataset: 'production',           // Or your dataset name
-  apiVersion: '2023-07-19',        // Use today's date or newer
-  useCdn: true,                    // Use CDN for fast, public data
-})
+export const client = createClient({
+  projectId: "3x76vcl9",  // 👈 must match
+  dataset: "production",         // 👈 must match
+  apiVersion: "2023-01-01",      // safe version
+  useCdn: true,                  // set false if you want fresh data
+});
