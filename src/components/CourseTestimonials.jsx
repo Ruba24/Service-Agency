@@ -5,9 +5,11 @@ import "swiper/css/pagination"
 
 function CourseTestimonials({ testimonials }) {
     return (
-        <section className="mt-20 px-4">
+        <section 
+        // className="mt-20 px-4"
+        className="w-full bg-[#1F102E] py-20 px-4 sm:px-10 text-white z-10 relative">
             <h2 className="text-2xl font-bold mb-8 text-center">
-                What Our Clients Say
+                What Our <span className="text-[#B877F7]">Clients Say</span>
             </h2>
 
             <Swiper
@@ -26,7 +28,7 @@ function CourseTestimonials({ testimonials }) {
             >
                 {testimonials.map((t) => (
                     <SwiperSlide key={t._id}>
-                        <div className="bg-[#1F102E] text-white p-6 rounded-xl shadow-md text-center h-full flex flex-col justify-between">
+                        <div className="bg-[#2B1A40] text-white p-6 mb-4 rounded-xl shadow-md text-center h-full flex flex-col justify-between">
                             {t.clientImage ? (
                                 <img
                                     src={t.clientImage.asset.url}

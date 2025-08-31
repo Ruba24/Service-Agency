@@ -8,6 +8,8 @@ import FloatingIcons from '@/components/FloatingIcons'
 import { courseData } from '@/data/courseIcons'
 import CourseTestimonials from '@/components/CourseTestimonials'
 import EnrollModal from '@/components/EnrollModal'
+import ToolSlider from '@/components/ToolSlider'
+import FaqsSection from '@/components/FAQ'
 
 export default function CourseDetailsPage() {
   const { slug } = useParams()
@@ -21,10 +23,12 @@ export default function CourseDetailsPage() {
 
     const query = `*[_type == "course" && slug.current == $slug][0]{
       title,
-      description,
+      "description": pt::text(description),
       price,
       isFeatured,
       "slug": slug.current,
+      "duration": duration,
+      "level": level,
       "testimonials": *[_type == "testimonial" && references(^._id)]{
             _id,
             name,
@@ -32,7 +36,13 @@ export default function CourseDetailsPage() {
             quote,
             rating,
             clientImage
-          }
+          },
+          "tools": *[_type == "tool" && references(^._id)]{
+        _id,
+        name,
+        icon,
+        color
+      }
     }`
 
     client.fetch(query, { slug }).then((data) => {
@@ -59,69 +69,42 @@ export default function CourseDetailsPage() {
 
       {/* Content Section */}
       <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
-        <p className="text-lg text-gray-700 mb-8">{course.description}</p>
-
+        <p className="text-lg text-gray-700">Details: {course.description}</p>
+        <p className="text-lg text-gray-700">Duration: {course.duration}</p>
+        <p className="text-lg text-gray-700">Level: {course.level}</p>
         <div className="flex items-center justify-between mb-8">
-          <span className="text-2xl font-semibold text-[#1F102E]">
-            ${course.price?.toFixed(2) || 'Free'}
+          <span className="text-lg font-semibold text-purple-600">
+            Cost: ${course.price?.toFixed(2) || 'Free'}
           </span>
         </div>
 
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={() => router.push('/courses?tab=paid')}
-            className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
-          >
-            Back
-          </button>
-          <button
-            onClick={() => setSelectedCourse(course)}
-            className="px-6 py-2 rounded-lg bg-[#B877F7] text-white hover:bg-[#9b5de5] transition">
-            Enroll Now
-          </button>
-        </div>
       </div>
       <div>
         {course.testimonials?.length > 0 && (
           <CourseTestimonials testimonials={course.testimonials} />
-          // <section className="mt-20 flex justify-center">
-          //   <h2 className="text-2xl font-bold mb-8 text-center">
-          //     What Our Clients Say
-          //   </h2>
-          //   <div className='flex justify-center'>
-          //     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          //       {course.testimonials.map((t) => (
-          //         <div
-          //           key={t._id}
-          //           className="bg-[#1F102E] text-white p-6 rounded-xl shadow-md"
-          //         >
-          //           {t.clientImage ? (
-          //             <img
-          //               src={t.clientImage.asset.url}
-          //               alt={t.name}
-          //               className="w-16 h-16 rounded-full mx-auto mb-4"
-          //             />
-          //           ) : (
-          //             <div className="w-16 h-16 rounded-full bg-purple-600 flex items-center justify-center mx-auto mb-4">
-          //               <span className="text-2xl">👤</span>
-          //             </div>
-          //           )}
-          //           <p className="italic mb-4 text-center">“{t.quote}”</p>
-          //           <div className="flex justify-center mb-2">
-          //             {Array.from({ length: t.rating }).map((_, i) => (
-          //               <span key={i}>⭐</span>
-          //             ))}
-          //           </div>
-          //           <p className="text-center font-semibold">{t.name}</p>
-          //           <p className="text-center text-sm text-gray-300">{t.role}</p>
-          //         </div>
-          //       ))}
-          //     </div>
-          //   </div>
-          // </section>
         )}
       </div>
-
+      <div className="mt-10 mb-10">
+        {course.tools?.length > 0 && (
+          <ToolSlider tools={course.tools} title={`Tools for ${course.title}`} />
+        )}
+      </div>
+      <div>
+        <FaqsSection courseId={course._id} description={`Questions about ${course.title}`} />
+      </div>
+      <div className="flex justify-center mt-20 gap-4">
+        <button
+          onClick={() => router.push('/courses?tab=paid')}
+          className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+        >
+          Back
+        </button>
+        <button
+          onClick={() => setSelectedCourse(course)}
+          className="px-6 py-2 rounded-lg bg-[#B877F7] text-white hover:bg-[#9b5de5] transition">
+          Enroll Now
+        </button>
+      </div>
       {selectedCourse && (
         <EnrollModal
           course={selectedCourse}
