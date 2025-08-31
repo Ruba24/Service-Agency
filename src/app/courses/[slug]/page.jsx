@@ -2,14 +2,16 @@
 
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { client } from '../../../../sanity/lib/client'
+import { client } from '@/lib/sanity'
+import FloatingIcons from '@/components/FloatingIcons'
+import { courseData } from '@/data/courseIcons'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import ToolsSlider from '@/components/ToolsSlider'
-import { PortableText } from '@portabletext/react'
-import Testimonials from '@/components/Testimonials'
-import FAQ from '@/components/FAQ'
+import CourseTestimonials from '@/components/CourseTestimonials'
+import EnrollModal from '@/components/EnrollModal'
+import ToolSlider from '@/components/ToolSlider'
+import FaqsSection from '@/components/FAQ'
+import Image from 'next/image'
 
 const CourseDetailPage = () => {
   const { slug } = useParams()
@@ -31,24 +33,32 @@ const CourseDetailPage = () => {
     "imageUrl": image.asset->url,
     tools[]->{
       title,
-      "logo": image.asset->url
-    },
-    faqs[]{
-      question,
-      answer
-    }
-  }
-`
-
-      const data = await client.fetch(query, { slug })
-      if (data) {
-        setCourse(data)
-        setFaqs(data.faqs || [])
-        setTestimonials(data.testimonials || [])
+      description,
+      price,
+      isFeatured,
+      "slug": slug.current,
+      "duration": duration,
+      "level": level,
+      "testimonials": *[_type == "testimonial" && references(^._id)]{
+            _id,
+            name,
+            role,
+            quote,
+            rating,
+            clientImage
+          },
+          "tools": *[_type == "tool" && references(^._id)]{
+        _id,
+        name,
+        icon,
+        color
       }
-    }
+    }`
 
-    fetchCourseData()
+    client.fetch(query, { slug }).then((data) => {
+      setCourse(data)
+      setLoading(false)
+    })
   }, [slug])
 
   if (!course) {
@@ -59,24 +69,15 @@ const CourseDetailPage = () => {
     )
   }
 
-  // Extract plain text from PortableText blocks
-  const getPlainText = (blocks) => {
-    if (!Array.isArray(blocks)) return ''
-    return blocks
-      .map(block => (block.children ? block.children.map(child => child.text).join('') : ''))
-      .join('\n\n')
-  }
-
-  const plainDescription = getPlainText(course.description)
-
   return (
     <>
       <Navbar />
       <section className="pt-32 px-6 md:px-12 lg:px-24">
         {/* Title */}
         <h1 className="text-4xl font-bold text-gray-900 mb-6">{course.title}</h1>
-
-        {/* Image */}
+      {/* Content Section */}
+      <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
+         {/* Image */}
         {course.imageUrl && (
           <div className="relative w-full h-[400px] mb-8 rounded-2xl overflow-hidden shadow-lg">
             <Image
@@ -87,47 +88,61 @@ const CourseDetailPage = () => {
             />
           </div>
         )}
-
-        {/* Description */}
-        <div className="text-lg text-gray-700 mb-8">
-          {plainDescription.length > 300 ? (
+        <p className="text-lg text-gray-700 mb-4">{course.description.length > 300 ? (
             <p>
-              {showFullDesc ? plainDescription : `${plainDescription.substring(0, 300)}...`}
+              {showFullDesc ? course.description : `${course.description.substring(0, 300)}...`}
               <span
-                className="text-purple-600 cursor-pointer ml-2"
+                className="text-purple-600 text-sm cursor-pointer ml-2 font-medium hover:underline"
                 onClick={() => setShowFullDesc(!showFullDesc)}
               >
                 {showFullDesc ? ' Show Less' : ' Read More'}
               </span>
             </p>
           ) : (
-            <PortableText value={course.description} />
+            course.description
           )}
+        </p>
+        <p className="text-lg text-gray-700">Duration: {course.duration}</p>
+        <p className="text-lg text-gray-700">Level: {course.level}</p>
+        <div className="flex items-center justify-between mb-8">
+          <span className="text-lg font-semibold text-purple-600">
+            Cost: ${course.price?.toFixed(2) || 'Free'}
+          </span>
         </div>
 
-        {/* Tools Slider */}
-        {course.tools && course.tools.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">Tools we will use</h2>
-            <ToolsSlider tools={course.tools} />
-          </div>
+      </div>
+      <div>
+        {course.testimonials?.length > 0 && (
+          <CourseTestimonials testimonials={course.testimonials} />
         )}
-
-        {/* FAQs */}
-        {faqs.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">Frequently Asked Questions</h2>
-            <FAQ data={faqs} />
-          </div>
+      </div>
+      <div className="mt-10 mb-10">
+        {course.tools?.length > 0 && (
+          <ToolSlider tools={course.tools} title={`Tools for ${course.title}`} />
         )}
-
-        {/* Testimonials */}
-        {testimonials.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">What our students say</h2>
-            <Testimonials data={testimonials} />
-          </div>
-        )}
+      </div>
+      <div>
+        <FaqsSection courseId={course._id} description={`Questions about ${course.title}`} />
+      </div>
+      <div className="flex justify-center mt-20 gap-4">
+        <button
+          onClick={() => router.push('/courses?tab=paid')}
+          className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+        >
+          Back
+        </button>
+        <button
+          onClick={() => setSelectedCourse(course)}
+          className="px-6 py-2 rounded-lg bg-[#B877F7] text-white hover:bg-[#9b5de5] transition">
+          Enroll Now
+        </button>
+      </div>
+      {selectedCourse && (
+        <EnrollModal
+          course={selectedCourse}
+          onClose={() => setSelectedCourse(null)}
+        />
+      )}
       </section>
       <Footer />
     </>

@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
+import { client } from '@/lib/sanity'
 
 const faqs = [
   {
@@ -26,12 +27,35 @@ const faqs = [
   },
 ]
 
-const FaqsSection = () => {
+const FaqsSection = ({ faqs: courseFaqs, description = "Got questions? We’ve got answers to help you understand how ZELLVERSE works." }) => {
+  const [faqs, setFaqs] = useState([])
   const [activeIndex, setActiveIndex] = useState(null)
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index)
   }
+
+  useEffect(() => {
+    // ✅ If course-specific FAQs are passed → skip fetch
+    if (courseFaqs && courseFaqs.length > 0) {
+      setFaqs(courseFaqs)
+      return
+    }
+
+    const fetchFaqs = async () => {
+      const query = `*[_type == "faq"] | order(_createdAt asc) {
+        _id,
+        question,
+        answer
+      }`
+      const data = await client.fetch(query)
+      setFaqs(data)
+    }
+
+    fetchFaqs()
+  }, [courseFaqs])
+
+  if (!faqs || faqs.length === 0) return null
 
   return (
     <section className="relative w-full bg-[#F9F6FF] py-20 px-4 sm:px-10 overflow-hidden" id="faqs">
@@ -44,7 +68,7 @@ const FaqsSection = () => {
           Frequently <span className="text-[#B877F7]">Asked Questions</span>
         </h2>
         <p className="text-[#6B7280] mt-3 max-w-2xl mx-auto">
-          Got questions? We’ve got answers to help you understand how ZELLVERSE works.
+          {description}
         </p>
       </div>
 

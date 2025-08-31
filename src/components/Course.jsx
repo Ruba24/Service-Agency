@@ -10,7 +10,7 @@ const Courses = () => {
   useEffect(() => {
     client.fetch(
       `*[_type == "course" && isFeatured == true][0...3]{
-        _id, title, description}`
+        _id, title, "description": pt::text(description)}`
     ).then(setCourses)
   }, [])
 

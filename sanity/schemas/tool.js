@@ -20,6 +20,13 @@ export default {
       title: 'Icon Background Color',
       type: 'string',
       description: 'Optional background color (hex code, e.g. #FF9900)',
+    },
+    {
+      name: 'courses',
+      title: 'Related Courses',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'course' }] }],
+      description: 'Select which courses this tool belongs to',
     }
   ]
 }

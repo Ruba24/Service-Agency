@@ -51,10 +51,14 @@ const iconMap = {
 }
 
 
-const ToolSlider = () => {
+const ToolSlider = ({ tools: courseTools, title = "Ecommerce Tools We Use" }) => {
   const [tools, setTools] = useState([])
 
   useEffect(() => {
+    if (courseTools && courseTools.length > 0) {
+      setTools(courseTools)
+      return
+    }
     const fetchTools = async () => {
       const query = `*[_type == "tool"] | order(_createdAt asc) {
         name,
@@ -67,12 +71,13 @@ const ToolSlider = () => {
 
     fetchTools()
   }, [])
-  const repeated = [...tools, ...tools, ...tools]
+  const repeated = [...tools, ...tools, ...tools, ...tools]
+   if (!tools || tools.length === 0) return null
 
   return (
     <section className="bg-white py-10 overflow-hidden">
       <h2 className="text-3xl font-bold text-center text-[#1F102E] mb-8">
-        Ecommerce Tools We Use
+        {title}
       </h2>
 
       <div className="overflow-hidden w-screen relative left-[50%] right-[50%] -mx-[50vw] group">
