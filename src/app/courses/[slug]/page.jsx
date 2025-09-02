@@ -3,6 +3,7 @@
 
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { PortableText } from '@portabletext/react'
 import { client } from '@/lib/sanity'
 import FloatingIcons from '@/components/FloatingIcons'
 import { courseData } from '@/data/courseIcons'
@@ -17,13 +18,14 @@ export default function CourseDetailsPage() {
   const [course, setCourse] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedCourse, setSelectedCourse] = useState(null)
+  const [showFullDesc, setShowFullDesc] = useState(false)
 
   useEffect(() => {
     if (!slug) return
 
     const query = `*[_type == "course" && slug.current == $slug][0]{
       title,
-      "description": pt::text(description),
+      description,
       price,
       isFeatured,
       "slug": slug.current,
@@ -51,6 +53,7 @@ export default function CourseDetailsPage() {
     })
   }, [slug])
 
+
   if (loading) return <p className="text-center mt-20">Loading...</p>
   if (!course) return <p className="text-center mt-20">Course not found</p>
 
@@ -69,7 +72,20 @@ export default function CourseDetailsPage() {
 
       {/* Content Section */}
       <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
-        <p className="text-lg text-gray-700">Details: {course.description}</p>
+        <p className="text-lg text-gray-700 mb-4">{course.description.length > 300 ? (
+          <>
+            {showFullDesc ? course.description : `${course.description.substring(0, 300)}...`}
+            <span
+              className="text-purple-600 text-sm cursor-pointer ml-2 font-medium hover:underline"
+              onClick={() => setShowFullDesc(!showFullDesc)}
+            >
+              {showFullDesc ? ' Show Less' : ' Read More'}
+            </span>
+          </>
+        ) : (
+          course.description
+        )}
+        </p>
         <p className="text-lg text-gray-700">Duration: {course.duration}</p>
         <p className="text-lg text-gray-700">Level: {course.level}</p>
         <div className="flex items-center justify-between mb-8">

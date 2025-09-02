@@ -28,7 +28,7 @@ export default function AllCoursesPage() {
     if (activeTab === 'paid' && paidCourses.length === 0) {
       setLoading(true)
       client
-        .fetch(`*[_type == "course"]{ _id, title, "description": pt::text(description), price, slug }`)
+        .fetch(`*[_type == "course"]{ _id, title, description, price, slug }`)
         .then((data) => {
           setPaidCourses(data)
         })
