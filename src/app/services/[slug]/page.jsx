@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { sanityClient } from '../../../../sanity/lib/client'
+import { client } from '../../../../sanity/lib/client'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
@@ -20,7 +20,7 @@ const ServiceDetailPage = () => {
   useEffect(() => {
     if (!slug) return
     const fetchData = async () => {
-      const data = await sanityClient.fetch(`
+      const data = await client.fetch(`
         *[_type == "service" && slug.current == $slug][0]{
           title,
           desc,
@@ -48,7 +48,7 @@ const ServiceDetailPage = () => {
               Discover how our <span className="text-[#B877F7] font-semibold">{service.title}</span> service can transform your business. Backed by real-world experience and proven results.
             </p>
             <Link
-              href="/booking?type=service"
+              href="/contact"
               className="inline-block bg-[#B877F7] text-white font-medium py-3 px-6 rounded-full shadow hover:bg-[#a665e6] transition"
             >
               Request Service
@@ -91,7 +91,7 @@ const ServiceDetailPage = () => {
           <Testimonials serviceSlug={slug} />
           <div className="mt-10 text-center">
             <Link
-              href="/booking?type=service"
+              href="/contact"
               className="inline-block bg-[#B877F7] text-white font-medium py-3 px-6 rounded-full shadow hover:bg-[#a665e6] transition"
             >
                Request Service

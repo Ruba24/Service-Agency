@@ -3,61 +3,104 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { client } from '@/lib/sanity'
+import { client } from '../../../sanity/lib/client'
 import CourseCard from '@/components/CourseCard'
 import CourseDetailsModal from '@/components/CourseDetailsModal'
 import EnrollModal from '@/components/EnrollModal'
 
 export default function AllCoursesPage() {
   const searchParams = useSearchParams()
-  const initialTab = searchParams.get("tab") || "free"
+  const initialTab = searchParams.get('tab') || 'free'
   const [activeTab, setActiveTab] = useState(initialTab)
+
+  const [freeCourses, setFreeCourses] = useState([])
   const [paidCourses, setPaidCourses] = useState([])
-  const [loading, setLoading] = useState(false)
+
+  const [loadingFree, setLoadingFree] = useState(false)
+  const [loadingPaid, setLoadingPaid] = useState(false)
+
   const [selectedCourse, setSelectedCourse] = useState(null)
   const [viewCourse, setViewCourse] = useState(null)
+
   const router = useRouter()
 
-  const freeCourses = [
-    { id: 1, title: 'Free Course 1', videoId: 'dQw4w9WgXcQ' },
-    { id: 2, title: 'Free Course 2', videoId: '9bZkp7q19f0' },
-    { id: 3, title: 'Free Course 3', videoId: '3JZ_D3ELwOQ' },
-  ]
-
+  // Fetch Free Courses (YouTube)
   useEffect(() => {
-    if (activeTab === 'paid' && paidCourses.length === 0) {
-      setLoading(true)
-      client
-        .fetch(`*[_type == "course"]{ _id, title, description, price, slug }`)
-        .then((data) => {
-          setPaidCourses(data)
-        })
-        .finally(() => setLoading(false))
+    const getFree = async () => {
+      setLoadingFree(true)
+      try {
+        const data = await client.fetch(
+          `*[_type == "freeCourse"] | order(_createdAt desc){
+            _id,
+            title,
+            videoId
+          }`
+        )
+        setFreeCourses(data || [])
+      } catch (e) {
+        console.error('Error fetching free courses:', e)
+        setFreeCourses([])
+      } finally {
+        setLoadingFree(false)
+      }
     }
-  }, [activeTab])
+
+    if (activeTab === 'free' && freeCourses.length === 0) getFree()
+  }, [activeTab, freeCourses.length])
+
+  // Fetch Paid Courses
+  useEffect(() => {
+    const getPaid = async () => {
+      setLoadingPaid(true)
+      try {
+        const data = await client.fetch(
+          `*[_type == "course"] | order(_createdAt desc){
+            _id,
+            title,
+            price,
+            slug,
+            description,
+            // optional image if your card needs it
+            "imageUrl": image.asset->url
+          }`
+        )
+        setPaidCourses(data || [])
+      } catch (e) {
+        console.error('Error fetching paid courses:', e)
+        setPaidCourses([])
+      } finally {
+        setLoadingPaid(false)
+      }
+    }
+
+    if (activeTab === 'paid' && paidCourses.length === 0) getPaid()
+  }, [activeTab, paidCourses.length])
 
   return (
-    <main className="max-w-7xl mx-auto py-20 px-4">
+    <main className="max-w-7xl mx-auto px-4 pt-28 pb-12">
+      {/* Heading (no longer hidden behind the fixed navbar) */}
       <h1 className="text-4xl font-bold mb-10 text-center">All Courses</h1>
 
-      {/* Styled Tabs */}
+      {/* Styled Tabs (exact segmented design) */}
       <div className="flex justify-center mb-8">
         <div className="flex border border-[#B877F7] rounded-full overflow-hidden">
           <button
             onClick={() => setActiveTab('free')}
-            className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'free'
-              ? 'bg-[#B877F7] text-white'
-              : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
-              }`}
+            className={`px-6 py-2 text-sm font-medium transition-all ${
+              activeTab === 'free'
+                ? 'bg-[#B877F7] text-white'
+                : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+            }`}
           >
             Free Courses
           </button>
           <button
             onClick={() => setActiveTab('paid')}
-            className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'paid'
-              ? 'bg-[#B877F7] text-white'
-              : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
-              }`}
+            className={`px-6 py-2 text-sm font-medium transition-all ${
+              activeTab === 'paid'
+                ? 'bg-[#B877F7] text-white'
+                : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+            }`}
           >
             Paid Courses
           </button>
@@ -75,22 +118,30 @@ export default function AllCoursesPage() {
             transition={{ duration: 0.3 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {freeCourses.map((course) => (
-              <div
-                key={course.id}
-                className="bg-white rounded-xl shadow p-4 flex flex-col items-center"
-              >
-                <iframe
-                  className="rounded-xl w-full h-48"
-                  src={`https://www.youtube.com/embed/${course.videoId}`}
-                  title={course.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-                <h3 className="mt-4 font-semibold text-md">{course.title}</h3>
-              </div>
-            ))}
+            {loadingFree ? (
+              <p className="col-span-full text-center">Loading courses...</p>
+            ) : freeCourses.length > 0 ? (
+              freeCourses.map((course) => (
+                <div
+                  key={course._id}
+                  className="bg-white rounded-xl shadow p-4 flex flex-col items-center"
+                >
+                  <iframe
+                    className="rounded-xl w-full h-48"
+                    src={`https://www.youtube.com/embed/${course.videoId}`}
+                    title={course.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <h3 className="mt-4 font-semibold text-md text-center">
+                    {course.title}
+                  </h3>
+                </div>
+              ))
+            ) : (
+              <p className="col-span-full text-center">No free courses found</p>
+            )}
           </motion.div>
         ) : (
           <motion.div
@@ -101,7 +152,7 @@ export default function AllCoursesPage() {
             transition={{ duration: 0.3 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {loading ? (
+            {loadingPaid ? (
               <p className="col-span-full text-center">Loading courses...</p>
             ) : paidCourses.length > 0 ? (
               paidCourses.map((course, index) => (
@@ -109,10 +160,9 @@ export default function AllCoursesPage() {
                   key={course._id}
                   course={course}
                   index={index}
-                  onView={(course) => {
-                    if (course.slug) {
-                      router.push(`/courses/${course.slug.current}`)
-                    }
+                  onView={(c) => {
+                    // keep your original navigation pattern
+                    if (c?.slug?.current) router.push(`/courses/${c.slug.current}`)
                   }}
                 />
               ))
@@ -123,6 +173,7 @@ export default function AllCoursesPage() {
         )}
       </AnimatePresence>
 
+      {/* Your modals (unchanged) */}
       {viewCourse && (
         <CourseDetailsModal
           course={viewCourse}
