@@ -2,7 +2,6 @@
 
 import ServiceCard from './ServiceCard'
 import { useState, useEffect } from 'react'
-// import { sanityClient } from '../../sanity/lib/client'
 import { client } from '../../sanity/lib/client'
 
 import {
@@ -75,7 +74,7 @@ const Services = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await sanityClient.fetch(`
+      const data = await client.fetch(`
           *[_type == "service"]{
             title,
             slug,

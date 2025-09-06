@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { sanityClient } from '../../../../sanity/lib/client'
+import { client } from '../../../../sanity/lib/client'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
@@ -20,7 +20,7 @@ const ServiceDetailPage = () => {
   useEffect(() => {
     if (!slug) return
     const fetchData = async () => {
-      const data = await sanityClient.fetch(`
+      const data = await client.fetch(`
         *[_type == "service" && slug.current == $slug][0]{
           title,
           desc,

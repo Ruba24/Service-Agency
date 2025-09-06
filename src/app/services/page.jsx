@@ -1,7 +1,7 @@
 'use client'
 
 import ServiceCard from '@/components/ServiceCard'
-import { sanityClient } from '../../../sanity/lib/client'
+import { client } from '../../../sanity/lib/client'
 import { useState, useEffect } from 'react'
 import {
   FaCode,
@@ -34,7 +34,7 @@ export default function ServicesPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await sanityClient.fetch(`
+      const data = await client.fetch(`
         *[_type == "service"]{
           title,
           slug,

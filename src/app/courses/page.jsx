@@ -59,8 +59,7 @@ export default function AllCoursesPage() {
             title,
             price,
             slug,
-            // 🔐 Make description plain text so CourseCard never crashes
-            "description": pt::text(description),
+            description,
             // optional image if your card needs it
             "imageUrl": image.asset->url
           }`
