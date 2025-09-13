@@ -133,14 +133,6 @@ const CourseDetailPage = () => {
           <ToolSlider tools={course.tools} title={`Tools for ${course.title}`} />
         )}
       </div>
-      <div>
-        {course.testimonials?.length > 0 && (
-          <CourseTestimonials testimonials={course.testimonials} />
-        )}
-      </div>
-      <div>
-        <FaqsSection courseId={course._id} description={`Questions about ${course.title}`} />
-      </div>
       <StatsSection
         stats={[
           { value: `${course.learnersCount || 0}`, label: 'Learners enrolled' },
@@ -154,10 +146,18 @@ const CourseDetailPage = () => {
             label: 'Average rating'
           }
         ]} />
+      <div>
+        {course.testimonials?.length > 0 && (
+          <CourseTestimonials testimonials={course.testimonials} />
+        )}
+      </div>
+      <div>
+        <FaqsSection courseId={course._id} description={`Questions about ${course.title}`} />
+      </div>
       <div className="flex justify-center my-20 gap-4">
         <button
           onClick={() => setSelectedCourse(course)}
-          className="px-6 py-2 rounded-lg bg-[#B877F7] text-white hover:bg-[#9b5de5] transition">
+          className="px-6 py-2 rounded-lg bg-[#ffa329] text-white hover:bg-[#f58c00] transition">
           Enroll Now
         </button>
       </div>
@@ -167,6 +167,12 @@ const CourseDetailPage = () => {
           onClose={() => setSelectedCourse(null)}
         />
       )}
+      <div>
+  {course.webinars?.length > 0 && (
+    <WebinarSection webinars={course.webinars} />
+  )}
+</div>
+
       {/* </section> */}
       <Footer />
       {/* </> */}
