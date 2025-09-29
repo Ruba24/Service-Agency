@@ -284,3 +284,12 @@ body {
   .tool-card { width: 40vw; } /* adjust smaller screens */
   .tools-track { gap: 12px; }
 }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(184, 119, 247, 0.6); }
+  50% { box-shadow: 0 0 30px rgba(184, 119, 247, 0.9); }
+}
+
+.sticky-glow {
+  animation: pulse-glow 2.5s infinite;
+}

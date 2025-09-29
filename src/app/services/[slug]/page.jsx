@@ -11,6 +11,8 @@ import CaseStudies from '@/components/CaseStudies'
 import BlogCards from '@/components/BlogCards'
 import Testimonials from '@/components/Testimonials'
 import Link from 'next/link'
+import StickyCTA from '@/components/StickyCTA'
+import UniqueCTA from '@/components/StickyCTA'
 
 const ServiceDetailPage = () => {
   const { slug } = useParams()
@@ -99,7 +101,7 @@ const ServiceDetailPage = () => {
           </div>
         </div>
       </section>
-
+      {/* <StickyCTA /> */}
       <Footer />
     </>
   )
