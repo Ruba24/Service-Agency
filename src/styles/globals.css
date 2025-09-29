@@ -57,21 +57,25 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #9e5de0;
 }
-
-/* Award Marquee Animation */
 @keyframes award-marquee {
-  0%   { transform: translateX(0%); }
-  100% { transform: translateX(-33.333%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
-.animate-award-marquee {
-  animation: award-marquee 12s linear infinite;
-}
-.group:hover .animate-award-marquee {
-  animation-play-state: paused;
+.award-marquee {
+  display: flex;
+  width: max-content;
+  animation: award-marquee 8s linear infinite;
 }
 
-/* Gradient Animation */
+
+
+
+/* General Gradient Animation */
 @keyframes gradient {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
@@ -82,24 +86,25 @@ body {
   animation: gradient 6s ease infinite;
 }
 
-/* Slide / Marquee Utility */
+/* General Slide Marquee (faster) */
 @keyframes slide {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 .animate-slide {
-  animation: slide 20s linear infinite;
+  animation: slide 15s linear infinite; /* was 20s */
 }
 .group:hover .animate-slide {
   animation-play-state: paused;
 }
 
+/* Tools Slider (much faster, smooth) */
 @keyframes slide-tools {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 .animate-slide-tools {
-  animation: slide-tools 40s linear infinite;
+  animation: slide-tools 18s linear infinite; /* was 40s */
 }
 .group:hover .animate-slide-tools {
   animation-play-state: paused;
@@ -168,54 +173,30 @@ body {
 .hover\:shadow-glow:hover {
   box-shadow: 0 0 15px #B877F7;
 }
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 .animate-gradient-shift {
   background-size: 200% 200%;
   animation: gradientShift 6s ease infinite;
 }
+
+/* General Marquee */
 @keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
-
 .animate-marquee {
-  animation: marquee 20s linear infinite;
+  animation: marquee 18s linear infinite; /* was 25s/30s */
 }
-
 .group:hover .animate-marquee {
   animation-play-state: paused;
 }
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
-}
 
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-.group:hover .animate-marquee {
-  animation-play-state: paused;
-}
+/* Swiper Pagination */
 .custom-pagination .swiper-pagination-bullet {
   background-color: #B877F7;
   opacity: 0.5;
@@ -224,29 +205,24 @@ body {
   border-radius: 9999px;
   transition: all 0.3s ease;
 }
-
 .custom-pagination .swiper-pagination-bullet-active {
   background-color: #B877F7;
   opacity: 1;
   transform: scale(1.2);
 }
-@keyframes shimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
+/* Shimmer */
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 .animate-shimmer {
   animation: shimmer 4s ease-in-out infinite;
   background-size: 200% 200%;
 }
 
+/* Pulse Slow */
 @keyframes pulse-slow {
   0%, 100% {
     transform: scale(1);
@@ -257,25 +233,54 @@ body {
     opacity: 0.9;
   }
 }
-
 .animate-pulse-slow {
   animation: pulse-slow 3s ease-in-out infinite;
 }
+/* Tools marquee - continuous smooth scroll */
+.tools-marquee { position: relative; width: 100%; overflow: hidden; }
 
-@keyframes award-marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-award-marquee {
+/* track: duplicated content that scrolls left by 50% (one copy length) */
+.tools-track {
   display: flex;
-  animation: award-marquee 25s linear infinite;
+  gap: 24px;
+  align-items: center;
+  /* animation properties — duration set inline from component */
+  animation-name: tools-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running; /* paused on parent hover below */
 }
-@keyframes marquee {
+
+/* slide left by half (works with duplicated items) */
+@keyframes tools-marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-.animate-marquee {
-  animation: marquee 25s linear infinite;
+/* pause on hover of the marquee container */
+.tools-marquee:hover .tools-track,
+.tools-track:focus-within {
+  animation-play-state: paused;
+}
+
+/* tool card style & hover bounce */
+.tool-card {
+  transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;
+  cursor: default;
+}
+.tools-card-inner { /* optional inner wrapper if needed */ }
+
+/* bounce/scale on hover — visible because track is paused on marquee hover */
+.tools-marquee:hover .tool-card:hover {
+  transform: translateY(-8px) scale(1.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* make sure images keep aspect */
+.tool-card .relative { overflow: visible; }
+
+/* responsive tweaks */
+@media (max-width: 640px) {
+  .tool-card { width: 40vw; } /* adjust smaller screens */
+  .tools-track { gap: 12px; }
 }

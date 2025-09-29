@@ -1,43 +1,54 @@
 'use client'
 
 import Image from 'next/image'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay } from 'swiper/modules'
 
-import 'swiper/css'
-import 'swiper/css/autoplay'
-
-const ToolsSlider = ({ tools }) => {
+/**
+ * ToolsSlider (CSS marquee-based)
+ * Props:
+ *  - tools: array of { title, logo }
+ *  - speed: number (seconds for one full loop). Lower = faster. Default 12.
+ */
+export default function ToolsSlider({ tools = [], speed = 12 }) {
   if (!tools || tools.length === 0) return null
 
+  // ensure track is long enough by duplicating the items
+  const MIN_ITEMS = 12
+  const copies = Math.max(2, Math.ceil(MIN_ITEMS / tools.length))
+  const items = Array.from({ length: copies }).flatMap(() => tools)
+
+  const duration = `${Math.max(4, speed)}s` // clamp to >= 4s
+
   return (
-    <Swiper
-      modules={[Autoplay]}
-      spaceBetween={20}
-      slidesPerView={4}
-      autoplay={{ delay: 2000, disableOnInteraction: false }}
-      loop
-      className="my-8"
-    >
-      {tools.map((tool, index) => (
-        <SwiperSlide key={index}>
-          <div className="flex flex-col items-center justify-center bg-white p-4 rounded-xl shadow-md">
+    <div className="tools-marquee w-full overflow-hidden">
+      <div
+        className="tools-track flex items-center"
+        style={{
+          animationDuration: duration,
+        }}
+        aria-hidden="false"
+      >
+        {items.map((tool, i) => (
+          <div
+            key={`${tool.title}-${i}`}
+            className="tool-card flex-shrink-0 w-44 md:w-52 lg:w-56 p-4 bg-white rounded-xl shadow-md flex flex-col items-center justify-center"
+          >
             {tool.logo && (
-              <div className="relative w-16 h-16 mb-2">
+              <div className="relative w-16 h-16 md:w-20 md:h-20 mb-3">
                 <Image
                   src={tool.logo}
                   alt={tool.title}
                   fill
                   className="object-contain"
+                  sizes="80px"
                 />
               </div>
             )}
-            <p className="text-gray-800 font-medium text-center">{tool.title}</p>
+            <p className="text-center text-sm md:text-base font-medium text-gray-800 px-1">
+              {tool.title}
+            </p>
           </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+        ))}
+      </div>
+    </div>
   )
 }
-
-export default ToolsSlider
