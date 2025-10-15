@@ -1,8 +1,32 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { client, urlFor } from '@/lib/sanity'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, EffectFade } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/effect-fade'
 import Link from 'next/link'
 import FloatingIcons from './FloatingIcons'
-// import ServiceSlider from './ServiceLogoSlider' // ✅ Import this
+
+const query = `*[_type == "homepage"][0]{
+  heroGallery[] {
+    asset->{
+      url
+    }
+  }
+}`
 
 const Hero = () => {
+  const [images, setImages] = useState([])
+
+  useEffect(() => {
+    client.fetch(query).then((data) => {
+      if (data?.heroGallery) {
+        setImages(data.heroGallery.map(img => img.asset.url))
+      }
+    })
+  }, [])
   return (
     <>
       <section className="relative bg-[#1F102E] text-white overflow-hidden py-28">
@@ -10,7 +34,7 @@ const Hero = () => {
 
         {/* 🎯 Floating Ecommerce Icons */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          {[
+          {/* {[
             '🛒', '📦', '💳', '🏷️', '🧾', '🚀', '🛍️', '📈', '🧠', '🧑‍💻', '💡', '📲'
           ].map((icon, index) => (
             <div
@@ -23,7 +47,32 @@ const Hero = () => {
             >
               {icon}
             </div>
-          ))}
+          ))} */}
+           <Swiper
+          modules={[Autoplay, EffectFade]}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          effect="fade"
+          speed={1000}
+          loop
+          className="w-full h-full"
+        >
+          {images.length > 0 ? (
+            images.map((url, index) => (
+              <SwiperSlide key={index}>
+                <div
+                  className="w-full h-full bg-cover bg-center"
+                  style={{
+                    backgroundImage: `url(${url})`,
+                  }}
+                >
+                  <div className="absolute inset-0 bg-[#1F102E]/60"></div>
+                </div>
+              </SwiperSlide>
+            ))
+          ) : (
+            <div className="w-full h-full bg-[#1F102E]"></div>
+          )}
+        </Swiper>
         </div>
 
         {/* 🌟 Main Content */}

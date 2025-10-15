@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import intlTelInput from 'intl-tel-input'
+import 'intl-tel-input/build/css/intlTelInput.css'
 
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState('services')
@@ -28,15 +30,13 @@ export default function ContactPage() {
   }
 
   const handleWhatsApp = () => {
-    const message = `Hello, I'm interested in ${
-      activeTab === 'services' ? 'a service' : 'a course'
-    }.
+    const message = `Hello, I'm interested in ${activeTab === 'services' ? 'a service' : 'a course'
+      }.
 
 Name: ${formData.firstName} ${formData.lastName}
 Email: ${formData.email}
 Phone: ${formData.phone}
-${
-      activeTab === 'services'
+${activeTab === 'services'
         ? `Service: ${formData.selectedOption}
 Business: ${formData.business}
 Website: ${formData.website}
@@ -46,7 +46,7 @@ Details: ${formData.details}`
 Mode: ${formData.mode}
 Experience: ${formData.experience}
 Goals: ${formData.goals}`
-    }`
+      }`
 
     window.open(`https://wa.me/923088622067?text=${encodeURIComponent(message)}`, '_blank')
   }
@@ -79,7 +79,7 @@ Goals: ${formData.goals}`
         <Input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
         <Input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Second Name" />
         <Input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" />
-        <Input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" />
+        <PhoneInput value={formData.phone} onChange={handleChange} />
         <Select
           name="selectedOption"
           value={formData.selectedOption}
@@ -148,17 +148,15 @@ Goals: ${formData.goals}`
             <div className="flex justify-center sm:justify-start gap-0 border border-[#B877F7] rounded-full overflow-hidden w-fit mb-4">
               <button
                 onClick={() => setActiveTab('services')}
-                className={`px-6 py-2 text-sm font-medium transition-all ${
-                  activeTab === 'services' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
-                }`}
+                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'services' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                  }`}
               >
                 Services
               </button>
               <button
                 onClick={() => setActiveTab('courses')}
-                className={`px-6 py-2 text-sm font-medium transition-all ${
-                  activeTab === 'courses' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
-                }`}
+                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'courses' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                  }`}
               >
                 Courses
               </button>
@@ -172,6 +170,69 @@ Goals: ${formData.goals}`
       <div className="mt-10 w-full">
         <Footer />
       </div>
+    </div>
+  )
+}
+
+const PhoneInput = ({ value, onChange }) => {
+  const inputRef = useRef(null)
+  const itiRef = useRef(null)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (inputRef.current) {
+      itiRef.current = intlTelInput(inputRef.current, {
+        initialCountry: 'pk', // Default Pakistan 🇵🇰
+        separateDialCode: true,
+        preferredCountries: ['pk', 'us', 'gb', 'ae', 'in'],
+        utilsScript:
+          typeof window !== 'undefined'
+            ? 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js'
+            : undefined,
+      })
+
+      inputRef.current.addEventListener('countrychange', handleCountryChange)
+    }
+
+    return () => {
+      if (inputRef.current) {
+        inputRef.current.removeEventListener('countrychange', handleCountryChange)
+      }
+      itiRef.current?.destroy()
+    }
+  }, [])
+
+  const handleCountryChange = () => {
+    const fullNumber = itiRef.current.getNumber()
+    onChange({ target: { name: 'phone', value: fullNumber } })
+  }
+
+  const handleInput = (e) => {
+    const number = itiRef.current.getNumber()
+    const isValid = itiRef.current.isValidNumber()
+
+    if (!isValid && number.length > 0) {
+      setError('Invalid phone number for selected country')
+    } else {
+      setError('')
+    }
+
+    onChange({ target: { name: 'phone', value: number } })
+  }
+
+  return (
+    <div>
+      <input
+        ref={inputRef}
+        type="tel"
+        name="phone"
+        placeholder="Phone number"
+        onInput={handleInput}
+        className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition"
+      />
+      {error && (
+        <p className="text-red-500 text-sm mt-1">{error}</p>
+      )}
     </div>
   )
 }

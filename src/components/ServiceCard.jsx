@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 const ServiceCard = ({ service, index }) => {
   return (
@@ -14,7 +15,17 @@ const ServiceCard = ({ service, index }) => {
 
       {/* Icon with Glowing Ring */}
       <div className="relative z-10 w-16 h-16 mb-4 flex items-center justify-center bg-white rounded-full shadow-inner border-2 border-[#B877F7] group-hover:shadow-lg transition">
-        <div className="text-2xl text-[#B877F7]">{service.icon}</div>
+        {service.imageUrl ? (
+          <Image
+            src={service.imageUrl}
+            alt={service.title}
+            width={100}
+            height={100}
+            className="rounded-full object-cover w-16 h-16"
+          />
+        ) : (
+          <div className="text-gray-400 text-sm text-center">No Image</div>
+        )}
       </div>
 
       {/* Content */}

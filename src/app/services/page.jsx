@@ -39,6 +39,7 @@ export default function ServicesPage() {
           title,
           slug,
           icon,
+          "imageUrl": image.asset->url,
           desc
         }
       `)

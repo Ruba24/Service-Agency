@@ -87,7 +87,7 @@ const Navbar = () => {
           <div className="relative group">
             <Link
               href="/contact"
-              className="relative z-10 px-5 py-2 rounded-full font-semibold text-white bg-gradient-to-r from-[#B877F7] via-[#A062D5] to-[#B877F7] bg-[length:200%_200%] animate-shimmer transition-all duration-500 ease-in-out shadow-lg hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7]"
+              className={`relative z-10 px-5 py-2 rounded-full ${isServiceDetail && scrolled ? "bg-[#ffa329] hover:bg-[#f58c00]" : "bg-gradient-to-r from-[#B877F7] via-[#A062D5] to-[#B877F7] bg-[length:200%_200%] hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7]"} font-semibold text-white animate-shimmer transition-all duration-500 ease-in-out shadow-lg`}
             >
               {ctaText}
             </Link>

@@ -7,6 +7,31 @@ import { client } from '../../../sanity/lib/client'
 import CourseCard from '@/components/CourseCard'
 import CourseDetailsModal from '@/components/CourseDetailsModal'
 import EnrollModal from '@/components/EnrollModal'
+import {
+  FaCode,
+  FaPaintBrush,
+  FaMobileAlt,
+  FaChartLine,
+  FaStore,
+  FaRocket,
+  FaCogs,
+  FaCloud,
+  FaTools,
+  FaPenFancy
+} from 'react-icons/fa'
+
+const iconMap = {
+  FaCode: <FaCode />,
+  FaPaintBrush: <FaPaintBrush />,
+  FaMobileAlt: <FaMobileAlt />,
+  FaChartLine: <FaChartLine />,
+  FaStore: <FaStore />,
+  FaRocket: <FaRocket />,
+  FaCogs: <FaCogs />,         // 🔧 Custom Software Development
+  FaCloud: <FaCloud />,       // ☁️ Cloud & DevOps
+  FaTools: <FaTools />,       // 🛠 Maintenance & Support
+  FaPenFancy: <FaPenFancy />  // ✍️ Content & Copywriting
+}
 
 export default function AllCoursesPage() {
   const searchParams = useSearchParams()
@@ -59,7 +84,8 @@ export default function AllCoursesPage() {
             title,
             price,
             slug,
-            description,
+            icon,
+             "description": pt::text(description),
             // optional image if your card needs it
             "imageUrl": image.asset->url
           }`
@@ -77,11 +103,15 @@ export default function AllCoursesPage() {
   }, [activeTab, paidCourses.length])
 
   return (
-    <main className="max-w-7xl mx-auto px-4 pt-28 pb-12">
+    <main className="max-w-7xl mx-auto px-4 pt-20 pb-12">
       {/* Heading (no longer hidden behind the fixed navbar) */}
-      <h1 className="text-4xl font-bold mb-10 text-center">All Courses</h1>
 
-      {/* Styled Tabs (exact segmented design) */}
+    <div className="relative z-10 max-w-7xl mx-auto text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1F102E]">
+            All <span className="text-[#B877F7]">Courses</span>
+          </h2>
+        </div>
+
       <div className="flex justify-center mb-8">
         <div className="flex border border-[#B877F7] rounded-full overflow-hidden">
           <button
@@ -158,7 +188,7 @@ export default function AllCoursesPage() {
               paidCourses.map((course, index) => (
                 <CourseCard
                   key={course._id}
-                  course={course}
+                  course={{ ...course, icon: iconMap[course.icon] || <FaCode /> }}
                   index={index}
                   onView={(c) => {
                     // keep your original navigation pattern

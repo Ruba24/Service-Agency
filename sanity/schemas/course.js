@@ -18,6 +18,24 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'icon',
+      title: 'Icon (Emoji)',
+      type: 'string',
+      description: 'Enter the icon name like FaCode, FaPaintBrush, FaMobileAlt etc.',
+    },
+    {
+      name: 'gallery',
+      title: 'Course Gallery',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+        },
+      ],
+      description: 'Upload multiple images for the course carousel',
+    },
+    {
       name: 'image',
       title: 'Course Image',
       type: 'image',
@@ -39,6 +57,13 @@ export default {
       name: 'duration',
       title: 'Duration',
       type: 'string',
+    },
+     {
+      name: 'isFeatured',
+      title: 'Featured Course',
+      type: 'boolean',
+      description: 'Enable this to feature the course on the homepage.',
+      initialValue: false,
     },
     {
       name: 'level',

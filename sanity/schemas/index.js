@@ -10,5 +10,6 @@ import tool from './tool'
 import course from './course'
 import freeCourse from './freeCourses'
 import faq from './faq'
+import homepage from './homepage'
 
-export const schemaTypes = [teamMember, service, caseStudy, blog, testimonial, award, tool, course, faq, freeCourse]
+export const schemaTypes = [teamMember, service, caseStudy, blog, testimonial, award, tool, course, faq, freeCourse, homepage]
