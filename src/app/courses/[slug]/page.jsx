@@ -14,6 +14,8 @@ import ToolSlider from '@/components/ToolSlider'
 import FaqsSection from '@/components/FAQ'
 import Image from 'next/image'
 import StatsSection from '@/components/StatsSection'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination } from 'swiper/modules'
 
 const CourseDetailPage = () => {
   const { slug } = useParams()
@@ -30,12 +32,14 @@ const CourseDetailPage = () => {
       const query = `
   *[_type == "course" && slug.current == $slug][0]{
     title,
-    description,
+    "description": pt::text(description),
     slug,
+    icon,
     price,
     duration,
     level,
     "imageUrl": image.asset->url,
+    "gallery": gallery[].asset->url,
       "testimonials": *[_type == "testimonial" && references(^._id)]{
             _id,
             name,
@@ -71,21 +75,58 @@ const CourseDetailPage = () => {
     <main className="relative min-h-screen bg-white">
       {/* </> */}
       <Navbar />
-      <div className="relative h-[300px] flex items-center justify-center bg-[#1F102E]">
-        <FloatingIcons icons={courseIcons} />
-        <div className="absolute -top-20 -left-20 w-80 h-80 bg-[#663b8f] opacity-20 rounded-full blur-3xl pointer-events-none animate-blob"></div>
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-[#663b8f] opacity-20 rounded-full blur-2xl pointer-events-none animate-blob animation-delay-2000"></div>
-        <div className="absolute top-10 right-1/3 w-64 h-64 bg-[#F3E8FF] opacity-10 rounded-full blur-[90px] pointer-events-none animate-blob animation-delay-4000"></div>
+      {/* Hero Carousel Section */}
+      <div className="relative w-full h-[500px]">
+        {course.gallery && course.gallery.length > 0 ? (
+          <Swiper
+            navigation
+            modules={[Navigation, Pagination]}
+            pagination={{ clickable: true }}
+            loop={true}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            className="w-full h-full"
+          >
+            {course.gallery.map((url, index) => (
+              <SwiperSlide key={index}>
+                <div className="relative w-full h-[500px] md:h-[600px]">
+                  <Image
+                    src={url}
+                    alt={`${course.title} image ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    priority={index === 0}
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <h1 className="text-4xl font-bold text-white text-center drop-shadow-lg">
+                      {course.title}
+                    </h1>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          // Fallback (if no images)
+          <div className="relative h-[300px] flex items-center justify-center bg-[#1F102E]">
+            <FloatingIcons icons={courseIcons} />
+            <div className="absolute -top-20 -left-20 w-80 h-80 bg-[#663b8f] opacity-20 rounded-full blur-3xl pointer-events-none animate-blob"></div>
+            <div className="absolute bottom-0 right-0 w-72 h-72 bg-[#663b8f] opacity-20 rounded-full blur-2xl pointer-events-none animate-blob animation-delay-2000"></div>
+            <div className="absolute top-10 right-1/3 w-64 h-64 bg-[#F3E8FF] opacity-10 rounded-full blur-[90px] pointer-events-none animate-blob animation-delay-4000"></div>
 
-        <h1 className="relative z-10 text-4xl font-bold text-center text-white">
-          {course.title}
-        </h1>
+            <h1 className="relative z-10 text-4xl font-bold text-center text-white">
+              {course.title}
+            </h1>
+          </div>
+        )}
       </div>
       {/* <section className="pt-32 px-6 md:px-12 lg:px-24"> */}
       {/* Content Section */}
       <div className="max-w-4xl mx-auto px-6 pt-8 relative z-10">
         {/* Image */}
-        {course.imageUrl && (
+        {/* {course.imageUrl && (
           <div className="relative w-full h-[400px] mb-8 rounded-2xl overflow-hidden shadow-lg">
             <Image
               src={course.imageUrl}
@@ -94,7 +135,7 @@ const CourseDetailPage = () => {
               className="object-cover"
             />
           </div>
-        )}
+        )} */}
         <p className="text-lg text-gray-700 mb-4">{course.description.length > 300 ? (
           <>
             {showFullDesc ? course.description : `${course.description.substring(0, 300)}...`}
@@ -168,10 +209,10 @@ const CourseDetailPage = () => {
         />
       )}
       <div>
-  {course.webinars?.length > 0 && (
-    <WebinarSection webinars={course.webinars} />
-  )}
-</div>
+        {course.webinars?.length > 0 && (
+          <WebinarSection webinars={course.webinars} />
+        )}
+      </div>
 
       {/* </section> */}
       <Footer />

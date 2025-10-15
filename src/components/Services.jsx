@@ -79,6 +79,7 @@ const Services = () => {
             title,
             slug,
             icon,
+            "imageUrl": image.asset->url,
             desc
           }
         `)

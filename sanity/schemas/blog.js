@@ -49,6 +49,14 @@ export default {
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
     },
+    {
+      name: 'url',
+      title: 'Blog URL',
+      type: 'url',
+      validation: Rule => Rule.uri({
+        scheme: ['http', 'https']
+      })
+    }
   ],
   preview: {
     select: {

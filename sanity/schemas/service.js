@@ -30,8 +30,20 @@ export default {
       type: 'text',
     },
     {
+      name: 'gallery',
+      title: 'Service Gallery',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+        },
+      ],
+      description: 'Upload multiple images for the service',
+    },
+    {
       name: 'image',
-      title: 'Hero Image',
+      title: 'Service Image',
       type: 'image',
       options: {
         hotspot: true,

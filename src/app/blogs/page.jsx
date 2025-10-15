@@ -8,11 +8,13 @@ const AllBlogsPage = () => {
     <>
       <section className="w-full bg-[#F8F3FC] text-[#1F102E] pb-20">
         {/* Header */}
-          <div className="w-full px-4 sm:px-10 pt-32 pb-16 text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Our Blogs</h1>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Explore expert insights, tips, and strategies from Zellverse to level up your digital game.
-            </p>
+        <div className="relative z-10 max-w-7xl mx-auto pt-20 text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1F102E]">
+            Our <span className="text-[#B877F7]">Blogs</span>
+          </h2>
+          <p className="text-[#6B7280] mt-3 max-w-2xl mx-auto">
+            Explore expert insights, tips, and strategies from Zellverse to level up your digital game.
+          </p>
         </div>
 
 

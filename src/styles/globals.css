@@ -1,3 +1,7 @@
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'intl-tel-input/build/css/intlTelInput.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

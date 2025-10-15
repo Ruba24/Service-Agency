@@ -1,5 +1,6 @@
 import Achievements from '@/components/Achievements'
 import AwardsSlider from '@/components/AwardsSlider'
+import BlogsHome from '@/components/BlogsHome'
 import Courses from '@/components/Course'
 import FaqsSection from '@/components/FAQ'
 import Footer from '@/components/Footer'
@@ -21,6 +22,7 @@ export default function Home() {
       {/* <Stripe/> */}
       {/* <Tools /> */}
       <Courses />
+      <BlogsHome />
       <ToolSlider />
       <Achievements />
       <WhyChooseUs />

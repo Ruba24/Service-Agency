@@ -39,6 +39,14 @@ export default {
       title: 'Tags',
       type: 'array',
       of: [{ type: 'string' }],
+    },
+    {
+      name: 'url',
+      title: 'Case Study URL',
+      type: 'url',
+      validation: Rule => Rule.uri({
+        scheme: ['http', 'https']
+      })
     }
   ]
 }

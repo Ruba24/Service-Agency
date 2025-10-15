@@ -8,46 +8,9 @@ const query = `*[_type == "caseStudy"] | order(_createdAt desc) {
   title,
   slug,
   excerpt,
-  mainImage
+  mainImage,
+  url
 }`
-
-// const caseStudies = [
-//   {
-//     id: 1,
-//     title: 'Fashion Brand Growth Strategy',
-//     slug: 'fashion-brand-growth',
-//     excerpt: 'How we helped a clothing brand 3x its revenue through full-funnel marketing.',
-//     image: '/images/casestudies/1.jpg',
-//   },
-//   {
-//     id: 2,
-//     title: 'Shopify Store Conversion Boost',
-//     slug: 'shopify-conversion-boost',
-//     excerpt: 'Improved UX and CRO strategies that raised conversion rates by 47%.',
-//     image: '/images/casestudies/2.jpg',
-//   },
-//   {
-//     id: 3,
-//     title: 'Amazon Sales Acceleration',
-//     slug: 'amazon-sales-growth',
-//     excerpt: 'Optimized listings and PPC strategy leading to 85% sales lift in 3 months.',
-//     image: '/images/casestudies/3.jpg',
-//   },
-//   {
-//     id: 4,
-//     title: 'Local Business Digital Launch',
-//     slug: 'local-business-digital-launch',
-//     excerpt: 'Complete digital transformation of a service-based startup.',
-//     image: '/images/casestudies/4.jpg',
-//   },
-//   {
-//     id: 5,
-//     title: 'Luxury Brand Identity Overhaul',
-//     slug: 'luxury-brand-rebrand',
-//     excerpt: 'Redesigned brand identity for a premium leather goods company.',
-//     image: '/images/casestudies/5.jpg',
-//   },
-// ]
 
 const CaseStudyCards = () => {
   const [caseStudies, setCaseStudies] = useState([])
@@ -74,7 +37,9 @@ const CaseStudyCards = () => {
             <h3 className="text-xl font-bold text-[#1F102E] mb-2">{item.title}</h3>
             <p className="text-gray-600 mb-4">{item.excerpt}</p>
             <Link
-             href={`/case-studies`}
+              href={item.url || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#B877F7] font-medium hover:underline"
             >
               View Case Study →

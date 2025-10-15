@@ -8,7 +8,8 @@ const query = `*[_type == "blog"] | order(_createdAt desc) {
   title,
   slug,
   excerpt,
-  mainImage
+  mainImage,
+  url
 }`
 
 const BlogCards = () => {
@@ -36,7 +37,8 @@ const BlogCards = () => {
             <h3 className="text-xl font-bold text-[#1F102E] mb-2">{blog.title}</h3>
             <p className="text-gray-600 mb-4">{blog.excerpt}</p>
             <Link
-              href={`/blogs`}
+              href={blog.url || '#'}
+              target='_blank'
               className="text-[#B877F7] font-medium hover:underline"
             >
               Read More →
