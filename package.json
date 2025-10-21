@@ -1,0 +1,44 @@
+{
+  "name": "my-next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@portabletext/react": "^4.0.2",
+    "@sanity/client": "^7.8.0",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^3.99.0",
+    "@stripe/react-stripe-js": "^3.9.0",
+    "@stripe/stripe-js": "^7.8.0",
+    "framer-motion": "^12.23.0",
+    "handlebars": "^4.7.8",
+    "intl-tel-input": "^25.11.3",
+    "lucide-react": "^0.525.0",
+    "micro": "^10.0.1",
+    "next": "15.3.5",
+    "next-sanity": "^9.12.3",
+    "nodemailer": "^7.0.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-intersection-observer": "^9.16.0",
+    "sanity": "^3.99.0",
+    "stripe": "^18.5.0",
+    "styled-components": "^6.1.19",
+    "swiper": "^11.2.10"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.5",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17"
+  }
+}

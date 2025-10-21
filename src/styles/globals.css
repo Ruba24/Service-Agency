@@ -1,0 +1,325 @@
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'intl-tel-input/build/css/intlTelInput.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Reset */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* Input Field Styling */
+.input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition;
+}
+
+/* Floating Icons Animation */
+.floating-icon {
+  position: absolute;
+  font-size: 2.5rem;
+  opacity: 0.2;
+  animation: floatRandom 10s linear infinite;
+  pointer-events: none;
+}
+
+.icon-2  { animation-delay: 2s; }
+.icon-3  { animation-delay: 4s; }
+.icon-4  { animation-delay: 6s; }
+.icon-5  { animation-delay: 8s; }
+.icon-6  { animation-delay: 10s; }
+.icon-7  { animation-delay: 12s; }
+.icon-8  { animation-delay: 14s; }
+.icon-9  { animation-delay: 16s; }
+.icon-10 { animation-delay: 18s; }
+.icon-11 { animation-delay: 20s; }
+.icon-12 { animation-delay: 22s; }
+
+@keyframes floatRandom {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.2; }
+  25%  { transform: translate(40px, -30px) scale(1.1); opacity: 0.25; }
+  50%  { transform: translate(-50px, 50px) scale(1.05); opacity: 0.3; }
+  75%  { transform: translate(60px, 70px) scale(1.1); opacity: 0.25; }
+  100% { transform: translate(-70px, -60px) scale(1.2); opacity: 0; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #B877F7;
+  border-radius: 9999px;
+  border: 2px solid #f4f4f4;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9e5de0;
+}
+@keyframes award-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.award-marquee {
+  display: flex;
+  width: calc(200% + 20px);
+  animation: award-marquee 16s linear infinite;
+}
+
+/* Swiper navigation buttons always visible (low opacity) */
+.swiper-button-prev, .swiper-button-next {
+  opacity: 0.28;
+  transition: opacity 0.2s ease;
+}
+.swiper-button-prev:hover, .swiper-button-next:hover {
+  opacity: 1;
+}
+
+
+.award-marquee {
+  display: flex;
+  width: max-content;
+  animation: award-marquee 8s linear infinite;
+}
+
+
+
+
+/* General Gradient Animation */
+@keyframes gradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  animation: gradient 6s ease infinite;
+}
+
+/* General Slide Marquee (faster) */
+@keyframes slide {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-slide {
+  animation: slide 15s linear infinite; /* was 20s */
+}
+.group:hover .animate-slide {
+  animation-play-state: paused;
+}
+
+/* Tools Slider (much faster, smooth) */
+@keyframes slide-tools {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-slide-tools {
+  animation: slide-tools 18s linear infinite; /* was 40s */
+}
+.group:hover .animate-slide-tools {
+  animation-play-state: paused;
+}
+
+/* Ping (Glowing Ring) */
+@keyframes ping-slow {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50%      { transform: scale(1.1); opacity: 0.6; }
+}
+.group-hover\:animate-ping-slow:hover {
+  animation: ping-slow 2.5s ease-in-out infinite;
+}
+
+/* Glow */
+@keyframes glow {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50%      { transform: scale(1.1); opacity: 0.6; }
+}
+.group-hover\:animate-glow:hover {
+  animation: glow 1.8s ease-in-out infinite;
+}
+
+/* Flare Animation */
+@keyframes flare {
+  0%   { left: -100%; opacity: 0; }
+  50%  { left: 50%; opacity: 0.7; }
+  100% { left: 125%; opacity: 0; }
+}
+.group-hover\:animate-flare:hover {
+  animation: flare 1.2s ease-in-out forwards;
+}
+
+/* Spark Animations */
+@keyframes spark1 {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50%      { transform: translateY(-8px) scale(1.2); opacity: 0.4; }
+}
+@keyframes spark2 {
+  0%, 100% { transform: translateX(0) scale(1); opacity: 0.5; }
+  50%      { transform: translateX(-6px) scale(1.3); opacity: 0.2; }
+}
+@keyframes spark3 {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50%      { transform: translateY(6px) scale(1.4); opacity: 0.3; }
+}
+@keyframes spark4 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-4px, 4px) scale(1.1); opacity: 0.3; }
+}
+
+.spark {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+  pointer-events: none;
+}
+
+.animate-spark1 { animation: spark1 2s infinite ease-in-out; }
+.animate-spark2 { animation: spark2 3s infinite ease-in-out; }
+.animate-spark3 { animation: spark3 2.5s infinite ease-in-out; }
+.animate-spark4 { animation: spark4 2.7s infinite ease-in-out; }
+
+/* Smooth hover utility */
+.hover\:shadow-glow:hover {
+  box-shadow: 0 0 15px #B877F7;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* General Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 18s linear infinite; /* was 25s/30s */
+}
+.group:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Swiper Pagination */
+.custom-pagination .swiper-pagination-bullet {
+  background-color: #B877F7;
+  opacity: 0.5;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+.custom-pagination .swiper-pagination-bullet-active {
+  background-color: #B877F7;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Shimmer */
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-shimmer {
+  animation: shimmer 4s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+/* Pulse Slow */
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+/* Tools marquee - continuous smooth scroll */
+.tools-marquee { position: relative; width: 100%; overflow: hidden; }
+
+/* track: duplicated content that scrolls left by 50% (one copy length) */
+.tools-track {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  /* animation properties — duration set inline from component */
+  animation-name: tools-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running; /* paused on parent hover below */
+}
+
+/* slide left by half (works with duplicated items) */
+@keyframes tools-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* pause on hover of the marquee container */
+.tools-marquee:hover .tools-track,
+.tools-track:focus-within {
+  animation-play-state: paused;
+}
+
+/* tool card style & hover bounce */
+.tool-card {
+  transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;
+  cursor: default;
+}
+.tools-card-inner { /* optional inner wrapper if needed */ }
+
+/* bounce/scale on hover — visible because track is paused on marquee hover */
+.tools-marquee:hover .tool-card:hover {
+  transform: translateY(-8px) scale(1.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* make sure images keep aspect */
+.tool-card .relative { overflow: visible; }
+
+/* responsive tweaks */
+@media (max-width: 640px) {
+  .tool-card { width: 40vw; } /* adjust smaller screens */
+  .tools-track { gap: 12px; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(184, 119, 247, 0.6); }
+  50% { box-shadow: 0 0 30px rgba(184, 119, 247, 0.9); }
+}
+
+.sticky-glow {
+  animation: pulse-glow 2.5s infinite;
+}
+/* Swiper nav overrides: always visible low-opacity, brighter on hover */
+.swiper-button-prev, .swiper-button-next {
+  opacity: 0.28;
+  transition: opacity 0.18s ease;
+  z-index: 30; /* above hero content */
+  pointer-events: auto;
+}
+.swiper-button-prev:hover, .swiper-button-next:hover {
+  opacity: 1;
+}
+
+/* optional: slightly move default swiper arrows inward if needed */
+.swiper-button-prev { left: 8px; }
+.swiper-button-next { right: 8px; }
