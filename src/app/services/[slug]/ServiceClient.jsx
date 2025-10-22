@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { client } from '@/lib/sanity'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
 import AwardsSlider from '@/components/AwardsSlider'
@@ -12,14 +12,16 @@ import BlogCards from '@/components/BlogCards'
 import Testimonials from '@/components/Testimonials'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Pagination } from 'swiper/modules'
+import { Autoplay, EffectFade } from 'swiper/modules'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 import 'swiper/css'
-import 'swiper/css/pagination'
+import 'swiper/css/effect-fade'
 
 const ServiceClient = () => {
   const { slug } = useParams()
   const [service, setService] = useState(null)
+  const swiperRef = useRef(null)
 
   useEffect(() => {
     if (!slug) return
@@ -59,121 +61,121 @@ const ServiceClient = () => {
 
   return (
     <>
-      {/* ✅ HERO SLIDER SECTION */}
-      <section className="relative w-full bg-[#F8F3FC] text-[#1F102E] pb-20">
-        <div className="relative h-[600px] w-full overflow-hidden">
-          {hasGallery || service.imageUrl ? (
-            <Swiper
-              modules={[Autoplay, Pagination]}
-              pagination={{ clickable: true }}
-              autoplay={{
-                delay: 3500,
-                disableOnInteraction: false,
-              }}
-              loop
-              spaceBetween={0}
-              slidesPerView={1}
-              className="h-full w-full"
-            >
-              {(hasGallery ? service.gallery : [service.imageUrl]).map(
-                (img, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="relative h-[600px] w-full">
-                      <Image
-                        src={img || '/placeholder.jpg'}
-                        alt={`Slide ${index + 1}`}
-                        fill
-                        className="object-cover brightness-75"
-                        priority={index === 0}
-                      />
-                    </div>
-                  </SwiperSlide>
-                )
-              )}
-            </Swiper>
+      {/* ✅ HERO SECTION */}
+      <div className="relative bg-[#1F102E] text-white overflow-hidden h-[400px] md:h-[500px]">
+        {/* Swiper Background Slider */}
+        <Swiper
+          modules={[Autoplay, EffectFade]}
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          effect="fade"
+          speed={1000}
+          loop
+          className="w-full h-full"
+        >
+          {hasGallery ? (
+            service.gallery.map((url, index) => (
+              <SwiperSlide key={index}>
+                <div
+                  className="w-full h-full bg-cover bg-center"
+                  style={{ backgroundImage: `url(${url})` }}
+                >
+                  <div className="absolute inset-0 bg-[#1F102E]/60"></div>
+                </div>
+              </SwiperSlide>
+            ))
           ) : (
-            <div className="relative h-[600px] w-full bg-gray-200 flex items-center justify-center text-gray-500">
-              No Image Found
-            </div>
+            <SwiperSlide>
+              <div className="w-full h-full bg-[#1F102E]" />
+            </SwiperSlide>
           )}
+        </Swiper>
 
-          {/* ✅ Hero Overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white bg-black/40 px-4">
-            <h1 className="text-4xl md:text-5xl font-extrabold capitalize mb-4">
-              {service.title}
-            </h1>
-            <p className="text-lg max-w-2xl mx-auto">
-              Discover how our{' '}
-              <span className="text-[#B877F7] font-semibold">
-                {service.title}
-              </span>{' '}
-              service can transform your business — backed by proven experience
-              and real results.
-            </p>
-          </div>
+        {/* Slider Arrows */}
+        <div className="absolute inset-0 flex items-center justify-between px-5 z-40 pointer-events-none">
+          <button
+            onClick={() => swiperRef.current?.slidePrev()}
+            className="bg-black/40 hover:bg-[#B877F7] p-3 rounded-full transition pointer-events-auto"
+            aria-label="Previous slide"
+          >
+            <FiChevronLeft className="text-white text-2xl" />
+          </button>
+          <button
+            onClick={() => swiperRef.current?.slideNext()}
+            className="bg-black/40 hover:bg-[#B877F7] p-3 rounded-full transition pointer-events-auto"
+            aria-label="Next slide"
+          >
+            <FiChevronRight className="text-white text-2xl" />
+          </button>
         </div>
 
-        {/* ✅ EXPERIENCE SECTION */}
-        <div className="w-full px-4 sm:px-10 mt-20">
-          <div className="bg-[#F4E9FF] p-8 sm:p-12 rounded-3xl shadow-md">
-            <h2 className="text-2xl font-semibold mb-3 text-[#B877F7]">
-              Our Experience
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              With over{' '}
-              <strong className="text-[#B877F7]">
-                20+ successful {service.title}
-              </strong>{' '}
-              projects completed, our team brings hands-on expertise,
-              cutting-edge tools, and data-backed strategies to every client. <br />
-              {service.desc}
-              
-            </p>
-          </div>
+        {/* Service Title Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center text-center px-4 z-20">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+            {service.title}
+          </h1>
         </div>
+      </div>
 
-        {/* ✅ AWARDS */}
-        <div className="w-full mt-20">
-          <AwardsSlider />
-        </div>
-
-        {/* ✅ RELATED CASE STUDIES */}
-        <div className="w-full px-4 sm:px-10 mt-20">
-          <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
-            Related Case Studies
+      {/* ✅ EXPERIENCE SECTION */}
+      <div className="w-full px-4 sm:px-10 mt-20">
+        <div className="bg-[#F4E9FF] p-8 sm:p-12 rounded-3xl shadow-md">
+          <h2 className="text-2xl font-semibold mb-3 text-[#B877F7]">
+            Our Experience
           </h2>
-          <CaseStudies serviceSlug={slug} />
+          <p className="text-gray-700 leading-relaxed">
+            With over{' '}
+            <strong className="text-[#B877F7]">
+              20+ successful {service.title}
+            </strong>{' '}
+            projects completed, our team brings hands-on expertise,
+            cutting-edge tools, and data-backed strategies to every client. <br />
+            {service.desc}
+          </p>
         </div>
+      </div>
 
-        {/* ✅ RELATED BLOGS */}
-        <div className="w-full px-4 sm:px-10 mt-20">
-          <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
-            Related Blogs
-          </h2>
-          <BlogCards serviceSlug={slug} />
-        </div>
+      {/* ✅ AWARDS */}
+      <div className="w-full mt-20">
+        <AwardsSlider />
+      </div>
 
-        {/* ✅ LOGO SLIDER */}
-        <div className="w-full mt-20">
-          <ServiceSlider />
-        </div>
+      {/* ✅ RELATED CASE STUDIES */}
+      <div className="w-full px-4 sm:px-10 mt-20">
+        <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
+          Related Case Studies
+        </h2>
+        <CaseStudies serviceSlug={slug} />
+      </div>
 
-        {/* ✅ TESTIMONIALS */}
-        <div className="w-full px-4 sm:px-10 mt-20">
-          <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
-            What Our Clients Say
-          </h2>
-          <Testimonials serviceSlug={slug} />
-          <div className="mt-10 text-center">
-            <Link
-              href="/contact"
-              className="inline-block bg-[#ffa329] text-white font-medium py-3 px-6 rounded-full shadow hover:bg-[#f58c00] transition"
-            >
-              Request Service
-            </Link>
-          </div>
+      {/* ✅ RELATED BLOGS */}
+      <div className="w-full px-4 sm:px-10 mt-20">
+        <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
+          Related Blogs
+        </h2>
+        <BlogCards serviceSlug={slug} />
+      </div>
+
+      {/* ✅ LOGO SLIDER */}
+      <div className="w-full mt-20">
+        <ServiceSlider />
+      </div>
+
+      {/* ✅ TESTIMONIALS */}
+      <div className="w-full px-4 sm:px-10 mt-20">
+        <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
+          What Our Clients Say
+        </h2>
+        <Testimonials serviceSlug={slug} />
+        <div className="mt-10 text-center">
+          <Link
+            href="/contact"
+            className="inline-block bg-[#ffa329] text-white font-medium py-3 px-6 rounded-full shadow hover:bg-[#f58c00] transition"
+          >
+            Request Service
+          </Link>
         </div>
-      </section>
+      </div>
 
       <Footer />
     </>

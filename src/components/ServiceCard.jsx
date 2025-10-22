@@ -5,8 +5,9 @@ import Image from 'next/image'
 
 const ServiceCard = ({ service, index }) => {
   return (
-    <motion.div
-      className="relative group bg-white rounded-3xl p-6 overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:border-[#B877F7]"
+    <motion.a
+      href={`/services/${service.slug?.current || ''}`}
+      className="block relative group bg-white rounded-3xl p-6 overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:border-[#B877F7]"
       whileHover={{ scale: 1.03 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
     >
@@ -33,12 +34,14 @@ const ServiceCard = ({ service, index }) => {
         <h3 className="text-xl font-bold text-[#1F102E] mb-2 group-hover:text-[#B877F7] transition-colors duration-300">
           {service.title}
         </h3>
-        <p className="text-[#6B7280] text-sm leading-relaxed">{service.desc}</p>
+        <p className="text-[#6B7280] text-sm leading-relaxed line-clamp-1">
+          {service.desc || 'Description coming soon...'}
+        </p>
       </div>
 
       {/* Bottom Accent Line */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#B877F7] to-[#A062D5] opacity-70 rounded-b-3xl" />
-    </motion.div>
+    </motion.a>
   )
 }
 
