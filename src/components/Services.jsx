@@ -1,9 +1,6 @@
-'use client'
 
-import ServiceCard from './ServiceCard'
-import { useState, useEffect } from 'react'
-import { client } from '../../sanity/lib/client'
 import Link from 'next/link'
+import ServiceCard from './ServiceCard'
 
 import {
   FaCode,
@@ -31,25 +28,7 @@ const iconMap = {
   FaPenFancy: <FaPenFancy />  // ✍️ Content & Copywriting
 }
 
-const Services = () => {
-  const [services, setServices] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await client.fetch(`
-        *[_type == "service"]{
-          title,
-          slug,
-          icon,
-          "imageUrl": image.asset->url,
-          desc
-        }
-      `)
-      setServices(data)
-    }
-
-    fetchData()
-  }, [])
+const Services = ({ services }) => {
 
   return (
     <section

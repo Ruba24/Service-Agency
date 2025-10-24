@@ -1,14 +1,12 @@
-'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function CourseCard({ course, index, onView }) {
+export default function CourseCard({ course }) {
   return (
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    <div
+      // whileHover={{ scale: 1.03 }}
+      // transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       className="relative group bg-white rounded-3xl p-6 overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:border-[#B877F7]"
     >
       {/* ✅ Full clickable link overlay */}
@@ -51,20 +49,16 @@ export default function CourseCard({ course, index, onView }) {
 
       {/* View Button */}
       <div className="relative z-50 mt-3">
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            onView(course)
-          }}
+        <Link
+          href={`/courses/${course.slug?.current || ''}`}
           className="px-5 py-2 bg-[#B877F7] text-white rounded-full font-medium hover:bg-[#A062D5] transition-colors"
         >
           View
-        </button>
+        </Link>
       </div>
 
       {/* Bottom Line */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#B877F7] to-[#A062D5] opacity-70 rounded-b-3xl" />
-    </motion.div>
+    </div>
   )
 }

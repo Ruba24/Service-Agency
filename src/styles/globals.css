@@ -90,6 +90,24 @@ body {
 
 
 
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.award-marquee {
+  width: max-content;
+}
+
+.award-marquee:hover {
+  animation-play-state: paused;
+}
+
+
 
 /* General Gradient Animation */
 @keyframes gradient {

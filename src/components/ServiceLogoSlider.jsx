@@ -1,6 +1,8 @@
-'use client'
 
-const services = [
+
+
+const ServiceSlider = () => {
+  const services = [
   { emoji: '🛍️', title: 'Amazon Wholesale' },
   { emoji: '🛒', title: 'Shopify Setup' },
   { emoji: '📑', title: 'LLC & Tax Filing' },
@@ -10,7 +12,6 @@ const services = [
   { emoji: '🎓', title: 'eCommerce Trainings' },
 ]
 
-const ServiceSlider = () => {
   const repeated = [...services, ...services, ...services]
 
   return (

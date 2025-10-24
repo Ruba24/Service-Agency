@@ -1,4 +1,3 @@
-'use client'
 
 import Link from 'next/link'
 import {
@@ -25,7 +24,7 @@ const Footer = () => {
             <span className="text-[#B877F7]">VERSE</span>
           </h2>
           <p className="text-[#D1D5DB] mt-4 text-sm max-w-md">
-            We’re a performance-driven ecommerce agency empowering brands with tailored design,
+            We&apos;re a performance-driven ecommerce agency empowering brands with tailored design,
             marketing, and scalable technology.
           </p>
         </div>

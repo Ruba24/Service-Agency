@@ -9,7 +9,11 @@ import ServiceLogoSlider from '@/components/ServiceLogoSlider'
 import Services from '@/components/Services'
 import TestimonialsSection from '@/components/Testimonials'
 import ToolSlider from '@/components/ToolSlider'
-import WhyChooseUs from '@/components/WhyChooseUs'
+import WhyChooseUs from '@/components/WhyChooseUs';
+import { sanityFetch } from '../../sanity/lib/live'
+import { homepageQuery } from '../../sanity/lib/queries/queries'
+
+
 export async function generateMetadata() {
   try {
     const data = await client.fetch(`*[_type == "homepage"][0]{ seoTitle, seoDescription, seoKeywords, "seoImage": seoImage.asset->url }`);
@@ -29,24 +33,31 @@ export async function generateMetadata() {
 }
 
 
-export default function Home() {
+export default async function Home() {
+
+  const { data } = await sanityFetch({
+    query : homepageQuery,
+  })
+
   const amount = 49.99;
   return (
     <main>
-      <Hero />
-      <AwardsSlider />
-      <Services />
+      <Hero images={data.heroSlider.heroGallery}/>
+      <AwardsSlider awards={data.awards} />
+      <Services services={data.services} />
       <ServiceLogoSlider />
       {/* <Stripe/> */}
       {/* <Tools /> */}
-      <Courses />
-      <BlogsHome />
-      <ToolSlider />
+      <Courses courses={data.courses} />
+      <BlogsHome blogs={data.blogs}  />
+      <ToolSlider tools={data.tools} />
       <Achievements />
       <WhyChooseUs />
-      <TestimonialsSection />
-      <FaqsSection />
+      <TestimonialsSection testimonials={data.testimonials} />
+      <FaqsSection faqs={data.faqs} />
       <Footer />
     </main>
   )
 }
+
+

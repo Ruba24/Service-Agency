@@ -1,29 +1,13 @@
 'use client'
 
-import Image from 'next/image'
-import { useState, useEffect } from 'react'
 import { FaStar, FaUserCircle } from 'react-icons/fa'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { client, urlFor } from '@/lib/sanity'
 
-const Testimonials = () => {
-  const [testimonials, setTestimonials] = useState([])
-
-  const query = `*[_type == "testimonial"]{
-  name,
-  role,
-  quote,
-  rating,
-  photo
-}`
-
-  useEffect(() => {
-    client.fetch(query).then((data) => setTestimonials(data))
-  }, [])
+const Testimonials = ({ testimonials }) => {
 
   return (
     <section

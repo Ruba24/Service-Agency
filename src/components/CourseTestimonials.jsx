@@ -1,3 +1,5 @@
+"use client";
+
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Pagination, Autoplay } from "swiper/modules"
 import "swiper/css"
@@ -5,9 +7,9 @@ import "swiper/css/pagination"
 
 function CourseTestimonials({ testimonials }) {
     return (
-        <section 
-        // className="mt-20 px-4"
-        className="w-full bg-[#1F102E] py-20 px-4 sm:px-10 text-white z-10 relative">
+        <section
+            // className="mt-20 px-4"
+            className="w-full bg-[#1F102E] py-20 px-4 sm:px-10 text-white z-10 relative">
             <h2 className="text-2xl font-bold mb-8 text-center">
                 What Our <span className="text-[#B877F7]">Clients Say</span>
             </h2>
@@ -22,7 +24,7 @@ function CourseTestimonials({ testimonials }) {
                 }}
                 loop={true}
                 autoplay={{ delay: 4000, disableOnInteraction: false }}
-                pagination={{ clickable: true }} 
+                pagination={{ clickable: true }}
                 centerInsufficientSlides={true}
                 className="max-w-5xl mx-auto"
             >

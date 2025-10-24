@@ -1,4 +1,3 @@
-'use client'
 
 import { FaHandshake, FaClock, FaStar, FaRocket } from 'react-icons/fa'
 

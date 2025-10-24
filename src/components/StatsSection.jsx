@@ -1,6 +1,3 @@
-// components/StatsSection.jsx
-'use client'
-
 const StatsSection = ({ stats }) => {
   return (
     <div className="my-12 max-w-4xl mx-auto">

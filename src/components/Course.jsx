@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { client } from '@/lib/sanity'
+import Link from 'next/link'
 import CourseCard from './CourseCard'
 import {
   FaCode,
@@ -29,15 +28,7 @@ const iconMap = {
   FaPenFancy: <FaPenFancy />  // ✍️ Content & Copywriting
 }
 
-const Courses = () => {
-   const [courses, setCourses] = useState([])
-
-  useEffect(() => {
-    client.fetch(
-      `*[_type == "course" && isFeatured == true][0...3]{
-        _id, title, icon, "imageUrl": image.asset->url, "description": pt::text(description)}`
-    ).then(setCourses)
-  }, [])
+const Courses = ({ courses }) => {
 
   return (
     <section
@@ -65,12 +56,12 @@ const Courses = () => {
       </div>
 
       <div className="relative z-10 text-center mt-12">
-        <a
+        <Link
           href="/courses"
           className="inline-block bg-[#B877F7] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#A062D5] transition-all duration-300"
         >
           See All Courses
-        </a>
+        </Link>
       </div>
     </section>
   )

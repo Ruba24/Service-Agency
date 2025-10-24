@@ -2,7 +2,7 @@ import { client } from "@/lib/sanity"
 import { notFound } from "next/navigation"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import CourseClient from "./ClientCourse"
+import CourseClient from "./_components/ClientCourse"
 
 // ✅ Dynamic SEO Metadata from Sanity
 export async function generateMetadata({ params }) {
@@ -45,19 +45,45 @@ export async function generateMetadata({ params }) {
   }
 }
 
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch(`*[_type == "course" && defined(slug.current)][0...100].slug.current`);
+
+  return slugs
+    ? slugs.filter((slug) => slug !== null).map((slug) => ({ slug }))
+    : [];
+}
+
+
 // ✅ Fetch course data from Sanity
 async function getCourse(slug) {
   return await client.fetch(
     `*[_type == "course" && slug.current == $slug][0]{
       title,
-      description,
+      "description": pt::text(description),
+      slug,
+      icon,
+      price,
       duration,
       level,
-      instructor,
+      "imageUrl": image.asset->url,
       "gallery": gallery[].asset->url,
-      content
+      "testimonials": *[_type == "testimonial" && references(^._id)]{
+        _id,
+        name,
+        role,
+        quote,
+        rating,
+        clientImage
+      },
+      "tools": *[_type == "tool" && references(^._id)]{
+        _id,
+        name,
+        icon,
+        color
+      }
     }`,
-    { slug }
+  { slug }
   )
 }
 
@@ -66,7 +92,10 @@ export default async function CourseDetailPage({ params }) {
   const { slug } = await params // 👈 fix
 
   const course = await getCourse(slug)
-  if (!course) return notFound()
+  if (!course?.slug) return notFound()
+
+  console.log({ course });
+  
 
   return (
     <div className="bg-white text-gray-900">

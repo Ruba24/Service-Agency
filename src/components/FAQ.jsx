@@ -1,60 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
-import { client } from '@/lib/sanity'
 
-const faqs = [
-  {
-    question: 'What services does ZELLVERSE provide?',
-    answer:
-      'We offer end-to-end eCommerce solutions including web/app development, UI/UX design, digital marketing, branding, and more.',
-  },
-  {
-    question: 'Do you offer consultation before project start?',
-    answer:
-      'Yes, we offer a free consultation to understand your brand needs and suggest the best strategy to scale your eCommerce business.',
-  },
-  {
-    question: 'How long does a project usually take?',
-    answer:
-      'Project timelines vary depending on scope, but most projects are delivered within 2–6 weeks.',
-  },
-  {
-    question: 'Can I request a custom service package?',
-    answer:
-      'Absolutely! We tailor our offerings to meet your specific business goals.',
-  },
-]
 
-const FaqsSection = ({ faqs: courseFaqs, description = "Got questions? We’ve got answers to help you understand how ZELLVERSE works." }) => {
-  const [faqs, setFaqs] = useState([])
+const FaqsSection = ({ faqs, description = "Got questions? We’ve got answers to help you understand how ZELLVERSE works." }) => {
   const [activeIndex, setActiveIndex] = useState(null)
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index)
   }
-
-  useEffect(() => {
-    // ✅ If course-specific FAQs are passed → skip fetch
-    if (courseFaqs && courseFaqs.length > 0) {
-      setFaqs(courseFaqs)
-      return
-    }
-
-    const fetchFaqs = async () => {
-      const query = `*[_type == "faq"] | order(_createdAt asc) {
-        _id,
-        question,
-        answer
-      }`
-      const data = await client.fetch(query)
-      setFaqs(data)
-    }
-
-    fetchFaqs()
-  }, [courseFaqs])
-
   if (!faqs || faqs.length === 0) return null
 
   return (

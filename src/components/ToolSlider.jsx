@@ -1,8 +1,4 @@
-'use client'
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import { client, urlFor } from '@/lib/sanity'
 import {
   FaShopify,
   FaGoogle,
@@ -51,26 +47,7 @@ const iconMap = {
 }
 
 
-const ToolSlider = ({ tools: courseTools, title = "Ecommerce Tools We Use" }) => {
-  const [tools, setTools] = useState([])
-
-  useEffect(() => {
-    if (courseTools && courseTools.length > 0) {
-      setTools(courseTools)
-      return
-    }
-    const fetchTools = async () => {
-      const query = `*[_type == "tool"] | order(_createdAt asc) {
-        name,
-        icon,
-        color
-      }`
-      const data = await client.fetch(query)
-      setTools(data)
-    }
-
-    fetchTools()
-  }, [])
+const ToolSlider = ({ tools, title = "Ecommerce Tools We Use" }) => {
   const repeated = [...tools, ...tools, ...tools, ...tools]
    if (!tools || tools.length === 0) return null
 

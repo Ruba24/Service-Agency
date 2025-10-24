@@ -1,15 +1,10 @@
-'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 const ServiceCard = ({ service, index }) => {
   return (
-    <motion.a
-      href={`/services/${service.slug?.current || ''}`}
-      className="block relative group bg-white rounded-3xl p-6 overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:border-[#B877F7]"
-      whileHover={{ scale: 1.03 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    <div
+      className='block relative group bg-white rounded-3xl p-6 overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:border-[#B877F7]'
     >
       {/* Accent Gradient Corner Blob */}
       <div className="absolute -top-5 -right-5 w-24 h-24 bg-gradient-to-br from-[#B877F7] to-[#A062D5] rounded-full opacity-20 blur-2xl z-0" />
@@ -41,7 +36,7 @@ const ServiceCard = ({ service, index }) => {
 
       {/* Bottom Accent Line */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#B877F7] to-[#A062D5] opacity-70 rounded-b-3xl" />
-    </motion.a>
+   </div>
   )
 }
 
