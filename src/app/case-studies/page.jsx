@@ -1,9 +1,20 @@
-'use client'
-
 import Footer from '@/components/Footer'
 import CaseStudyCards from '@/components/CaseStudies'
+import { client } from '@/lib/sanity';
 
-const AllCaseStudiesPage = () => {
+const AllCaseStudiesPage = async () => {
+
+  const query = `*[_type == "caseStudy"] | order(_createdAt desc) {
+    _id,
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    url
+  }`
+
+  const caseStudies = await client.fetch(query);
+
   return (
     <>
       <section className="w-full bg-[#F8F3FC] text-[#1F102E] pb-20">
@@ -20,7 +31,7 @@ const AllCaseStudiesPage = () => {
         {/* Cards */}
         <div className="w-full px-4 sm:px-10 mt-4">
           <h2 className="text-2xl font-semibold text-[#B877F7] mb-6">Success Stories</h2>
-          <CaseStudyCards />
+          <CaseStudyCards caseStudies={caseStudies} />
         </div>
       </section>
 
