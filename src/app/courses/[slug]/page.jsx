@@ -94,9 +94,6 @@ export default async function CourseDetailPage({ params }) {
   const course = await getCourse(slug)
   if (!course?.slug) return notFound()
 
-  console.log({ course });
-  
-
   return (
     <div className="bg-white text-gray-900">
       <Navbar />

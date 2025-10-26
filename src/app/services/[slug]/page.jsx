@@ -33,6 +33,23 @@ export default async function ServiceDetailPage({ params }) {
       url
     },
 
+    "testimonials" : *[_type == "testimonial"]{
+      name,
+      role,
+      quote,
+      rating,
+      photo
+    },
+    "awards": *[_type == "award"]{ name, image },
+
+    "caseStudies" : *[_type == "caseStudy"] | order(_createdAt desc) {
+      _id,
+      title,
+      slug,
+      excerpt,
+      mainImage,
+      url
+    }
   }`)
 
 
@@ -50,5 +67,11 @@ export default async function ServiceDetailPage({ params }) {
   }
 
   // ✅ Keep your previous layout intact
-  return <ServiceClient service={data.service} blogs={data.blogs} />
+  return <ServiceClient
+    service={data.service}
+    blogs={data.blogs}
+    testimonials={data.testimonials}
+    awards={data.awards}
+    caseStudies={data.caseStudies}
+  />
 }
