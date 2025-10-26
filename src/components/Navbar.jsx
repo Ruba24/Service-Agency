@@ -38,26 +38,35 @@ const Navbar = () => {
 <Link
   href="/"
   onClick={closeMenu}
-  className="flex items-center space-x-2"
+  className="flex items-center"
 >
   {/* SVG Logo */}
-  <Image
+  {/* <Image
     src="/logo.svg"
     alt="ZELLVERSE Logo"
     width={65}
     height={48}
     priority
-  />
+  /> */}
 
   {/* Brand Name + Tagline */}
-  <div className="flex flex-col items-center leading-tight">
-    <span className="font-ibm font-bold text-[28px] text-black tracking-tight leading-none">
-      ZELL<span className="text-[#B877F7]">VERSE</span>
-    </span>
-    <span className="font-mont text-[13px] text-gray-900 text-center leading-none mt-[2px]">
-      Idea &amp; to Empire
-    </span>
-  </div>
+   <div className="flex items-center">
+    <img
+      src="/logo.svg"
+      alt="ZELLVERSE Logo"
+      width={65}
+      height={48}
+      className="mr-2"
+    />
+    <div className="flex flex-col items-center leading-tight">
+      <h2 className="font-['IBM_Plex_Mono'] font-bold text-[28px] leading-none text-black">
+        ZELL<span className="text-[#B877F7]">VERSE</span>
+      </h2>
+      <p className="font-['Montserrat'] text-[13px] text-gray-900 text-center mt-[2px]">
+        Idea to Empire
+      </p>
+    </div>
+    </div>
 </Link>
 
         {/* Desktop Nav */}
