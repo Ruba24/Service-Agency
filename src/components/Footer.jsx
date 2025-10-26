@@ -19,10 +19,22 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Logo + About */}
         <div className="col-span-2">
-          <h2 className="text-2xl font-bold">
-            <span className="text-white">ZELL</span>
-            <span className="text-[#B877F7]">VERSE</span>
-          </h2>
+         <div className="flex items-center">
+  <img
+    src="/logo.svg"
+    alt="ZELLVERSE Logo"
+    width={65}
+    height={48}
+    className="mr-2"
+  />
+  <h2
+    className="font-['IBM Plex Mono'] font-bold text-[22px] leading-none"
+  >
+    <span className="text-white">ZELL</span>
+    <span className="text-[#B877F7]">VERSE</span>
+  </h2>
+</div>
+
           <p className="text-[#D1D5DB] mt-4 text-sm max-w-md">
             We&apos;re a performance-driven ecommerce agency empowering brands with tailored design,
             marketing, and scalable technology.
