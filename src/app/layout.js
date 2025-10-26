@@ -5,6 +5,9 @@ import WhatsappButton from '@/components/WhatsApp'
 export const metadata = {
   title: 'Zelverse Agency',
   description: 'Next-gen digital agency for ecommerce and branding.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({ children }) {
