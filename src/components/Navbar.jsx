@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FiMenu, FiX } from 'react-icons/fi'
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -33,11 +34,24 @@ const Navbar = () => {
   return (
     <nav className="w-full fixed top-0 z-50 bg-[#F9F6FF] backdrop-blur-md shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-10 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" onClick={closeMenu} className="text-2xl font-bold whitespace-nowrap">
-          <span className="text-black">ZELL</span>
-          <span className="text-[#B877F7]">VERSE</span>
-        </Link>
+{/* Logo */}
+<Link
+  href="/"
+  onClick={closeMenu}
+  className="flex items-center space-x-2 font-bold text-2xl whitespace-nowrap"
+>
+  <Image
+    src="/logo.svg"
+    alt="ZELLVERSE Logo"
+    width={30}
+    height={30}
+    priority
+    className="w-10 h-10 object-contain"
+  />
+  <span className="text-black">ZELL</span>
+  <span className="text-[#B877F7]">VERSE</span>
+</Link>
+
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-6 font-medium text-[#1F102E]">
