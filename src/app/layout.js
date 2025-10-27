@@ -1,10 +1,18 @@
 import '@/styles/globals.css'
 import Navbar from '@/components/Navbar'
 import WhatsappButton from '@/components/WhatsApp'
+import { IBM_Plex_Mono, Montserrat } from 'next/font/google'
+
+const ibmPlexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: '700' })
+const montserrat = Montserrat({ subsets: ['latin'], weight: '400' })
+
 
 export const metadata = {
   title: 'Zelverse Agency',
   description: 'Next-gen digital agency for ecommerce and branding.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({ children }) {

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FiMenu, FiX } from 'react-icons/fi'
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -33,11 +34,40 @@ const Navbar = () => {
   return (
     <nav className="w-full fixed top-0 z-50 bg-[#F9F6FF] backdrop-blur-md shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-10 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" onClick={closeMenu} className="text-2xl font-bold whitespace-nowrap">
-          <span className="text-black">ZELL</span>
-          <span className="text-[#B877F7]">VERSE</span>
-        </Link>
+{/* Logo */}
+<Link
+  href="/"
+  onClick={closeMenu}
+  className="flex items-center"
+>
+  {/* SVG Logo */}
+  {/* <Image
+    src="/logo.svg"
+    alt="ZELLVERSE Logo"
+    width={65}
+    height={48}
+    priority
+  /> */}
+
+  {/* Brand Name + Tagline */}
+   <div className="flex items-center">
+    <img
+      src="/logo.svg"
+      alt="ZELLVERSE Logo"
+      width={65}
+      height={48}
+      className="mr-2"
+    />
+    <div className="flex flex-col items-center leading-tight">
+      <h2 className="font-['IBM_Plex_Mono'] font-bold text-[28px] leading-none text-black">
+        ZELL<span className="text-[#B877F7]">VERSE</span>
+      </h2>
+      <p className="font-['Montserrat'] text-[13px] text-gray-900 text-center mt-[2px]">
+        Idea to Empire
+      </p>
+    </div>
+    </div>
+</Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-6 font-medium text-[#1F102E]">

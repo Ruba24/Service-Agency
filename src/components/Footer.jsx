@@ -18,16 +18,31 @@ const Footer = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Logo + About */}
-        <div className="col-span-2">
-          <h2 className="text-2xl font-bold">
-            <span className="text-white">ZELL</span>
-            <span className="text-[#B877F7]">VERSE</span>
-          </h2>
-          <p className="text-[#D1D5DB] mt-4 text-sm max-w-md">
-            We&apos;re a performance-driven ecommerce agency empowering brands with tailored design,
-            marketing, and scalable technology.
-          </p>
-        </div>
+<div className="col-span-2">
+  <div className="flex items-center">
+    <img
+      src="/logo-white.svg"
+      alt="ZELLVERSE Logo"
+      width={65}
+      height={48}
+      className="mr-2"
+    />
+    <div className="flex flex-col items-center leading-tight">
+      <h2 className="font-['IBM_Plex_Mono'] font-bold text-[28px] leading-none text-white">
+        ZELL<span className="text-[#B877F7]">VERSE</span>
+      </h2>
+      <p className="font-['Montserrat'] text-[13px] text-gray-300 text-center mt-[2px]">
+        Idea to Empire
+      </p>
+    </div>
+  </div>
+
+  <p className="text-[#D1D5DB] mt-4 text-sm max-w-md">
+    We&apos;re a performance-driven ecommerce agency empowering brands with
+    tailored design, marketing, and scalable technology.
+  </p>
+</div>
+
 
         {/* Quick Links */}
         <div>
