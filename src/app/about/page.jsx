@@ -1,45 +1,29 @@
-'use client'
 
 import Image from 'next/image'
 import Footer from '@/components/Footer'
-import { useEffect, useState } from 'react'
 import { client } from '@/lib/sanity'
 
-const About = () => {
-  const [teamMembers, setTeamMembers] = useState([])
-  const [loading, setLoading] = useState(true)
+const AboutPage = async () => {
 
-  useEffect(() => {
-    const fetchTeam = async () => {
-      try {
-        const data = await client.fetch(`*[_type == "teamMember"] | order(_createdAt asc){
-          name,
-          role,
-          description,
-          "image": image.asset->url
-        }`)
+  const data = await client.fetch(`*[_type == "teamMember"] | order(_createdAt asc){
+    name,
+    role,
+    description,
+    "image": image.asset->url
+  }`);
 
-        const ceoAndCoFounder = data.filter(
-          (member) =>
-            member.role.toLowerCase().includes('ceo') ||
-            member.role.toLowerCase().includes('co-founder')
-        )
-        const others = data.filter(
-          (member) =>
-            !member.role.toLowerCase().includes('ceo') &&
-            !member.role.toLowerCase().includes('co-founder')
-        )
+  const ceoAndCoFounder = data.filter(
+    (member) =>
+      member.role.toLowerCase().includes('ceo') ||
+      member.role.toLowerCase().includes('co-founder')
+  )
+  const others = data.filter(
+    (member) =>
+      !member.role.toLowerCase().includes('ceo') &&
+      !member.role.toLowerCase().includes('co-founder')
+  )
 
-        setTeamMembers([...ceoAndCoFounder, ...others])
-      } catch (error) {
-        console.error('Error fetching team:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchTeam()
-  }, [])
+  const teamMembers = ([...ceoAndCoFounder, ...others])
 
   const cardHeight = 400
   const cardOverlap = 64
@@ -122,36 +106,35 @@ const About = () => {
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10 flex flex-col gap-0">
-          {loading ? (
-            <p className="text-center text-gray-400">Loading team...</p>
-          ) : teamMembers.length === 0 ? (
-            <p className="text-center text-red-500">No team members found.</p>
-          ) : (
-            teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className={`w-full flex ${
-                  index % 2 === 0 ? 'justify-start' : 'justify-end'
-                } ${index !== 0 ? 'mt-6 lg:-mt-16' : 'mt-0'}`}
-              >
-                <div className="w-full max-w-[400px] bg-white border border-gray-200 rounded-3xl shadow-lg p-6 text-center transition-all duration-300 hover:ring-2 hover:ring-[#B877F7] hover:shadow-[0_0_25px_2px_rgba(184,119,247,0.3)] mx-auto lg:mx-0">
-                  <div className="w-32 h-32 rounded-full overflow-hidden mb-5 mx-auto border-2 border-[#B877F7]">
-                    <Image
-                      src={member.image || '/images/team_members/member2.jpg'}
-                      alt={member.name}
-                      width={128}
-                      height={128}
-                      className="object-cover w-full h-full"
-                    />
+          { 
+            teamMembers.length === 0 ? (
+              <p className="text-center text-red-500">No team members found.</p>
+            ) : (
+              teamMembers.map((member, index) => (
+                <div
+                  key={index}
+                  className={`w-full flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'
+                    } ${index !== 0 ? 'mt-6 lg:-mt-16' : 'mt-0'}`}
+                >
+                  <div className="w-full max-w-[400px] bg-white border border-gray-200 rounded-3xl shadow-lg p-6 text-center transition-all duration-300 hover:ring-2 hover:ring-[#B877F7] hover:shadow-[0_0_25px_2px_rgba(184,119,247,0.3)] mx-auto lg:mx-0">
+                    <div className="w-32 h-32 rounded-full overflow-hidden mb-5 mx-auto border-2 border-[#B877F7]">
+                      <Image
+                        src={member.image || '/images/team_members/member2.jpg'}
+                        alt={member.name}
+                        width={128}
+                        height={128}
+                        className="object-cover w-full h-full"
+                      />
 
+                    </div>
+                    <h4 className="text-2xl font-semibold text-[#1F102E]">{member.name}</h4>
+                    <p className="text-base text-[#B877F7] mt-1">{member.role}</p>
+                    <p className="text-sm text-[#4B5563] mt-4 leading-relaxed">{member.description}</p>
                   </div>
-                  <h4 className="text-2xl font-semibold text-[#1F102E]">{member.name}</h4>
-                  <p className="text-base text-[#B877F7] mt-1">{member.role}</p>
-                  <p className="text-sm text-[#4B5563] mt-4 leading-relaxed">{member.description}</p>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )
+          }
         </div>
       </section>
 
@@ -160,4 +143,4 @@ const About = () => {
   )
 }
 
-export default About
+export default AboutPage
