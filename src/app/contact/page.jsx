@@ -1,31 +1,17 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
+import 'react-phone-input-2/lib/style.css'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
-import intlTelInput from 'intl-tel-input'
-import 'intl-tel-input/build/css/intlTelInput.css'
+
+// ✅ Dynamically import phone input (client-only)
+const PhoneInput = dynamic(() => import('react-phone-input-2'), { ssr: false })
 
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState('services')
-
-  // read query params to prefill service and tab
-  useEffect(() => {
-    try {
-      const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
-      if (params) {
-        const svc = params.get('service')
-        const tab = params.get('tab')
-        if (svc) {
-          setFormData(prev => ({ ...prev, service: svc }))
-          setActiveTab('services')
-        }
-        if (tab) setActiveTab(tab)
-      }
-    } catch (e) { /* ignore */ }
-  }, [])
-
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -42,13 +28,21 @@ export default function ContactPage() {
     service: '',
   })
 
+  // ✅ Prefill tab or service via query params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const svc = params.get('service')
+    const tab = params.get('tab')
+    if (svc) setFormData((prev) => ({ ...prev, service: svc }))
+    if (tab) setActiveTab(tab)
+  }, [])
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   const handleWhatsApp = () => {
-    const message = `Hello, I'm interested in ${activeTab === 'services' ? 'a service' : 'a course'
-      }.
+    const message = `Hello, I'm interested in ${activeTab === 'services' ? 'a service' : 'a course'}.
 
 Name: ${formData.firstName} ${formData.lastName}
 Email: ${formData.email}
@@ -76,27 +70,58 @@ Goals: ${formData.goals}`
         ? `Service: ${formData.selectedOption}\nBusiness: ${formData.business}\nWebsite: ${formData.website}\nBudget: ${formData.budget}\nDetails: ${formData.details}`
         : `Course: ${formData.selectedOption}\nMode: ${formData.mode}\nExperience: ${formData.experience}\nGoals: ${formData.goals}`)
 
-    window.location.href = `mailto:rubaqazi2000@gmail.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:rubaqazi2000@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
-  const serviceOptions = ['Web Development', 'UI/UX Design', 'Mobile App Development', 'Digital Marketing', 'Ecommerce Setup', 'Brand Strategy']
-  const courseOptions = ['Shopify Mastery', 'Facebook Ads Bootcamp', 'UI/UX Fundamentals', 'SEO for Beginners']
+  const serviceOptions = [
+    'Web Development',
+    'UI/UX Design',
+    'Mobile App Development',
+    'Digital Marketing',
+    'Ecommerce Setup',
+    'Brand Strategy',
+  ]
+  const courseOptions = [
+    'Shopify Mastery',
+    'Facebook Ads Bootcamp',
+    'UI/UX Fundamentals',
+    'SEO for Beginners',
+  ]
 
   const renderForm = () => (
     <motion.div
       key={activeTab}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 2 }}
-      transition={{ duration: 0.5 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
       className="grid gap-5"
     >
       <div className="grid sm:grid-cols-2 gap-5">
         <Input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
-        <Input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Second Name" />
+        <Input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
         <Input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" />
-        <PhoneInput value={formData.phone} onChange={handleChange} />
+
+        {/* ✅ Country code input field */}
+        <div className="w-full">
+          <PhoneInput
+            country="pk"
+            value={formData.phone}
+            onChange={(phone) => setFormData((prev) => ({ ...prev, phone }))}
+            inputStyle={{
+              width: '100%',
+              height: '48px',
+              borderRadius: '12px',
+              border: '1px solid #d1d5db',
+              paddingLeft: '48px',
+              color: '#1F102E',
+            }}
+            buttonStyle={{
+              borderRadius: '12px 0 0 12px',
+              border: '1px solid #d1d5db',
+            }}
+          />
+        </div>
+
         <Select
           name="selectedOption"
           value={formData.selectedOption}
@@ -165,14 +190,18 @@ Goals: ${formData.goals}`
             <div className="flex justify-center sm:justify-start gap-0 border border-[#B877F7] rounded-full overflow-hidden w-fit mb-4">
               <button
                 onClick={() => setActiveTab('services')}
-                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'services' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'services'
+                  ? 'bg-[#B877F7] text-white'
+                  : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
                   }`}
               >
                 Services
               </button>
               <button
                 onClick={() => setActiveTab('courses')}
-                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'courses' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'courses'
+                  ? 'bg-[#B877F7] text-white'
+                  : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
                   }`}
               >
                 Courses
@@ -184,75 +213,12 @@ Goals: ${formData.goals}`
         </div>
       </section>
 
-      <div className="mt-10 w-full">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   )
 }
 
-const PhoneInput = ({ value, onChange }) => {
-  const inputRef = useRef(null)
-  const itiRef = useRef(null)
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    if (inputRef.current) {
-      itiRef.current = intlTelInput(inputRef.current, {
-        initialCountry: 'pk', // Default Pakistan 🇵🇰
-        separateDialCode: true,
-        preferredCountries: ['pk', 'us', 'gb', 'ae', 'in'],
-        utilsScript:
-          typeof window !== 'undefined'
-            ? 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js'
-            : undefined,
-      })
-
-      inputRef.current.addEventListener('countrychange', handleCountryChange)
-    }
-
-    return () => {
-      if (inputRef.current) {
-        inputRef.current.removeEventListener('countrychange', handleCountryChange)
-      }
-      itiRef.current?.destroy()
-    }
-  }, [])
-
-  const handleCountryChange = () => {
-    const fullNumber = itiRef.current.getNumber()
-    onChange({ target: { name: 'phone', value: fullNumber } })
-  }
-
-  const handleInput = (e) => {
-    const number = itiRef.current.getNumber()
-    const isValid = itiRef.current.isValidNumber()
-
-    if (!isValid && number.length > 0) {
-      setError('Invalid phone number for selected country')
-    } else {
-      setError('')
-    }
-
-    onChange({ target: { name: 'phone', value: number } })
-  }
-
-  return (
-    <div>
-      <input
-        ref={inputRef}
-        type="tel"
-        name="phone"
-        placeholder="Phone number"
-        onInput={handleInput}
-        className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-[#1F102E] focus:outline-none focus:ring-2 focus:ring-[#B877F7] transition"
-      />
-      {error && (
-        <p className="text-red-500 text-sm mt-1">{error}</p>
-      )}
-    </div>
-  )
-}
+/* ✅ Simple reusable form components */
 
 const Input = ({ name, value, onChange, placeholder }) => (
   <input
