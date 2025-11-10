@@ -118,11 +118,11 @@ const Navbar = () => {
           <div className="relative group">
             <Link
               href="/contact"
-              className={`relative z-10 px-5 py-2 rounded-full ${isServiceDetail && scrolled ? "bg-[#ffa329] hover:bg-[#f58c00]" : "bg-gradient-to-r from-[#B877F7] via-[#A062D5] to-[#B877F7] bg-[length:200%_200%] hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7]"} font-semibold text-white animate-shimmer transition-all duration-500 ease-in-out shadow-lg`}
+              className={`relative z-10 px-5 py-2 rounded-full ${isServiceDetail && scrolled ? "bg-[#FFBF00] hover:bg-[#FFBF00]" : "bg-gradient-to-r from-[#FFBF00] via-[#A062D5] to-[#FFBF00] bg-[length:200%_200%] hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7]"} font-semibold text-white animate-shimmer transition-all duration-500 ease-in-out shadow-lg`}
             >
               {ctaText}
             </Link>
-            <span className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-[#B877F7] via-[#D6A4F7] to-[#B877F7] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse-slow"></span>
+            <span className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-[#B877F7] via-[#D6A4F7] to-[#FFDB58] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse-slow"></span>
           </div>
         </div>
 
