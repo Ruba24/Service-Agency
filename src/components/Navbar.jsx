@@ -54,12 +54,13 @@ const Navbar = () => {
     <img
       src="/logo.svg"
       alt="ZELLVERSE Logo"
-      width={65}
-      height={48}
+      width={50}
+      height={40
+      }
       className="mr-2"
     />
     <div className="flex flex-col items-center leading-tight">
-      <h2 className="font-['IBM_Plex_Mono'] font-bold text-[28px] leading-none text-black">
+      <h2 className="font-['IBM_Plex_Mono'] font-bold text-[28px] mt-2 leading-none text-black">
         ZELL<span className="text-[#B877F7]">VERSE</span>
       </h2>
       <p className="font-['Montserrat'] text-[13px] text-gray-900 text-center mt-[2px]">
