@@ -1,5 +1,5 @@
-import ServiceCard from '@/components/ServiceCard'
-import { client } from '../../../sanity/lib/client'
+import ServiceCard from "@/components/ServiceCard";
+import { client } from "../../../sanity/lib/client";
 import {
   FaCode,
   FaPaintBrush,
@@ -10,8 +10,8 @@ import {
   FaCogs,
   FaCloud,
   FaTools,
-  FaPenFancy
-} from 'react-icons/fa'
+  FaPenFancy,
+} from "react-icons/fa";
 
 const iconMap = {
   FaCode: <FaCode />,
@@ -20,11 +20,11 @@ const iconMap = {
   FaChartLine: <FaChartLine />,
   FaStore: <FaStore />,
   FaRocket: <FaRocket />,
-  FaCogs: <FaCogs />,         // 🔧 Custom Software Development
-  FaCloud: <FaCloud />,       // ☁️ Cloud & DevOps
-  FaTools: <FaTools />,       // 🛠 Maintenance & Support
-  FaPenFancy: <FaPenFancy />  // ✍️ Content & Copywriting
-}
+  FaCogs: <FaCogs />, // 🔧 Custom Software Development
+  FaCloud: <FaCloud />, // ☁️ Cloud & DevOps
+  FaTools: <FaTools />, // 🛠 Maintenance & Support
+  FaPenFancy: <FaPenFancy />, // ✍️ Content & Copywriting
+};
 
 export default async function ServicesPage() {
   const services = await client.fetch(`
@@ -35,7 +35,7 @@ export default async function ServicesPage() {
       "imageUrl": image.asset->url,
       desc
     }
-  `)
+  `);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-20">
@@ -45,11 +45,20 @@ export default async function ServicesPage() {
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
         {services.map((service, index) => (
-          <a key={service.slug.current} href={`/services/${service.slug.current}`}>
-            <ServiceCard service={{ ...service, icon: iconMap[service.icon] || <FaCode /> }} index={index} />
+          <a
+            key={service.slug.current}
+            href={`/services/${service.slug.current}`}
+          >
+            <ServiceCard
+              service={{
+                ...service,
+                icon: iconMap[service.icon] || <FaCode />,
+              }}
+              index={index}
+            />
           </a>
         ))}
       </div>
     </section>
-  )
+  );
 }

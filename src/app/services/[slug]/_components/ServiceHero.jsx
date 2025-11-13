@@ -1,16 +1,16 @@
 "use client";
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, EffectFade } from 'swiper/modules'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { useRef } from 'react';
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade } from "swiper/modules";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useRef } from "react";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import RequestAService from "@/components/RequestAService";
 
 const ServiceHero = ({ service }) => {
-  const swiperRef = useRef()
-  const hasGallery = service.gallery && service.gallery.length > 0
+  const swiperRef = useRef();
+  const hasGallery = service.gallery && service.gallery.length > 0;
 
   return (
     <div className="relative bg-[#1F102E] text-white overflow-hidden h-[400px] md:h-[500px]">
@@ -65,9 +65,12 @@ const ServiceHero = ({ service }) => {
         <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
           {service.title}
         </h1>
+        <div className="absolute bottom-10 w-full flex justify-center">
+        <RequestAService />
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ServiceHero
+export default ServiceHero;
