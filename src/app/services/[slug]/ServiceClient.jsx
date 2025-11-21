@@ -71,14 +71,17 @@ const ServiceClient = ({
 
       {/* ✅ LOGO SLIDER */}
       <div className="w-full mt-20">
+        <div className="mb-10">
+        {service.tools?.length > 0 && (
+          <ServiceSlider tools={service.tools} title={`Tools for ${service.title}`} />
+        )}
+      </div>
         <ServiceSlider />
       </div>
 
       {/* ✅ TESTIMONIALS */}
       <div className="w-full px-4 sm:px-10 my-20">
-        <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
-          What Our Clients Say
-        </h2>
+        
         <Testimonials testimonials={testimonials} />
       </div>
 

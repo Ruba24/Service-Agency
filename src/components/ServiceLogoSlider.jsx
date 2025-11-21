@@ -16,10 +16,9 @@ const ServiceSlider = () => {
 
   return (
     <section className="bg-white py-10 overflow-hidden">
-      {/* <h2 className="text-3xl font-bold text-center text-[#1F102E] mb-8">
-        Our Services
-      </h2> */}
-
+      <h2 className="text-3xl font-bold text-center text-[#1F102E] mb-8">
+        Our <span className="text-[#B877F7]">Services</span>
+      </h2>
       <div className="overflow-hidden w-screen relative left-[50%] right-[50%] -mx-[50vw] group">
         <div className="animate-marquee whitespace-nowrap flex">
           {repeated.map((service, index) => (

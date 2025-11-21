@@ -342,3 +342,19 @@ body {
 /* optional: slightly move default swiper arrows inward if needed */
 .swiper-button-prev { left: 8px; }
 .swiper-button-next { right: 8px; }
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.animate-shimmer {
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s ease-in-out infinite;
+}
