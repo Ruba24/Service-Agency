@@ -5,6 +5,9 @@ import nodemailer from 'nodemailer'
 import fs from 'fs'
 import path from 'path'
 import Handlebars from 'handlebars'
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 
 export const config = {
   api: {
