@@ -3,14 +3,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const BlogCards = ({ blogs }) => {
-  
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-
+    <div
+      className="
+        flex gap-6 overflow-x-auto pb-4
+        sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:overflow-visible
+      "
+    >
       {blogs.map((blog, index) => (
         <div
           key={index}
-          className="bg-white rounded-3xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.05)] hover:shadow-[0_0_25px_rgba(184,119,247,0.3)] transition-all duration-300"
+          className="
+            bg-white rounded-3xl min-w-[280px] sm:min-w-0
+            overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.05)]
+            hover:shadow-[0_0_25px_rgba(184,119,247,0.3)]
+            transition-all duration-300
+          "
         >
           <Image
             src={blog?.mainImage ? urlFor(blog.mainImage).url() : '/images/fallback.jpg'}
@@ -19,12 +27,14 @@ const BlogCards = ({ blogs }) => {
             height={300}
             className="w-full h-56 object-cover"
           />
+
           <div className="p-5">
             <h3 className="text-xl font-bold text-[#1F102E] mb-2">{blog.title}</h3>
             <p className="text-gray-600 mb-4">{blog.excerpt}</p>
             <Link
-              href={blog.url || '#'}
-              target='_blank'
+              // href={blog.url || '#'}
+              // target="_blank"
+              href={`/blogs/${blog.slug?.current}`}
               className="text-[#B877F7] font-medium hover:underline"
             >
               Read More →

@@ -177,15 +177,42 @@ Goals: ${formData.goals}`
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#B877F7] opacity-10 rounded-full blur-3xl z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 items-center justify-between">
-          <div className="flex-1 text-center lg:text-left flex flex-col justify-center">
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1F102E] leading-tight">
+          
+          {/* ✅ Left Side Animated Content */}
+          <motion.div
+            className="flex-1 text-center lg:text-left flex flex-col justify-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: {},
+              visible: { 
+                transition: { staggerChildren: 0.25 } 
+              }
+            }}
+          >
+            <motion.h2
+              variants={{
+                hidden: { opacity: 0, x: -50, filter: 'blur(8px)' },
+                visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut' } }
+              }}
+              className="text-4xl sm:text-5xl font-extrabold text-[#1F102E] leading-tight"
+            >
               Book a <span className="text-[#B877F7]">Free Consultation</span>
-            </h2>
-            <p className="text-[#6B7280] mt-4 text-lg">
-              Connect with our experts to elevate your brand with design, tech, and strategy.
-            </p>
-          </div>
+            </motion.h2>
 
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, x: -30, filter: 'blur(8px)' },
+                visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut', delay: 0.2 } }
+              }}
+              className="text-[#6B7280] mt-4 text-lg"
+            >
+              Connect with our experts to elevate your brand with design, tech, and strategy.
+            </motion.p>
+          </motion.div>
+
+          {/* Right Side Form (Static) */}
           <div className="flex-1 bg-white rounded-3xl shadow-xl border border-gray-100 p-8 w-full max-w-xl">
             <div className="flex justify-center sm:justify-start gap-0 border border-[#B877F7] rounded-full overflow-hidden w-fit mb-4">
               <button
@@ -219,7 +246,6 @@ Goals: ${formData.goals}`
 }
 
 /* ✅ Simple reusable form components */
-
 const Input = ({ name, value, onChange, placeholder }) => (
   <input
     name={name}
