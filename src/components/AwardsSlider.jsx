@@ -32,9 +32,11 @@ const AwardsSlider = ({ awards }) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-sm font-medium mt-2 text-center leading-tight">
-                {award.name}
-              </p>
+<p className="text-[12px] font-medium mt-1 text-center leading-tight line-clamp-2">
+  {award.name}
+</p>
+
+
             </div>
           ))}
         </div>
