@@ -32,11 +32,17 @@ export default function RequestAServiceButton() {
       </Link>
 
       {/* Glow */}
-      <span
-        className="absolute -inset-[4px] rounded-full
-        bg-gradient-to-r from-[#B877F7] via-[#D6A4F7] to-[#FFDB58]
-        blur-lg opacity-70"
-      />
+<span
+  className="
+    absolute inset-0
+    rounded-full
+    bg-gradient-to-r from-[#B877F7] via-[#D6A4F7] to-[#FFDB58]
+    blur-xl
+    opacity-70
+    scale-110
+  "
+/>
+
     </motion.div>
   )
 }
