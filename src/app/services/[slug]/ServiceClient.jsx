@@ -72,6 +72,9 @@ const ServiceClient = ({
         
         <Testimonials testimonials={testimonials} />
       </div>
+      <div className="w-full flex justify-center mt-10">
+        <RequestAService />
+      </div>
 
       {/* ✅ RELATED BLOGS */}
       {blogs?.length && (
@@ -82,9 +85,6 @@ const ServiceClient = ({
           <BlogCards blogs={blogs} />
         </div>
       )}
-      <div className="w-full flex justify-center mt-10">
-        <RequestAService />
-      </div>
       <Footer />
     </>
   );
