@@ -55,19 +55,7 @@ const ServiceClient = ({
         <RequestAService />
       </div>
 
-      {/* ✅ RELATED BLOGS */}
-      {blogs?.length && (
-        <div className="w-full px-4 sm:px-10 mt-20">
-          <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
-            Related Blogs
-          </h2>
-          <BlogCards blogs={blogs} />
-        </div>
-      )}
 
-      <div className="w-full flex justify-center mt-10">
-        <RequestAService />
-      </div>
 
       {/* ✅ LOGO SLIDER */}
       <div className="w-full mt-20">
@@ -85,6 +73,18 @@ const ServiceClient = ({
         <Testimonials testimonials={testimonials} />
       </div>
 
+      {/* ✅ RELATED BLOGS */}
+      {blogs?.length && (
+        <div className="w-full px-4 sm:px-10 mt-20">
+          <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
+            Related Blogs
+          </h2>
+          <BlogCards blogs={blogs} />
+        </div>
+      )}
+      <div className="w-full flex justify-center mt-10">
+        <RequestAService />
+      </div>
       <Footer />
     </>
   );

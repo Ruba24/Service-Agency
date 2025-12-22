@@ -69,9 +69,9 @@ export default async function ServiceDetailPage({ params }) {
   // ✅ Keep your previous layout intact
   return <ServiceClient
     service={data.service}
-    blogs={data.blogs}
     testimonials={data.testimonials}
     awards={data.awards}
     caseStudies={data.caseStudies}
+    blogs={data.blogs}
   />
 }
