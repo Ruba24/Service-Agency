@@ -21,7 +21,7 @@ const AwardsSlider = ({ awards }) => {
           {repeatedAwards.map((award, index) => (
             <div
               key={index}
-              className="flex-shrink-0 flex flex-col items-center text-[#1F102E] w-[140px] px-2"
+              className="flex-shrink-0 flex flex-col items-center text-[#1F102E] w-[80px] px-2"
 
             >
               <div className="rounded-full overflow-hidden shadow-md">
