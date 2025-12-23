@@ -41,7 +41,7 @@ const ServiceCard = ({ service, index }) => {
   {/* Top-right overlay CTA */}
 <div className="absolute right-4 z-20" style={{ top: '38px' }}>
   <MotionConfig reducedMotion="always">
-    <div className="scale-[0.4] origin-top-right">
+    <div className="scale-[0.7] origin-top-right">
       <RequestAServiceButton />
     </div>
   </MotionConfig>
