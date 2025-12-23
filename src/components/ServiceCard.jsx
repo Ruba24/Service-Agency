@@ -1,5 +1,8 @@
 
 import Image from 'next/image'
+import RequestAServiceButton from './RequestAService'
+import { MotionConfig } from "framer-motion"
+
 
 const ServiceCard = ({ service, index }) => {
   return (
@@ -35,7 +38,15 @@ const ServiceCard = ({ service, index }) => {
       </div>
 
       {/* Bottom Accent Line */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#B877F7] to-[#A062D5] opacity-70 rounded-b-3xl" />
+  {/* Top-right overlay CTA */}
+<div className="absolute right-4 z-20" style={{ top: '38px' }}>
+  <MotionConfig reducedMotion="always">
+    <div className="scale-[0.2] origin-top-right">
+      <RequestAServiceButton />
+    </div>
+  </MotionConfig>
+</div>
+
    </div>
   )
 }

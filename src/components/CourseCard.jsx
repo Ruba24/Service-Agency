@@ -53,7 +53,7 @@ export default function CourseCard({ course }) {
           href={`/courses/${course.slug?.current || ''}`}
           className="px-5 py-2 bg-[#B877F7] text-white rounded-full font-medium hover:bg-[#A062D5] transition-colors"
         >
-          View
+          Start Learning
         </Link>
       </div>
 

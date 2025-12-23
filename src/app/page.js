@@ -50,10 +50,10 @@ export default async function Home() {
       <AwardsSlider awards={data.awards} />
       <Services services={data.services} />
       <ServiceLogoSlider />
+      <ToolSlider tools={data.tools} />
       {/* <Stripe/> */}
       {/* <Tools /> */}
       <Courses courses={data.courses} />
-      <ToolSlider tools={data.tools} />
       <Achievements />
       <WhyChooseUs />
       <TestimonialsSection testimonials={data.testimonials} />
