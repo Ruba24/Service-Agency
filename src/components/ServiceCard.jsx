@@ -7,7 +7,8 @@ const ServiceCard = ({ service }) => {
   const router = useRouter()
   console.log('SERVICE SLUG:', service.slug)
 
-  const serviceUrl = `/services/${service.slug}`
+  const serviceUrl = `/services/${service.slug.current}`
+
 
   return (
     <div
