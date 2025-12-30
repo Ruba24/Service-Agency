@@ -12,7 +12,8 @@
     "@next/bundle-analyzer": "^16.0.0",
     "@portabletext/react": "^4.0.2",
     "@sanity/client": "^7.8.0",
-    "@sanity/image-url": "^1.1.0",
+    "@sanity/icons": "^3.7.4",
+    "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^3.99.0",
     "@stripe/react-stripe-js": "^3.9.0",
     "@stripe/stripe-js": "^7.8.0",
@@ -44,6 +45,7 @@
     "localtunnel": "^2.0.2",
     "ngrok": "^5.0.0-beta.2",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "typescript": "5.9.3"
   }
 }
