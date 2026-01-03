@@ -10,8 +10,8 @@ import Services from "@/components/Services";
 import TestimonialsSection from "@/components/Testimonials";
 import ToolSlider from "@/components/ToolSlider";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import { sanityFetch } from "../../sanity/lib/live";
-import { homepageQuery } from "../../sanity/lib/queries/queries";
+import { sanityFetch } from "../../sanity/lib/live"
+import { homepageQuery } from "../../sanity/lib/queries/queries"
 
 export async function generateMetadata() {
   try {

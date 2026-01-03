@@ -1,2 +1,0 @@
-SANITY_PROJECT_ID="3x76vcl9"
-SANITY_DATASET=production
