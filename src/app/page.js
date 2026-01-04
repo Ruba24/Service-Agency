@@ -10,8 +10,9 @@ import Services from "@/components/Services";
 import TestimonialsSection from "@/components/Testimonials";
 import ToolSlider from "@/components/ToolSlider";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import { sanityFetch } from "../../sanity/lib/live"
-import { homepageQuery } from "../../sanity/lib/queries/queries"
+import { sanityFetch } from "../../sanity/lib/live";
+import { homepageQuery } from "../../sanity/lib/queries/queries";
+import { client } from "../../sanity/lib/client";
 
 export async function generateMetadata() {
   try {
@@ -46,19 +47,19 @@ export default async function Home() {
   const amount = 49.99;
   return (
     <main>
-      <Hero images={data.heroSlider.heroGallery} />
-      <AwardsSlider awards={data.awards} />
-      <Services services={data.services} />
+      <Hero images={data?.heroSlider?.heroGallery} />
+      <AwardsSlider awards={data?.awards} />
+      <Services services={data?.services} />
       <ServiceLogoSlider />
-      <ToolSlider tools={data.tools} />
+      <ToolSlider tools={data?.tools} />
       {/* <Stripe/> */}
       {/* <Tools /> */}
-      <Courses courses={data.courses} />
+      <Courses courses={data?.courses} />
       <Achievements />
       <WhyChooseUs />
       <TestimonialsSection testimonials={data.testimonials} />
-      <FaqsSection faqs={data.faqs} />
-      <BlogsHome blogs={data.blogs} />
+      <FaqsSection faqs={data?.faqs} />
+      <BlogsHome blogs={data?.blogs} />
       <Footer />
     </main>
   );

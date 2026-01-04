@@ -1,30 +1,18 @@
-// // Querying with "sanityFetch" will keep content automatically updated
-// // Before using it, import and render "<SanityLive />" in your layout, see
-// // https://github.com/sanity-io/next-sanity#live-content-api for more information.
-// import { defineLive } from "next-sanity/live";
-// import { client } from './client'
+import { client } from "./client";
 
-// export const { sanityFetch, SanityLive } = defineLive({
-//   client,
-// });
-// sanity/lib/live.js
-import { createClient } from 'next-sanity'
-
-// Sanity client configuration
-export const sanityClient = createClient({
-  projectId: '3x76vcl9', // replace with your actual Sanity project ID
-  dataset: 'production',  // your dataset
-  apiVersion: '2026-01-01',
-  useCdn: false,           // set to true for faster response in production
-})
-
-// Helper to fetch data
-export const sanityFetch = async (query, params = {}) => {
+/**
+ * Helper function to fetch data from Sanity
+ * @param {Object} options - Object containing query and optional params
+ * @param {string} options.query - The Sanity query string
+ * @param {Object} options.params - Optional query parameters
+ * @returns {Promise<{data: any}>} The fetched data
+ */
+export async function sanityFetch({ query, params = {} }) {
   try {
-    const data = await sanityClient.fetch(query, params)
-    return data
+    const data = await client.fetch(query, params);
+    return { data };
   } catch (error) {
-    console.error('Sanity fetch error:', error)
-    return null
+    console.error("Sanity fetch error:", error);
+    throw error;
   }
 }
