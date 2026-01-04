@@ -43,7 +43,7 @@ export default async function Home() {
   const { data } = await sanityFetch({
     query: homepageQuery,
   });
-  console.log("data", data);
+
   const amount = 49.99;
   return (
     <main>
