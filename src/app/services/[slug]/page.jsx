@@ -1,19 +1,20 @@
+export const revalidate = 600;
 // src/app/services/[slug]/page.jsx
-import { client } from '@/lib/sanity'
-import ServiceClient from './ServiceClient'
-import { defineQuery } from 'next-sanity'
+import { client } from "@/lib/sanity";
+import ServiceClient from "./ServiceClient";
+import { defineQuery } from "next-sanity";
 
 // ✅ Pre-generate all service slugs for static pages (SSG)
 export async function generateStaticParams() {
-  const query = `*[_type == "service"]{ "slug": slug.current }`
-  const services = await client.fetch(query)
-  return services.map((s) => ({ slug: s.slug }))
+  const query = `*[_type == "service"]{ "slug": slug.current }`;
+  const services = await client.fetch(query);
+  return services.map((s) => ({ slug: s.slug }));
 }
 
 // ✅ Server component — fetch data for a specific service
 export default async function ServiceDetailPage({ params }) {
   // 🔧 Fix: await params in Next.js 15+
-  const { slug } = await params
+  const { slug } = await params;
 
   const query = defineQuery(`{
     
@@ -50,28 +51,29 @@ export default async function ServiceDetailPage({ params }) {
       mainImage,
       url
     }
-  }`)
+  }`);
 
-
-  const data = await client.fetch(query, { slug })
+  const data = await client.fetch(query, { slug });
 
   // ✅ Safety check (same as your previous layout)
   if (!data.service) {
     return (
-      <div className="text-center py-24">
+      <div className="py-24 text-center">
         <h2 className="text-2xl font-semibold text-gray-700">
           Service not found
         </h2>
       </div>
-    )
+    );
   }
 
   // ✅ Keep your previous layout intact
-  return <ServiceClient
-    service={data.service}
-    testimonials={data.testimonials}
-    awards={data.awards}
-    caseStudies={data.caseStudies}
-    blogs={data.blogs}
-  />
+  return (
+    <ServiceClient
+      service={data.service}
+      testimonials={data.testimonials}
+      awards={data.awards}
+      caseStudies={data.caseStudies}
+      blogs={data.blogs}
+    />
+  );
 }

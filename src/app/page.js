@@ -1,3 +1,5 @@
+export const revalidate = 600;
+
 import Achievements from "@/components/Achievements";
 import AwardsSlider from "@/components/AwardsSlider";
 import BlogsHome from "@/components/BlogsHome";

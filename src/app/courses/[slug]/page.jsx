@@ -1,12 +1,14 @@
-import { client } from "@/lib/sanity"
-import { notFound } from "next/navigation"
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import CourseClient from "./_components/ClientCourse"
+export const revalidate = 600;
+
+import { client } from "@/lib/sanity";
+import { notFound } from "next/navigation";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import CourseClient from "./_components/ClientCourse";
 
 // ✅ Dynamic SEO Metadata from Sanity
 export async function generateMetadata({ params }) {
-  const { slug } = await params // 👈 fix
+  const { slug } = await params; // 👈 fix
 
   try {
     const data = await client.fetch(
@@ -18,13 +20,13 @@ export async function generateMetadata({ params }) {
         title
       }`,
       { slug }
-    )
+    );
 
     if (!data) {
       return {
         title: "Course - ZELLVERSE",
         description: "Learn about this course at ZELLVERSE",
-      }
+      };
     }
 
     return {
@@ -36,24 +38,24 @@ export async function generateMetadata({ params }) {
         description: data?.seoDescription || "",
         images: data?.seoImage ? [data.seoImage] : [],
       },
-    }
+    };
   } catch {
     return {
       title: "Course - ZELLVERSE",
       description: "Learn more about our courses at ZELLVERSE",
-    }
+    };
   }
 }
 
-
 export async function generateStaticParams() {
-  const slugs = await client.fetch(`*[_type == "course" && defined(slug.current)][0...100].slug.current`);
+  const slugs = await client.fetch(
+    `*[_type == "course" && defined(slug.current)][0...100].slug.current`
+  );
 
   return slugs
     ? slugs.filter((slug) => slug !== null).map((slug) => ({ slug }))
     : [];
 }
-
 
 // ✅ Fetch course data from Sanity
 async function getCourse(slug) {
@@ -83,22 +85,22 @@ async function getCourse(slug) {
         color
       }
     }`,
-  { slug }
-  )
+    { slug }
+  );
 }
 
 // ✅ Page Component
 export default async function CourseDetailPage({ params }) {
-  const { slug } = await params // 👈 fix
+  const { slug } = await params; // 👈 fix
 
-  const course = await getCourse(slug)
-  if (!course?.slug) return notFound()
+  const course = await getCourse(slug);
+  if (!course?.slug) return notFound();
 
   return (
-    <div className="bg-white text-gray-900">
+    <div className="text-gray-900 bg-white">
       <Navbar />
       <CourseClient course={course} />
       <Footer />
     </div>
-  )
+  );
 }
