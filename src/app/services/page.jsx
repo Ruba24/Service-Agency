@@ -1,3 +1,5 @@
+export const revalidate = 600;
+
 import ServiceCard from "@/components/ServiceCard";
 import { client } from "../../../sanity/lib/client";
 import {
@@ -38,12 +40,12 @@ export default async function ServicesPage() {
   `);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-20">
+    <section className="px-4 py-20 mx-auto max-w-7xl">
       <h1 className="text-4xl font-extrabold mb-12 text-center text-[#1F102E]">
         Our <span className="text-[#B877F7]">Services</span>
       </h1>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         {services.map((service, index) => (
           <a
             key={service.slug.current}

@@ -1,3 +1,5 @@
+export const revalidate = 600;
+
 import Footer from "@/components/Footer";
 import BlogCards from "@/components/BlogCards";
 import RequestAService from "@/components/RequestAService";
@@ -19,7 +21,7 @@ const AllBlogsPage = async () => {
     <>
       <section className="w-full bg-[#F8F3FC] text-[#1F102E] pb-20">
         {/* Header */}
-        <div className="relative z-10 max-w-7xl mx-auto pt-20 text-center mb-12">
+        <div className="relative z-10 pt-20 mx-auto mb-12 text-center max-w-7xl">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1F102E]">
             Our <span className="text-[#B877F7]">Blogs</span>
           </h2>
@@ -29,7 +31,7 @@ const AllBlogsPage = async () => {
           </p>
         </div>
         {/* Blog Cards Section */}
-        <div className="w-full px-4 sm:px-10 mt-4">
+        <div className="w-full px-4 mt-4 sm:px-10">
           <h2 className="text-2xl font-semibold text-[#B877F7] mb-6">
             Latest Articles
           </h2>

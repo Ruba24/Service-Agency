@@ -1,10 +1,10 @@
-import { Suspense } from 'react'
-import AllCoursesPage from './AllCoursesPage'
-import { client } from '@/lib/sanity'
+export const revalidate = 600;
+
+import { Suspense } from "react";
+import AllCoursesPage from "./AllCoursesPage";
+import { client } from "@/lib/sanity";
 
 export default async function Page() {
-
-
   const data = await client.fetch(`{
     
     "freeCourses" : *[_type == "freeCourse"] | order(_createdAt desc){
@@ -24,7 +24,7 @@ export default async function Page() {
       "imageUrl": image.asset->url
     }
 
-  }`)
+  }`);
 
   return (
     <Suspense fallback={<div>Loading courses...</div>}>
@@ -33,5 +33,5 @@ export default async function Page() {
         paidCourses={data.paidCourses}
       />
     </Suspense>
-  )
+  );
 }
