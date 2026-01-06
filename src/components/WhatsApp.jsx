@@ -37,7 +37,7 @@ const WhatsappButton = () => {
               className="absolute bottom-full mb-3 flex flex-col items-center space-y-3"
             >
               <motion.a
-                href="#"
+                href="https://www.facebook.com/share/1ABEAvyJtW/?mibextid=wwXIfr"
                 whileHover={{ scale: 1.2 }}
                 className="bg-blue-600 text-white p-3 rounded-full shadow-lg"
               >
@@ -45,7 +45,7 @@ const WhatsappButton = () => {
               </motion.a>
 
               <motion.a
-                href="#"
+                href="https://www.instagram.com/zellverse.ecommerce.agency?igsh=MXc3cHV0dnNrYmZkcA%3D%3D&utm_source=qr"
                 whileHover={{ scale: 1.2 }}
                 className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white p-3 rounded-full shadow-lg"
               >
@@ -53,7 +53,7 @@ const WhatsappButton = () => {
               </motion.a>
 
               <motion.a
-                href="#"
+                href="https://www.linkedin.com/company/zellverse/"
                 whileHover={{ scale: 1.2 }}
                 className="bg-blue-700 text-white p-3 rounded-full shadow-lg"
               >
@@ -65,7 +65,7 @@ const WhatsappButton = () => {
 
         {/* ✅ WhatsApp Button */}
         <a
-          href="https://wa.me/923088622067"
+          href="https://wa.me/+17372821583"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-[#25D366] text-white p-5 rounded-full shadow-lg hover:scale-125 transition-transform duration-300 cursor-pointer"
