@@ -61,10 +61,10 @@ const Footer = () => {
           <h3 className="font-semibold mb-4 text-[#B877F7]">Contact</h3>
           <p className="text-sm text-[#D1D5DB] mb-4">info@zellverse.com</p>
           <div className="flex items-center gap-4 text-lg">
-            <a href="#" className="hover:text-white transition text-[#1877F2]"><FaFacebookF /></a>
-            <a href="#" className="hover:text-white transition text-[#E4405F]"><FaInstagram /></a>
-            <a href="#" className="hover:text-white transition text-[#0A66C2]"><FaLinkedinIn /></a>
-            <a href="#" className="hover:text-white transition text-[#25D366]"><FaWhatsapp /></a>
+            <a href="https://www.facebook.com/share/1ABEAvyJtW/?mibextid=wwXIfr" className="hover:text-white transition text-[#1877F2]"><FaFacebookF /></a>
+            <a href="https://www.instagram.com/zellverse.ecommerce.agency?igsh=MXc3cHV0dnNrYmZkcA%3D%3D&utm_source=qr" className="hover:text-white transition text-[#E4405F]"><FaInstagram /></a>
+            <a href="https://www.linkedin.com/company/zellverse/" className="hover:text-white transition text-[#0A66C2]"><FaLinkedinIn /></a>
+            <a href="https://wa.me/+17372821583" className="hover:text-white transition text-[#25D366]"><FaWhatsapp /></a>
           </div>
         </div>
       </div>
