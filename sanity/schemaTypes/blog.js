@@ -1,19 +1,16 @@
-import { defineType, defineField } from "sanity";
-
-export default defineType({
+export default {
   name: "blog",
-  title: "Blogs",
+  title: "Blog",
   type: "document",
 
   fields: [
-    defineField({
+    {
       name: "title",
-      title: "Blog Title",
+      title: "Title",
       type: "string",
-      validation: (Rule) => Rule.required().min(5).max(80),
-    }),
-
-    defineField({
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -22,52 +19,53 @@ export default defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
-    }),
-
-    defineField({
-      name: "excerpt",
-      title: "Excerpt",
-      type: "text",
-      description:
-        "A short summary of the blog (used in cards & meta description)",
-      validation: (Rule) => Rule.required().max(200),
-    }),
-
-    defineField({
+    },
+    {
       name: "mainImage",
       title: "Main Image",
       type: "image",
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
-    }),
-
-    defineField({
+    },
+    {
+      name: "excerpt",
+      title: "Excerpt (Short Description)",
+      type: "text",
+      rows: 3,
+      validation: (Rule) =>
+        Rule.max(350).warning("Keep it under ~50 words"),
+    },
+    {
       name: "body",
       title: "Blog Content",
       type: "array",
-      of: [{ type: "block" }],
-      description: "Main content of the blog post",
-      validation: (Rule) => Rule.required(),
-    }),
-
-    defineField({
-      name: "publishedAt",
-      title: "Published At",
-      type: "datetime",
-      initialValue: () => new Date().toISOString(),
-    }),
-
-    defineField({
-      name: "url",
-      title: "Blog URL",
-      type: "url",
-      validation: (Rule) =>
-        Rule.uri({
-          scheme: ["http", "https"],
-        }),
-    }),
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+            ],
+          },
+        },
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+    },
   ],
 
   preview: {
@@ -76,4 +74,4 @@ export default defineType({
       media: "mainImage",
     },
   },
-});
+};

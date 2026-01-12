@@ -8,7 +8,7 @@ import CourseClient from "./_components/ClientCourse";
 
 // ✅ Dynamic SEO Metadata from Sanity
 export async function generateMetadata({ params }) {
-  const { slug } = await params; // 👈 fix
+  const { slug } = params;
 
   try {
     const data = await client.fetch(
@@ -53,16 +53,16 @@ export async function generateStaticParams() {
   );
 
   return slugs
-    ? slugs.filter((slug) => slug !== null).map((slug) => ({ slug }))
+    ? slugs.filter(Boolean).map((slug) => ({ slug }))
     : [];
 }
 
-// ✅ Fetch course data from Sanity
+// ✅ Fetch course data from Sanity (FIXED DESCRIPTION)
 async function getCourse(slug) {
   return await client.fetch(
     `*[_type == "course" && slug.current == $slug][0]{
       title,
-      "description": pt::text(description),
+      description, // ✅ Portable Text (formatted content)
       slug,
       icon,
       price,
@@ -91,7 +91,7 @@ async function getCourse(slug) {
 
 // ✅ Page Component
 export default async function CourseDetailPage({ params }) {
-  const { slug } = await params; // 👈 fix
+  const { slug } = params;
 
   const course = await getCourse(slug);
   if (!course?.slug) return notFound();

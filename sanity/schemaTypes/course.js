@@ -17,10 +17,7 @@ export default defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: {
-        source: "title",
-        maxLength: 96,
-      },
+      options: { source: "title", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
 
@@ -28,21 +25,6 @@ export default defineType({
       name: "icon",
       title: "Icon (Emoji)",
       type: "string",
-      description:
-        "Enter the icon name like FaCode, FaPaintBrush, FaMobileAlt etc.",
-    }),
-
-    defineField({
-      name: "gallery",
-      title: "Course Gallery",
-      type: "array",
-      of: [
-        {
-          type: "image",
-          options: { hotspot: true },
-        },
-      ],
-      description: "Upload multiple images for the course carousel",
     }),
 
     defineField({
@@ -53,6 +35,13 @@ export default defineType({
     }),
 
     defineField({
+      name: "gallery",
+      title: "Course Gallery",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+    }),
+
+    defineField({
       name: "price",
       title: "Price",
       type: "number",
@@ -60,10 +49,40 @@ export default defineType({
     }),
 
     defineField({
+      name: "excerpt",
+      title: "Short Description",
+      type: "text",
+      rows: 3,
+      validation: (Rule) =>
+        Rule.max(350).warning("Keep it under ~50 words"),
+    }),
+
+    defineField({
       name: "description",
-      title: "Description",
+      title: "Course Description",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+            ],
+          },
+        },
+        { type: "image", options: { hotspot: true } },
+      ],
     }),
 
     defineField({
@@ -73,24 +92,19 @@ export default defineType({
     }),
 
     defineField({
-      name: "isFeatured",
-      title: "Featured Course",
-      type: "boolean",
-      description: "Enable this to feature the course on the homepage.",
-      initialValue: false,
-    }),
-
-    defineField({
       name: "level",
       title: "Level",
       type: "string",
       options: {
-        list: [
-          { title: "Beginner", value: "Beginner" },
-          { title: "Intermediate", value: "Intermediate" },
-          { title: "Advanced", value: "Advanced" },
-        ],
+        list: ["Beginner", "Intermediate", "Advanced"],
       },
+    }),
+
+    defineField({
+      name: "isFeatured",
+      title: "Featured Course",
+      type: "boolean",
+      initialValue: false,
     }),
 
     defineField({
@@ -108,16 +122,8 @@ export default defineType({
         {
           type: "object",
           fields: [
-            defineField({
-              name: "question",
-              title: "Question",
-              type: "string",
-            }),
-            defineField({
-              name: "answer",
-              title: "Answer",
-              type: "text",
-            }),
+            defineField({ name: "question", type: "string" }),
+            defineField({ name: "answer", type: "text" }),
           ],
         },
       ],

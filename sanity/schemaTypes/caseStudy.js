@@ -1,19 +1,16 @@
-import { defineType, defineField } from "sanity";
-
-export default defineType({
+export default {
   name: "caseStudy",
   title: "Case Study",
   type: "document",
 
   fields: [
-    defineField({
+    {
       name: "title",
       title: "Title",
       type: "string",
       validation: (Rule) => Rule.required(),
-    }),
-
-    defineField({
+    },
+    {
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -22,45 +19,59 @@ export default defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
-    }),
-
-    defineField({
-      name: "excerpt",
-      title: "Excerpt",
-      type: "text",
-    }),
-
-    defineField({
+    },
+    {
       name: "mainImage",
       title: "Main Image",
       type: "image",
       options: {
         hotspot: true,
       },
-    }),
-
-    defineField({
-      name: "content",
-      title: "Content",
-      type: "array",
-      of: [{ type: "block" }],
-    }),
-
-    defineField({
-      name: "tags",
-      title: "Tags",
-      type: "array",
-      of: [{ type: "string" }],
-    }),
-
-    defineField({
-      name: "url",
-      title: "Case Study URL",
-      type: "url",
+    },
+    {
+      name: "excerpt",
+      title: "Excerpt (Short Description)",
+      type: "text",
+      rows: 3,
       validation: (Rule) =>
-        Rule.uri({
-          scheme: ["http", "https"],
-        }),
-    }),
+        Rule.max(350).warning("Keep it under ~50 words"),
+    },
+    {
+      name: "body",
+      title: "Body Content",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+            ],
+          },
+        },
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+    },
   ],
-});
+
+  preview: {
+    select: {
+      title: "title",
+      media: "mainImage",
+    },
+  },
+};

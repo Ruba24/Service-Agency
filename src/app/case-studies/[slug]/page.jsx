@@ -7,11 +7,11 @@ import { urlFor } from "@/lib/sanity";
 import { PortableText } from "@portabletext/react";
 
 export async function generateStaticParams() {
-  const query = `*[_type == "blog"]{ slug }`;
-  const blogs = await client.fetch(query);
+  const query = `*[_type == "caseStudy"]{ slug }`;
+  const caseStudies = await client.fetch(query);
 
-  return blogs.map((b) => ({
-    slug: b.slug.current,
+  return caseStudies.map((cs) => ({
+    slug: cs.slug.current,
   }));
 }
 
@@ -48,48 +48,48 @@ const portableTextComponents = {
   },
 };
 
-export default async function BlogDetailPage({ params }) {
+export default async function CaseStudyDetailPage({ params }) {
   const { slug } = params;
 
-  const query = `*[_type == "blog" && slug.current == $slug][0]{
+  const query = `*[_type == "caseStudy" && slug.current == $slug][0]{
     title,
     mainImage,
     excerpt,
     body
   }`;
 
-  const blog = await client.fetch(query, { slug });
+  const caseStudy = await client.fetch(query, { slug });
 
-  if (!blog) return null;
+  if (!caseStudy) return null;
 
   return (
     <>
       <section className="w-full bg-[#F8F3FC] min-h-screen pb-20">
         <div className="max-w-4xl px-4 pt-24 mx-auto">
           <h1 className="text-4xl font-extrabold text-[#1F102E]">
-            {blog.title}
+            {caseStudy.title}
           </h1>
 
-          {blog.mainImage && (
+          {caseStudy.mainImage && (
             <Image
-              src={urlFor(blog.mainImage).url()}
-              alt={blog.title}
+              src={urlFor(caseStudy.mainImage).url()}
+              alt={caseStudy.title}
               width={1000}
               height={600}
               className="w-full mt-8 rounded-3xl"
             />
           )}
 
-          {blog.excerpt && (
+          {caseStudy.excerpt && (
             <p className="mt-8 text-lg leading-relaxed text-gray-700">
-              {blog.excerpt}
+              {caseStudy.excerpt}
             </p>
           )}
 
-          {blog.body && (
+          {caseStudy.body && (
             <div className="mt-12">
               <PortableText
-                value={blog.body}
+                value={caseStudy.body}
                 components={portableTextComponents}
               />
             </div>
