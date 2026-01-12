@@ -4,9 +4,9 @@ import ServiceSlider from "@/components/ServiceLogoSlider";
 import CaseStudies from "@/components/CaseStudies";
 import BlogCards from "@/components/BlogCards";
 import Testimonials from "@/components/Testimonials";
-import Link from "next/link";
 import ServiceHero from "./_components/ServiceHero";
 import RequestAService from "@/components/RequestAService";
+import { PortableText } from "@portabletext/react";
 
 const ServiceClient = ({
   service,
@@ -18,8 +18,14 @@ const ServiceClient = ({
   return (
     <>
       {/* ✅ HERO SECTION */}
-
       <ServiceHero service={service} />
+
+      {/* ✅ SERVICE DESCRIPTION */}
+      {service.description && (
+        <div className="max-w-4xl mx-auto px-4 sm:px-10 mt-20 prose prose-purple">
+          <PortableText value={service.description} />
+        </div>
+      )}
 
       {/* ✅ EXPERIENCE SECTION */}
       <div className="w-full px-4 sm:px-10 mt-20">
@@ -34,7 +40,7 @@ const ServiceClient = ({
             </strong>{" "}
             projects completed, our team brings hands-on expertise, cutting-edge
             tools, and data-backed strategies to every client. <br />
-            {service.desc}
+            {service.excerpt}
           </p>
         </div>
       </div>
@@ -51,33 +57,32 @@ const ServiceClient = ({
         </h2>
         <CaseStudies caseStudies={caseStudies} />
       </div>
+
       <div className="w-full flex justify-center mt-10">
         <RequestAService />
       </div>
 
-
-
-      {/* ✅ LOGO SLIDER */}
+      {/* ✅ TOOLS / LOGO SLIDER */}
       <div className="w-full mt-20">
-        <div className="mb-10">
         {service.tools?.length > 0 && (
-          <ServiceSlider tools={service.tools} title={`Tools for ${service.title}`} />
+          <div className="mb-10">
+            <ServiceSlider tools={service.tools} title={`Tools for ${service.title}`} />
+          </div>
         )}
-      </div>
         <ServiceSlider />
       </div>
 
       {/* ✅ TESTIMONIALS */}
       <div className="w-full px-4 sm:px-10 my-20">
-        
         <Testimonials testimonials={testimonials} />
       </div>
+
       <div className="w-full flex justify-center mt-10">
         <RequestAService />
       </div>
 
       {/* ✅ RELATED BLOGS */}
-      {blogs?.length && (
+      {blogs?.length > 0 && (
         <div className="w-full px-4 sm:px-10 mt-20">
           <h2 className="text-2xl font-semibold mb-6 text-[#B877F7]">
             Related Blogs
@@ -85,6 +90,8 @@ const ServiceClient = ({
           <BlogCards blogs={blogs} />
         </div>
       )}
+
+      {/* ✅ FOOTER */}
       <Footer />
     </>
   );

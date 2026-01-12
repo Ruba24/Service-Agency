@@ -60,14 +60,14 @@ const ServiceHero = ({ service }) => {
         </button>
       </div>
 
-      {/* Service Title Overlay */}
-      <div className="absolute inset-0 flex items-center justify-center text-center px-4 z-20">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+      {/* Service Title & Button Overlay */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg mb-6">
           {service.title}
         </h1>
-        <div className="absolute bottom-10 w-full flex justify-center">
+
+        {/* Request Service Button */}
         <RequestAService />
-        </div>
       </div>
     </div>
   );

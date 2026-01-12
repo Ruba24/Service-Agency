@@ -1,8 +1,7 @@
 export const revalidate = 600;
-// src/app/services/[slug]/page.jsx
+
 import { client } from "@/lib/sanity";
 import ServiceClient from "./ServiceClient";
-import { defineQuery } from "next-sanity";
 
 // ✅ Pre-generate all service slugs for static pages (SSG)
 export async function generateStaticParams() {
@@ -13,19 +12,19 @@ export async function generateStaticParams() {
 
 // ✅ Server component — fetch data for a specific service
 export default async function ServiceDetailPage({ params }) {
-  // 🔧 Fix: await params in Next.js 15+
-  const { slug } = await params;
+  const { slug } = params;
 
-  const query = defineQuery(`{
-    
-    "service" : *[_type == "service" && slug.current == $slug][0]{
+  // ✅ Fetch service + related data
+  const query = `{
+    "service": *[_type == "service" && slug.current == $slug][0]{
       title,
-      desc,
+      excerpt,
+      description,       // ✅ Rich formatted content
       "imageUrl": image.asset->url,
-      "gallery": gallery[].asset->url
+      "gallery": gallery[].asset->url,
+      tools[]->{ _id, name, icon, color } // optional
     },
-
-    "blogs" : *[_type == "blog"] | order(_createdAt desc) {
+    "blogs": *[_type == "blog"] | order(_createdAt desc){
       _id,
       title,
       slug,
@@ -33,17 +32,18 @@ export default async function ServiceDetailPage({ params }) {
       mainImage,
       url
     },
-
-    "testimonials" : *[_type == "testimonial"]{
+    "testimonials": *[_type == "testimonial"]{
       name,
       role,
       quote,
       rating,
       photo
     },
-    "awards": *[_type == "award"]{ name, image },
-
-    "caseStudies" : *[_type == "caseStudy"] | order(_createdAt desc) {
+    "awards": *[_type == "award"]{
+      name,
+      image
+    },
+    "caseStudies": *[_type == "caseStudy"] | order(_createdAt desc){
       _id,
       title,
       slug,
@@ -51,12 +51,11 @@ export default async function ServiceDetailPage({ params }) {
       mainImage,
       url
     }
-  }`);
+  }`;
 
   const data = await client.fetch(query, { slug });
 
-  // ✅ Safety check (same as your previous layout)
-  if (!data.service) {
+  if (!data?.service) {
     return (
       <div className="py-24 text-center">
         <h2 className="text-2xl font-semibold text-gray-700">
@@ -66,7 +65,6 @@ export default async function ServiceDetailPage({ params }) {
     );
   }
 
-  // ✅ Keep your previous layout intact
   return (
     <ServiceClient
       service={data.service}
