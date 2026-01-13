@@ -1,37 +1,34 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react'
-
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, EffectFade } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-import Image from 'next/image'
-import FloatingIcons from '../FloatingIcons'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { useEffect, useState, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import Image from "next/image";
+import FloatingIcons from "../FloatingIcons";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const BackgroundGallery = ({ backgroundImages }) => {
-
-   
-  const swiperRef = useRef(null)
-  const [mounted, setMounted] = useState(false)
+  const swiperRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-  
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return null
-
+  if (!mounted) return null;
 
   return (
     <>
-      <div className="relative w-[800px] h-[600px] overflow-hidden mx-auto">
-
+      {/* 🔹 Slider wrapper */}
+      <div className="relative w-full max-w-[1200px] mx-auto overflow-hidden">
+        {/* Floating icons */}
         <div className="pointer-events-none">
           <FloatingIcons />
         </div>
 
+        {/* Swiper Slider */}
         <Swiper
           modules={[Autoplay, EffectFade]}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -39,29 +36,39 @@ const BackgroundGallery = ({ backgroundImages }) => {
           effect="fade"
           speed={1000}
           loop
-          className="w-full h-full"
+          className="w-full"
         >
           {backgroundImages.length > 0 ? (
             backgroundImages.map((url, index) => (
-              <SwiperSlide key={index}>
-                <figure className='relative w-full h-full'>
-                  <Image
-                    className="w-full h-full object-cover bg-center"
-                    src={url}
-                    fill
-                    alt=''
-                    style={{ backgroundImage: `url(${url})` }}
-                  />
-                </figure>
-                <div className="absolute inset-0 bg-[#1F102E]/60"></div>
+              <SwiperSlide
+                key={index}
+                className="relative w-full
+                           h-[200px]       /* mobile */
+                           sm:h-[300px]    /* small tablets */
+                           md:h-[450px]    /* tablets */
+                           lg:h-[600px]    /* desktop */
+                           xl:h-[700px]    /* large screens */
+                           flex justify-center items-center"
+              >
+                {/* Image fully visible on mobile, hero effect on desktop */}
+                <Image
+                  src={url}
+                  alt=""
+                  fill
+                  className="w-full h-full object-contain sm:object-cover"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-[#1F102E]/20"></div>
               </SwiperSlide>
             ))
           ) : (
-            <div className="w-full h-full bg-[#1F102E]" />
+            <div className="w-full h-[400px] bg-[#1F102E]" />
           )}
         </Swiper>
       </div>
 
+      {/* Navigation buttons */}
       <div className="absolute inset-0 flex items-center justify-between px-5 z-40 pointer-events-none">
         <button
           onClick={() => swiperRef.current?.slidePrev()}
@@ -79,7 +86,7 @@ const BackgroundGallery = ({ backgroundImages }) => {
         </button>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default BackgroundGallery
+export default BackgroundGallery;
