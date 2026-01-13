@@ -1,31 +1,3 @@
-// import { NextRequest, NextResponse } from "next/server";
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-// export async function POST(req) {
-//   try {
-//      const { amount, metadata } = await req.json()
-
-//     if (!amount) {
-//       return NextResponse.json({ error: 'Missing amount' }, { status: 400 })
-//     }
-
-//     const paymentIntent = await stripe.paymentIntents.create({
-//       amount: amount,
-//       currency: "usd",
-//       metadata: metadata || {},
-//       automatic_payment_methods: { enabled: true },
-//     });
-
-//     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
-//   } catch (error) {
-//     console.error("Internal Error:", error);
-//     // Handle other errors (e.g., network issues, parsing errors)
-//     return NextResponse.json(
-//       { error: `Internal Server Error: ${error}` },
-//       { status: 500 }
-//     );
-//   }
-// }
 import Stripe from 'stripe'
 
 export const runtime = 'nodejs'
@@ -34,29 +6,45 @@ export const dynamic = 'force-dynamic'
 export async function POST(req) {
   try {
     if (!process.env.STRIPE_SECRET_KEY) {
-      return new Response(
-        JSON.stringify({ error: 'Stripe secret key missing' }),
-        { status: 500 }
-      )
+      return new Response(JSON.stringify({ error: 'Stripe secret key missing' }), { status: 500 })
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+    const { amount, metadata } = await req.json()
 
-    const body = await req.json()
-    const { amount } = body
+    if (!amount) {
+      return new Response(JSON.stringify({ error: 'Missing amount' }), { status: 400 })
+    }
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: 'usd',
+    const origin = req.headers.get('origin') || ''
+
+    // ✅ Safe cancel URL: course page if courseId exists, else /cancel
+    const cancelUrl = metadata?.courseId && metadata.courseId !== 'unknown'
+      ? `${origin}/courses/${metadata.courseId}`
+      : `${origin}/cancel`
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: { name: metadata?.courseTitle || 'Course' },
+            unit_amount: amount,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      customer_email: metadata?.email,
+      metadata: metadata || {},
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelUrl,
     })
 
-    return Response.json({
-      clientSecret: paymentIntent.client_secret,
-    })
+    return new Response(JSON.stringify({ url: session.url }), { status: 200 })
   } catch (error) {
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500 }
-    )
+    console.error('Stripe error:', error)
+    return new Response(JSON.stringify({ error: error.message || 'Failed to create payment session' }), { status: 500 })
   }
 }

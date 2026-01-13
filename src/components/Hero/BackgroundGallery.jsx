@@ -21,14 +21,13 @@ const BackgroundGallery = ({ backgroundImages }) => {
 
   return (
     <>
-      {/* 🔹 Slider wrapper */}
+      {/* Responsive wrapper */}
       <div className="relative w-full max-w-[1200px] mx-auto overflow-hidden">
         {/* Floating icons */}
         <div className="pointer-events-none">
           <FloatingIcons />
         </div>
 
-        {/* Swiper Slider */}
         <Swiper
           modules={[Autoplay, EffectFade]}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -40,25 +39,15 @@ const BackgroundGallery = ({ backgroundImages }) => {
         >
           {backgroundImages.length > 0 ? (
             backgroundImages.map((url, index) => (
-              <SwiperSlide
-                key={index}
-                className="relative w-full
-                           h-[200px]       /* mobile */
-                           sm:h-[300px]    /* small tablets */
-                           md:h-[450px]    /* tablets */
-                           lg:h-[600px]    /* desktop */
-                           xl:h-[700px]    /* large screens */
-                           flex justify-center items-center"
-              >
-                {/* Image fully visible on mobile, hero effect on desktop */}
+              <SwiperSlide key={index} className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
+                {/* Image fills entire slide */}
                 <Image
                   src={url}
                   alt=""
                   fill
-                  className="w-full h-full object-contain sm:object-cover"
+                  className="object-cover w-full h-full"
                 />
-
-                {/* Overlay */}
+                {/* Optional overlay */}
                 <div className="absolute inset-0 bg-[#1F102E]/20"></div>
               </SwiperSlide>
             ))
