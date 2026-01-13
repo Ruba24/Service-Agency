@@ -26,7 +26,8 @@ const BackgroundGallery = ({ backgroundImages }) => {
 
   return (
     <>
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="relative w-[800px] h-[600px] overflow-hidden mx-auto">
+
         <div className="pointer-events-none">
           <FloatingIcons />
         </div>
