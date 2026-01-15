@@ -59,7 +59,7 @@ Experience: ${formData.experience}
 Goals: ${formData.goals}`
       }`
 
-    window.open(`https://wa.me/923088622067?text=${encodeURIComponent(message)}`, '_blank')
+    window.open(`https://wa.me/+17372821583?text=${encodeURIComponent(message)}`, '_blank')
   }
 
   const handleEmail = () => {
@@ -70,7 +70,7 @@ Goals: ${formData.goals}`
         ? `Service: ${formData.selectedOption}\nBusiness: ${formData.business}\nWebsite: ${formData.website}\nBudget: ${formData.budget}\nDetails: ${formData.details}`
         : `Course: ${formData.selectedOption}\nMode: ${formData.mode}\nExperience: ${formData.experience}\nGoals: ${formData.goals}`)
 
-    window.location.href = `mailto:rubaqazi2000@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:hi@zellverse.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   const serviceOptions = [
