@@ -2,16 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import dynamic from 'next/dynamic'
-import 'react-phone-input-2/lib/style.css'
+import { client } from '../../../sanity/lib/client'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 
-// ✅ Dynamically import phone input (client-only)
-const PhoneInput = dynamic(() => import('react-phone-input-2'), { ssr: false })
-
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState('services')
+  const [services, setServices] = useState([])
+  const [paidCourses, setPaidCourses] = useState([])
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -25,24 +24,53 @@ export default function ContactPage() {
     mode: '',
     experience: '',
     goals: '',
-    service: '',
+    price: '',
   })
 
-  // ✅ Prefill tab or service via query params
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const svc = params.get('service')
-    const tab = params.get('tab')
-    if (svc) setFormData((prev) => ({ ...prev, service: svc }))
-    if (tab) setActiveTab(tab)
+    const fetchData = async () => {
+      const data = await client.fetch(`
+          *[_type == "service"]{
+            title
+          }
+        `)
+      setServices(data)
+    }
+    const fetchCourses = async () => {
+      const data = await client.fetch(
+        `*[_type == "course"] | order(_createdAt desc){
+            _id,
+            title,
+            price,
+          }`
+      )
+      setPaidCourses(data || [])
+    }
+
+    fetchData()
+    fetchCourses()
+    console.log("services", services, "\ncourses", paidCourses);
   }, [])
 
   const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  const { name, value } = e.target
+
+  if (name === 'selectedOption' && activeTab === 'courses') {
+    const selectedCourse = paidCourses.find(course => course.title === value)
+
+    setFormData((prev) => ({
+      ...prev,
+      selectedOption: value,
+      price: selectedCourse ? selectedCourse.price : '',
+    }))
+  } else {
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
+}
 
   const handleWhatsApp = () => {
-    const message = `Hello, I'm interested in ${activeTab === 'services' ? 'a service' : 'a course'}.
+    const message = `Hello, I'm interested in ${activeTab === 'services' ? 'a service' : 'a course'
+      }.
 
 Name: ${formData.firstName} ${formData.lastName}
 Email: ${formData.email}
@@ -59,7 +87,7 @@ Experience: ${formData.experience}
 Goals: ${formData.goals}`
       }`
 
-    window.open(`https://wa.me/+17372821583?text=${encodeURIComponent(message)}`, '_blank')
+    window.open(`https://wa.me/923088622067?text=${encodeURIComponent(message)}`, '_blank')
   }
 
   const handleEmail = () => {
@@ -70,79 +98,60 @@ Goals: ${formData.goals}`
         ? `Service: ${formData.selectedOption}\nBusiness: ${formData.business}\nWebsite: ${formData.website}\nBudget: ${formData.budget}\nDetails: ${formData.details}`
         : `Course: ${formData.selectedOption}\nMode: ${formData.mode}\nExperience: ${formData.experience}\nGoals: ${formData.goals}`)
 
-    window.location.href = `mailto:hi@zellverse.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:rubaqazi2000@gmail.com?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`
   }
 
-  const serviceOptions = [
-    'Web Development',
-    'UI/UX Design',
-    'Mobile App Development',
-    'Digital Marketing',
-    'Ecommerce Setup',
-    'Brand Strategy',
-  ]
-  const courseOptions = [
-    'Shopify Mastery',
-    'Facebook Ads Bootcamp',
-    'UI/UX Fundamentals',
-    'SEO for Beginners',
-  ]
+  const serviceOptions = ['Web Development', 'UI/UX Design', 'Mobile App Development', 'Digital Marketing', 'Ecommerce Setup', 'Brand Strategy']
+  const courseOptions = ['Shopify Mastery', 'Facebook Ads Bootcamp', 'UI/UX Fundamentals', 'SEO for Beginners']
 
   const renderForm = () => (
     <motion.div
       key={activeTab}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      animate={{ opacity: 2 }}
+      transition={{ duration: 0.5 }}
       className="grid gap-5"
     >
       <div className="grid sm:grid-cols-2 gap-5">
         <Input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
-        <Input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
+        <Input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Second Name" />
         <Input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" />
-
-        {/* ✅ Country code input field */}
-        <div className="w-full">
-          <PhoneInput
-            country="pk"
-            value={formData.phone}
-            onChange={(phone) => setFormData((prev) => ({ ...prev, phone }))}
-            inputStyle={{
-              width: '100%',
-              height: '48px',
-              borderRadius: '12px',
-              border: '1px solid #d1d5db',
-              paddingLeft: '48px',
-              color: '#1F102E',
-            }}
-            buttonStyle={{
-              borderRadius: '12px 0 0 12px',
-              border: '1px solid #d1d5db',
-            }}
-          />
-        </div>
+        <Input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" />
 
         <Select
           name="selectedOption"
           value={formData.selectedOption}
           onChange={handleChange}
-          options={activeTab === 'services' ? serviceOptions : courseOptions}
+          options={activeTab === 'services' ? services.map(service => service.title) : paidCourses.map(course => course.title)}
           placeholder={activeTab === 'services' ? 'Select a Service' : 'Select a Course'}
         />
         <Input name="business" value={formData.business} onChange={handleChange} placeholder="Business Name" />
         <Input name="website" value={formData.website} onChange={handleChange} placeholder="Website (If any)" />
-        <Select
-          name="budget"
-          value={formData.budget}
-          onChange={handleChange}
-          options={['< $500', '$500 - $1000', '$1000 - $3000', '$3000+']}
-          placeholder="Project Budget"
-        />
+        {activeTab === 'services' ? (
+          <Select
+            name="budget"
+            value={formData?.budget}
+            onChange={handleChange}
+            options={['< $500', '$500 - $1000', '$1000 - $3000', '$3000+']}
+            placeholder="Project Budget"
+          />
+        ) : (
+          <Input
+            name="price"
+            value={formData?.price}
+            placeholder="Course Price"
+            onChange={() => { }}
+            readOnly
+          />
+        )}
+
       </div>
 
       <Textarea
         name="details"
-        value={formData.details}
+        value={formData?.details}
         onChange={handleChange}
         placeholder={
           activeTab === 'services'
@@ -177,58 +186,27 @@ Goals: ${formData.goals}`
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#B877F7] opacity-10 rounded-full blur-3xl z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 items-center justify-between">
-          
-          {/* ✅ Left Side Animated Content */}
-          <motion.div
-            className="flex-1 text-center lg:text-left flex flex-col justify-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={{
-              hidden: {},
-              visible: { 
-                transition: { staggerChildren: 0.25 } 
-              }
-            }}
-          >
-            <motion.h2
-              variants={{
-                hidden: { opacity: 0, x: -50, filter: 'blur(8px)' },
-                visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut' } }
-              }}
-              className="text-4xl sm:text-5xl font-extrabold text-[#1F102E] leading-tight"
-            >
+          <div className="flex-1 text-center lg:text-left flex flex-col justify-center">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1F102E] leading-tight">
               Book a <span className="text-[#B877F7]">Free Consultation</span>
-            </motion.h2>
-
-            <motion.p
-              variants={{
-                hidden: { opacity: 0, x: -30, filter: 'blur(8px)' },
-                visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut', delay: 0.2 } }
-              }}
-              className="text-[#6B7280] mt-4 text-lg"
-            >
+            </h2>
+            <p className="text-[#6B7280] mt-4 text-lg">
               Connect with our experts to elevate your brand with design, tech, and strategy.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
-          {/* Right Side Form (Static) */}
           <div className="flex-1 bg-white rounded-3xl shadow-xl border border-gray-100 p-8 w-full max-w-xl">
             <div className="flex justify-center sm:justify-start gap-0 border border-[#B877F7] rounded-full overflow-hidden w-fit mb-4">
               <button
                 onClick={() => setActiveTab('services')}
-                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'services'
-                  ? 'bg-[#B877F7] text-white'
-                  : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'services' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
                   }`}
               >
                 Services
               </button>
               <button
                 onClick={() => setActiveTab('courses')}
-                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'courses'
-                  ? 'bg-[#B877F7] text-white'
-                  : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
+                className={`px-6 py-2 text-sm font-medium transition-all ${activeTab === 'courses' ? 'bg-[#B877F7] text-white' : 'bg-transparent text-[#1F102E] hover:bg-[#B877F7]/10'
                   }`}
               >
                 Courses
@@ -240,12 +218,13 @@ Goals: ${formData.goals}`
         </div>
       </section>
 
-      <Footer />
+      <div className="mt-10 w-full">
+        <Footer />
+      </div>
     </div>
   )
 }
 
-/* ✅ Simple reusable form components */
 const Input = ({ name, value, onChange, placeholder }) => (
   <input
     name={name}

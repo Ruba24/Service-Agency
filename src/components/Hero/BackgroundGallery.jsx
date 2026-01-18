@@ -35,17 +35,17 @@ const BackgroundGallery = ({ backgroundImages }) => {
           effect="fade"
           speed={1000}
           loop
-          className="w-full"
+          className="w-full h-full"
         >
           {backgroundImages.length > 0 ? (
             backgroundImages.map((url, index) => (
-              <SwiperSlide key={index} className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
+              <SwiperSlide key={index} className="relative w-full h-[250px] max-[375px]:h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[700px]">
                 {/* Image fills entire slide */}
                 <Image
                   src={url}
                   alt=""
                   fill
-                  className="object-cover w-full h-full"
+                  className="object-contain bg-[#1F102E]"
                 />
                 {/* Optional overlay */}
                 <div className="absolute inset-0 bg-[#1F102E]/20"></div>
