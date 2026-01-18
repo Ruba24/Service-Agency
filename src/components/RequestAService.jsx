@@ -50,14 +50,24 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 
-export default function RequestAServiceButton({ small }) {
+export default function RequestAServiceButton({ small, selectedService }) {
+  
+  const handleWhatsApp = () => {
+    if (!selectedService) {
+      console.warn('No service selected for WhatsApp message.');
+    }
+    const message = `Hello, I'm interested in ${selectedService || 'a'} service.
+  Could you please provide more details?`;
+    window.open(`https://wa.me/923088622067?text=${encodeURIComponent(message)}`, '_blank')
+  }
+
   return (
     <motion.div
       className="relative inline-block group"
       animate={small ? undefined : { scale: [1, 1.12, 1] }} // disable zoom for small
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
     >
-      <Link href="/contact">
+      <button onClick={handleWhatsApp}>
         <span
           className={`
             relative z-10
@@ -76,7 +86,7 @@ export default function RequestAServiceButton({ small }) {
         >
           Request A Service
         </span>
-      </Link>
+      </button>
 
       {/* Glow */}
       <span

@@ -67,7 +67,7 @@ const ServiceHero = ({ service }) => {
         </h1>
 
         {/* Request Service Button */}
-        <RequestAService />
+        <RequestAService selectedService={service.title} />
       </div>
     </div>
   );

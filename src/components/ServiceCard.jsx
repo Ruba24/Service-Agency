@@ -6,7 +6,6 @@ import RequestAServiceButton from "./RequestAService";
 const ServiceCard = ({ service }) => {
   const router = useRouter();
   const serviceUrl = `/services/${service.slug.current}`;
-
   return (
     <div
       className="relative group bg-white rounded-3xl p-6 overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:border-[#B877F7] cursor-pointer"
