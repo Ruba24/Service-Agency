@@ -15,8 +15,10 @@ const Hero = ({ images }) => {
   return (
     <section className="relative bg-[#1F102E] text-white overflow-hidden py-28">
       {/* Background slider */}
+      <div className='w-full h-full'>
+        <DynamicBackgroundGallery backgroundImages={backgroundImages} />
+      </div>
       
-      <DynamicBackgroundGallery backgroundImages={backgroundImages} />
       {/* Hero text & buttons */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-12 pl-6 lg:pl-24">
         <div className="flex-1 text-center lg:text-left">
