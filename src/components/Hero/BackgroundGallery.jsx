@@ -22,7 +22,7 @@ const BackgroundGallery = ({ backgroundImages }) => {
   return (
     <>
       {/* Responsive wrapper */}
-      <div className="relative w-full max-w-[1200px] mx-auto overflow-hidden">
+      <div className="relative w-full mx-0 overflow-hidden">
         {/* Floating icons */}
         <div className="pointer-events-none">
           <FloatingIcons />
@@ -39,7 +39,7 @@ const BackgroundGallery = ({ backgroundImages }) => {
         >
           {backgroundImages.length > 0 ? (
             backgroundImages.map((url, index) => (
-              <SwiperSlide key={index} className="relative w-full h-[250px] max-[375px]:h-[300px] min-[445px]:h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[700px]">
+              <SwiperSlide key={index} className="relative w-full h-[250px] max-[375px]:h-[300px] min-[445px]:h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px]">
                 {/* Image fills entire slide */}
                 <Image
                   src={url}

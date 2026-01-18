@@ -59,7 +59,7 @@ const ServiceClient = ({
       </div>
 
       <div className="w-full flex justify-center mt-10">
-        <RequestAService />
+        <RequestAService selectedService={service.title} />
       </div>
 
       {/* ✅ TOOLS / LOGO SLIDER */}
@@ -78,7 +78,7 @@ const ServiceClient = ({
       </div>
 
       <div className="w-full flex justify-center mt-10">
-        <RequestAService />
+        <RequestAService selectedService={service.title} />
       </div>
 
       {/* ✅ RELATED BLOGS */}
