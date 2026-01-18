@@ -39,7 +39,7 @@ const BackgroundGallery = ({ backgroundImages }) => {
         >
           {backgroundImages.length > 0 ? (
             backgroundImages.map((url, index) => (
-              <SwiperSlide key={index} className="relative w-full h-[250px] max-[375px]:h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[700px]">
+              <SwiperSlide key={index} className="relative w-full h-[250px] max-[375px]:h-[300px] min-[445px]:h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[700px]">
                 {/* Image fills entire slide */}
                 <Image
                   src={url}
