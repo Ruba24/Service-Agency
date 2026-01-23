@@ -58,7 +58,7 @@ export default function RequestAServiceButton({ small, selectedService }) {
     }
     const message = `Hello, I'm interested in ${selectedService || 'a'} service.
   Could you please provide more details?`;
-    window.open(`https://wa.me/923088622067?text=${encodeURIComponent(message)}`, '_blank')
+    window.open(`https://wa.me/+17372821583?text=${encodeURIComponent(message)}`, '_blank')
   }
 
   return (
