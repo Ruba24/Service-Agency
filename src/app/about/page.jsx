@@ -246,13 +246,21 @@ const AboutPage = () => {
   <div className="relative z-10 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
     {/* Image */}
     <div className="flex-shrink-0 w-72 h-[400px] rounded-3xl overflow-hidden shadow-xl border-2 border-[#B877F7] animate-float animate-glow">
-  <Image
+  {/* <Image
     src="/images/team_members/ceo.jpg"
     alt="Muhammad Bilal Shahab"
     width={288}
     height={400}
     className="object-cover w-full h-full"
   />
+   */}
+   <Image
+  src="/logo-white.svg"
+  alt="Test"
+  width={288}
+  height={288}
+/>
+
 </div>
 
 
