@@ -35,6 +35,46 @@
 //     </html>
 //   )
 // }
+//--------------------------------------------------------------------------------------------
+// 'use client'
+
+// import '@/styles/globals.css'
+// import Navbar from '@/components/Navbar'
+// import WhatsappButton from '@/components/WhatsApp'
+// import { IBM_Plex_Mono, Montserrat } from 'next/font/google'
+// import { usePathname } from 'next/navigation'
+
+// const ibmPlexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: '700' })
+// const montserrat = Montserrat({ subsets: ['latin'], weight: '400' })
+
+// export default function RootLayout({ children }) {
+//   const pathname = usePathname()
+
+//   // ✅ Detect Sanity Studio (LIVE & LOCAL)
+//   const isSanity =
+//     pathname?.startsWith('/studio') ||
+//     pathname?.startsWith('/sanity')
+
+//   return (
+//     <html lang="en">
+//       <head>
+//         <meta name="robots" content="index, follow" />
+//         <meta name="viewport" content="width=device-width, initial-scale=1" />
+//         <link rel="preconnect" href="https://fonts.googleapis.com" />
+//         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+//       </head>
+
+//       <body className="cursor-auto">
+//         {!isSanity && <Navbar />}
+//         {!isSanity && <WhatsappButton />}
+
+//         {children}
+//       </body>
+//     </html>
+//   )
+// }
+//-------------------------------------------------------------------------------------------
+
 'use client'
 
 import '@/styles/globals.css'
@@ -43,8 +83,18 @@ import WhatsappButton from '@/components/WhatsApp'
 import { IBM_Plex_Mono, Montserrat } from 'next/font/google'
 import { usePathname } from 'next/navigation'
 
-const ibmPlexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: '700' })
-const montserrat = Montserrat({ subsets: ['latin'], weight: '400' })
+// ✅ Load fonts correctly
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-ibm',
+})
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-montserrat',
+})
 
 export default function RootLayout({ children }) {
   const pathname = usePathname()
@@ -59,11 +109,12 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       </head>
 
-      <body className="cursor-auto">
+      {/* ✅ APPLY FONTS TO BODY (THIS FIXES LIVE ISSUE) */}
+      <body
+        className={`${ibmPlexMono.variable} ${montserrat.variable} cursor-auto`}
+      >
         {!isSanity && <Navbar />}
         {!isSanity && <WhatsappButton />}
 

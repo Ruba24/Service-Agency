@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FiMenu, FiX } from 'react-icons/fi'
-import Image from 'next/image';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -17,120 +16,97 @@ const Navbar = () => {
   // Detect scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) setScrolled(true)
-      else setScrolled(false)
+      setScrolled(window.scrollY > 50)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Determine if on Service Detail page
-  const isServiceDetail = pathname?.startsWith('/services/') && pathname.split('/').length > 2
-  const isCourseDetail = pathname?.startsWith('/courses/') && pathname.split('/').length > 2
+  // Page detection
+  const isServiceDetail =
+    pathname?.startsWith('/services/') && pathname.split('/').length > 2
 
-  // Determine button text
-  const ctaText = isServiceDetail && scrolled ? 'Request Service' : isCourseDetail && scrolled ? 'Enroll Now' : 'Book a Consultation'
+  const isCourseDetail =
+    pathname?.startsWith('/courses/') && pathname.split('/').length > 2
+
+  const ctaText =
+    isServiceDetail && scrolled
+      ? 'Request Service'
+      : isCourseDetail && scrolled
+      ? 'Enroll Now'
+      : 'Book a Consultation'
 
   return (
     <nav className="w-full fixed top-0 z-50 bg-[#F9F6FF] backdrop-blur-md shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-10 py-4 flex items-center justify-between">
-{/* Logo */}
-<Link
-  href="/"
-  onClick={closeMenu}
-  className="flex items-center"
->
-  {/* SVG Logo */}
-  {/* <Image
-    src="/logo.svg"
-    alt="ZELLVERSE Logo"
-    width={65}
-    height={48}
-    priority
-  /> */}
 
-  {/* Brand Name + Tagline */}
-   <div className="flex items-center">
-    <img
-      src="/logo.svg"
-      alt="ZELLVERSE Logo"
-      width={50}
-      height={40
-      }
-      className="mr-2"
-    />
-    <div className="flex flex-col items-center leading-tight">
-      <h2 className="font-['IBM_Plex_Mono'] font-bold text-[24px] mt-2 leading-none text-black">
-        ZELL<span className="text-[#B877F7]">VERSE</span>
-      </h2>
-      <p className="font-['Montserrat'] text-[11px] text-gray-900 text-center mt-[2px]">
-        Idea to Empire
-      </p>
-    </div>
-    </div>
-</Link>
+        {/* Logo */}
+        <Link href="/" onClick={closeMenu} className="flex items-center">
+          <div className="flex items-center">
+            <img
+              src="/logo.svg"
+              alt="ZELLVERSE Logo"
+              width={50}
+              height={40}
+              className="mr-2"
+            />
+
+            <div className="flex flex-col items-center leading-tight">
+              <h2 className="font-ibm font-bold text-[24px] mt-2 leading-none text-black">
+                ZELL<span className="text-[#B877F7]">VERSE</span>
+              </h2>
+
+              <p className="font-montserrat text-[11px] text-gray-900 text-center mt-[2px]">
+                Idea to Empire
+              </p>
+            </div>
+          </div>
+        </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-6 font-medium text-[#1F102E]">
-          <Link
-            href="/"
-            className={pathname === '/' ? 'text-[#B877F7]' : 'hover:text-[#B877F7] transition'}
-          >
-            Home
-          </Link>
-          <Link
-            href="/about"
-            className={pathname === '/about' ? 'text-[#B877F7]' : 'hover:text-[#B877F7] transition'}
-          >
-            About
-          </Link>
-          <Link
-            href="/services"
-            className={pathname.startsWith('/services') ? 'text-[#B877F7]' : 'hover:text-[#B877F7] transition'}
-          >
-            Services
-          </Link>
-          <Link
-            href="/courses"
-            className={pathname === '/courses' ? 'text-[#B877F7]' : 'hover:text-[#B877F7] transition'}
-          >
-            Courses
-          </Link>
-          <Link
-            href="/blogs"
-            className={pathname === '/blogs' ? 'text-[#B877F7]' : 'hover:text-[#B877F7] transition'}
-          >
-            Blog
-          </Link>
-          <Link
-            href="/case-studies"
-            className={pathname === '/case-studies' ? 'text-[#B877F7]' : 'hover:text-[#B877F7] transition'}
-          >
-            Case Studies
-          </Link>
-          <Link
-            href="/contact"
-            className={pathname === '/contact' ? 'text-[#B877F7]' : 'hover:text-[#B877F7] transition'}
-          >
-            Contact
-          </Link>
+          {[
+            ['/', 'Home'],
+            ['/about', 'About'],
+            ['/services', 'Services'],
+            ['/courses', 'Courses'],
+            ['/blogs', 'Blog'],
+            ['/case-studies', 'Case Studies'],
+            ['/contact', 'Contact'],
+          ].map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className={
+                pathname === href || pathname.startsWith(href + '/')
+                  ? 'text-[#B877F7]'
+                  : 'hover:text-[#B877F7] transition'
+              }
+            >
+              {label}
+            </Link>
+          ))}
 
-          {/* CTA Button */}
+          {/* CTA */}
           <div className="relative group">
             <Link
               href="/contact"
-              className={`relative z-10 px-5 py-2 rounded-full ${isServiceDetail && scrolled ? "bg-[#FFBF00] hover:bg-[#FFBF00]" :"bg-yellow-400 bg-[length:200%_200%] hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7]"} font-semibold text-purple-950 animate-shimmer transition-all duration-500 ease-in-out shadow-lg`}
+              className={`relative z-10 px-5 py-2 rounded-full ${
+                isServiceDetail && scrolled
+                  ? 'bg-[#FFBF00]'
+                  : 'bg-yellow-400'
+              } font-semibold text-purple-950 hover:ring-2 hover:ring-[#B877F7] transition-all duration-500 shadow-lg`}
             >
               {ctaText}
             </Link>
-            <span className="absolute -inset-[3px] rounded-full  blur-md opacity-70 group-hover:opacity-100  animate-pulse-slow"></span>
+            <span className="absolute -inset-[3px] rounded-full blur-md opacity-70 group-hover:opacity-100"></span>
           </div>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Toggle */}
         <button
           onClick={toggleMenu}
-          className="md:hidden text-[#B877F7] text-2xl focus:outline-none"
+          className="md:hidden text-[#B877F7] text-2xl"
         >
           {isOpen ? <FiX /> : <FiMenu />}
         </button>
@@ -140,32 +116,31 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white w-full shadow-md px-6 pb-6 pt-4 text-[#1F102E] font-medium">
           <ul className="space-y-4">
-            <li>
-              <Link href="/" onClick={closeMenu} className={pathname === '/' ? 'text-[#B877F7]' : ''}>Home</Link>
-            </li>
-            <li>
-              <Link href="/about" onClick={closeMenu} className={pathname === '/about' ? 'text-[#B877F7]' : ''}>About</Link>
-            </li>
-            <li>
-              <Link href="/services" onClick={closeMenu} className={pathname.startsWith('/services') ? 'text-[#B877F7]' : ''}>Services</Link>
-            </li>
-            <li>
-              <Link href="/courses" onClick={closeMenu} className={pathname === '/courses' ? 'text-[#B877F7]' : ''}>Courses</Link>
-            </li>
-            <li>
-              <Link href="/blogs" onClick={closeMenu} className={pathname === '/blogs' ? 'text-[#B877F7]' : ''}>Blog</Link>
-            </li>
-            <li>
-              <Link href="/case-studies" onClick={closeMenu} className={pathname === '/case-studies' ? 'text-[#B877F7]' : ''}>Case Studies</Link>
-            </li>
-            <li>
-              <Link href="/contact" onClick={closeMenu} className={pathname === '/contact' ? 'text-[#B877F7]' : ''}>Contact</Link>
-            </li>
+            {[
+              ['/', 'Home'],
+              ['/about', 'About'],
+              ['/services', 'Services'],
+              ['/courses', 'Courses'],
+              ['/blogs', 'Blog'],
+              ['/case-studies', 'Case Studies'],
+              ['/contact', 'Contact'],
+            ].map(([href, label]) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  onClick={closeMenu}
+                  className={pathname === href ? 'text-[#B877F7]' : ''}
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+
             <li>
               <Link
                 href="/contact"
                 onClick={closeMenu}
-                className="block text-center font-semibold text-purple-950 px-5 py-2 rounded-full bg-yellow-400 hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7] animate-shimmer transition-all duration-500"
+                className="block text-center font-semibold text-purple-950 px-5 py-2 rounded-full bg-yellow-400 hover:ring-2 hover:ring-[#B877F7] transition"
               >
                 {ctaText}
               </Link>
