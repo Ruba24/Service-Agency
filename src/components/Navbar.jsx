@@ -165,7 +165,7 @@ const Navbar = () => {
               <Link
                 href="/contact"
                 onClick={closeMenu}
-                className="block text-center font-semibold text-white px-5 py-2 rounded-full bg-gradient-to-r from-[#B877F7] via-[#A062D5] to-[#B877F7] animate-shimmer"
+                className="block text-center font-semibold text-purple-950 px-5 py-2 rounded-full bg-yellow-400 hover:shadow-purple-400/40 hover:ring-2 hover:ring-[#B877F7] animate-shimmer transition-all duration-500"
               >
                 {ctaText}
               </Link>
