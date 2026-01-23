@@ -358,3 +358,58 @@ body {
 .animate-pulse-slow {
   animation: pulse-slow 2.5s ease-in-out infinite;
 }
+/* Fade Up */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeUp { animation: fadeUp 1s ease forwards; }
+
+/* Fade Left */
+@keyframes fadeLeft {
+  0% { opacity: 0; transform: translateX(-30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.animate-fadeLeft { animation: fadeLeft 1s ease forwards; }
+
+/* Fade Right */
+@keyframes fadeRight {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.animate-fadeRight { animation: fadeRight 1s ease forwards; }
+
+/* Animation Delays */
+.animation-delay-500 { animation-delay: 0.5s; }
+.animation-delay-700 { animation-delay: 0.7s; }
+.animation-delay-1000 { animation-delay: 1s; }
+
+/* Glowing hover effect for buttons & images */
+.hover\:shadow-glow:hover {
+  box-shadow: 0 0 20px rgba(184,119,247,0.6);
+}
+
+/* Soft Blobs Animation */
+@keyframes blob {
+  0%, 100% { transform: translate(0px,0px) scale(1); }
+  33% { transform: translate(20px, -10px) scale(1.05); }
+  66% { transform: translate(-15px, 20px) scale(0.95); }
+}
+.animate-blob { animation: blob 15s infinite ease-in-out; }
+.animation-delay-2000 { animation-delay: 2s; }
+/* Add this in your global.css */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(184,119,247,0.4); }
+  50% { box-shadow: 0 0 40px rgba(184,119,247,0.6); }
+}
+.animate-glow {
+  animation: glowPulse 4s ease-in-out infinite;
+}
