@@ -247,7 +247,7 @@ const AboutPage = () => {
     {/* Image */}
     <div className="flex-shrink-0 w-72 h-[400px] rounded-3xl overflow-hidden shadow-xl border-2 border-[#B877F7] animate-float animate-glow">
   <Image
-    src="/images/team_members/CEO.jpg"
+    src="/images/team_members/ceo.jpg"
     alt="Muhammad Bilal Shahab"
     width={288}
     height={400}
