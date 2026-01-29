@@ -27,7 +27,7 @@ const Hero = ({ images }) => {
             with Precision & Power
           </h1>
           <p className="mt-4 text-[#E2E8F0] text-lg">
-            Zelverse empowers ambitious businesses with design, marketing, and tech that converts.
+            Zellverse empowers ambitious businesses with design, marketing, and tech that converts.
           </p>
 
           <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -51,3 +51,4 @@ const Hero = ({ images }) => {
 }
 
 export default Hero
+
